@@ -29,4 +29,19 @@ exports.getAllMovies = function(req, res, next){
     .select('-__v')
 }
 
-exports.
+exports.updateMovie = function(req, res){
+    var id = req.params.id;
+    var update = req.body;
+    model.findByIdAndUpdate(id, update, function(err){
+        if(err) res.json({err: err, message: 'Update error'});
+        res.json({message: update});
+    })
+}
+
+exports.deleteMovie = function(req, res, next){
+    var id = {_id: req.params.id};
+    model.remove(id, function(err){
+        if(err) res.json({err: err, message: 'The resource could not be deleted'})
+        res.json({message: 'The movie was deleted'});
+    })
+}
