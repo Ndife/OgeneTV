@@ -1,6 +1,41 @@
 const User = require('../models/users');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+var nodemailer = require('nodemailer');
+
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'stilesndife@gmail.com',
+        pass: 'j0sephbr0'
+    }
+  });
+  function subscriberAdded(email){
+    var mailOptions = {
+        from: '"OgeneTV"',
+        to: email,
+        subject: 'Welcome to OgeneTV',
+        html: `<center><h2><strong></string>Please verify your email address by clicking the link below</strong></h2>
+                <div style="text-align:center; width: 50%; font-family:tahoma; columns: #909090;">
+                <div style="background: wheat; padding:8%">
+               
+               <a href="https://www.google.com"><button style="color: red">Verify Email</button></a><br><br>
+               <small>not working? Try copying and pasting the link below into your brower</small><br>
+               <p> here</p>
+               </div>
+                </center>`
+      };
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+          return false;
+        } else {
+          console.log('Email sent: ' + info.response);
+          return true;
+        }
+      });
+}
 
 
 
