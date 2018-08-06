@@ -52,3 +52,44 @@ exports.signUp = (req,res,next)=>{
     })
        
 }
+
+
+
+
+exports.verify = (req,res,next)=>{
+    var email = req.params.email
+      const user = new User({
+          verified: true
+      })
+      User.find({email})
+      .select('-__v -_id -password')
+      .then(data =>{
+          if(data.length<1){
+              res.status(401).json({message:'email does not exist'})
+          }else{
+              User.update({email},user)
+              .exec()
+              .then(docs =>{
+                  res.status(200).json({
+                      message: 'email verified successfully',
+                      data,
+                      request:{
+                          type:'GET',
+                          url: `http://localhost:3000/user/` 
+                      }
+                  });
+              })
+              .catch(err =>{
+                  res.status(500).json({
+                      error: err
+                  });
+              });
+          }
+      })
+      .catch(err =>{
+          res.status(404).json({message:'Invalid email ID'})
+      });
+      
+  
+  
+}
