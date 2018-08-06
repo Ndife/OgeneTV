@@ -16,7 +16,8 @@ var upload = multer({storage: storage});
 
 router.post('/', upload.single('movieFile'), movieController.addMovie);
 router.get('/', movieController.getAllMovies);
-router.get('/:id', movieController.deleteMovie);
+router.delete('/:id', movieController.deleteMovie);
 router.post('/:id', movieController.updateMovie);
+//router.get('/:options', movieController.getByParam);
 
 module.exports = router;
