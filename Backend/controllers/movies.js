@@ -13,8 +13,20 @@ exports.addMovie = function(req, res, next){
         movieFile: req.file.path
     }
     model.create(movie, function(err){
-        if(err) res.json({err: err, message: 'Something was wrong'});
+        if(err) res.json({err: err, message: 'Something went wrong'});
         res.json({message: 'Movie was added successfully'});
     })
 }
 
+exports.getAllMovies = function(req, res, next){
+    model.find(function(err, movies){
+        if(err) res,json({err: err, message:'Something went wrong'});
+        res.json({
+            count: movies.length,
+            movies: movies
+        })
+    })
+    .select('-__v')
+}
+
+exports.
