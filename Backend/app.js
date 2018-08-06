@@ -7,6 +7,7 @@ var Mongoose = require('mongoose');
 const adminRoute = require('./routes/admin');
 const orderRoute = require('./routes/order');
 const usersRoute = require('./routes/users');
+const moviesRoute = require('./routes/movies');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'))
@@ -14,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/OgeneTV');
+Mongoose.connect('mongodb://localhost:27017/OgeneTV', {useNewUrlParser: true});
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -33,6 +34,7 @@ next();
 app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
+app.use('/movie',moviesRoute);
 
 app.use((req, res, next)=>{
    const error = new Error('Not Found');

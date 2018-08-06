@@ -4,6 +4,7 @@ var movieSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {type: String, required: true},
     description: String,
+    releaseYear: Number,
     price:{type: String, required: true},
     movieFile:{type: String, required: true}
 })
