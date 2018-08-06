@@ -10,3 +10,5 @@ const userScheme = mongoose.Schema({
     password: {type:String, required:true},
     verified: {type:Boolean, require:true}
 })
+
+module.exports = mongoose.model('User', userScheme);
