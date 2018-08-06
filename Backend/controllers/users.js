@@ -61,6 +61,7 @@ exports.signUp = (req,res,next)=>{
                     })
                     user.save()
                     .then(docs =>{
+                        subscriberAdded(user.email)
                         return res.status(201).json({
                             message: 'User created successfully',
                             email: docs.email,
