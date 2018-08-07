@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
-
+const key = require('../secretKey')
 
 
 var transporter = nodemailer.createTransport({
