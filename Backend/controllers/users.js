@@ -2,6 +2,8 @@ const User = require('../models/users');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 var nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+
 
 
 var transporter = nodemailer.createTransport({
@@ -128,4 +130,44 @@ exports.verify = (req,res,next)=>{
       
   
   
+}
+
+
+exports.logIn = (req,res,next)=>{
+    User.find({email:req.body.email})
+    .exec()
+    .then(user =>{
+        if(user.length<1){
+            return res.status(401).json( {message:'email incorrect'});
+        }
+        bcrypt.compare(req.body.password, user[0].password, (err, result)=>{
+
+            if(err){
+                return res.status(401).json({
+                    message: 'password is incorrect'
+                })
+            }
+            if(result){
+               const token = jwt.sign({
+                    email: user[0].email,
+                    id: user[0]._id
+                }, 
+                `${key.secretkey()}`,
+            );
+               return res.status(200).json({
+                    message:'login successful',
+                    token,
+
+                });
+            }
+            res.status(401).json({
+                message:'password is incorrect'
+            })
+        })
+    })
+    .catch(err =>{
+        res.status(500).json({
+            error: err
+        });
+    })
 }
