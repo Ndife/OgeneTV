@@ -18,6 +18,6 @@ router.post('/', upload.single('movieFile'), movieController.addMovie);
 router.get('/', movieController.getAllMovies);
 router.delete('/:id', movieController.deleteMovie);
 router.post('/:id', movieController.updateMovie);
-//router.get('/:options', movieController.getByParam);
+router.get('/search', movieController.getByParam);
 
 module.exports = router;

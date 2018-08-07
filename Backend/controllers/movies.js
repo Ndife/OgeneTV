@@ -29,6 +29,14 @@ exports.getAllMovies = function(req, res, next){
     .select('-__v')
 }
 
+exports.getByParam = function(req, res, next){
+    var options = req.query;
+    model.find(options,'-__v', function(err, movies){
+        if(err) res.json({message: 'Resource not found'});
+        res.json({message: movies});
+    })
+}
+
 exports.updateMovie = function(req, res){
     var id = req.params.id;
     var update = req.body;
