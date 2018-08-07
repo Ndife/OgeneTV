@@ -1,7 +1,7 @@
+//This file contains the operations on the movie model
 var model = require('../models/movies');
 
 var mongoose = require('mongoose');
-var multer = require('multer');
 
 exports.addMovie = function(req, res, next){
     model.find({name: req.body.name}, function(err, movie){
@@ -28,16 +28,23 @@ exports.addMovie = function(req, res, next){
     })
 }
 
-
 exports.getAllMovies = function(req, res, next){
     model.find(function(err, movies){
-        if(err) res,json({err: err, message:'Something went wrong'});
+        if(err) res.json({err: err, message:'Something went wrong'});
         res.json({
             count: movies.length,
             movies: movies
         })
     })
     .select('-__v')
+}
+
+exports.getById = function(req, res, next){
+    var id = ({_id:req.params.id});
+    model.find(id, '-__v', function(err, movie){
+        if(err) res.json({message: 'Resource not found'});
+        res.json({message: movie});
+    })
 }
 
 exports.getByParam = function(req, res, next){
