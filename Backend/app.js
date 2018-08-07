@@ -4,8 +4,10 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 var Mongoose = require('mongoose');
 
-// Here: requires all route
-const userRoute = require('./routes/users');
+const adminRoute = require('./routes/admin');
+const orderRoute = require('./routes/order');
+const usersRoute = require('./routes/users');
+const moviesRoute = require('./routes/movies');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'))
@@ -13,6 +15,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
+
 Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
 app.use((req,res,next)=>{
@@ -28,7 +31,12 @@ if(req.method === 'OPTIONS'){
 next();
 });
 // routes which should handle the request
-app.use('/users',userRoute);
+
+app.use('/admin',adminRoute);
+app.use('/order',orderRoute);
+app.use('/users',usersRoute);
+app.use('/movie',moviesRoute);
+
 
 app.use((req, res, next)=>{
    const error = new Error('Not Found');
