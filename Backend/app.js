@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/OgeneTV', {useNewUrlParser: true});
+
+Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -29,12 +30,13 @@ if(req.method === 'OPTIONS'){
 }
 next();
 });
-
 // routes which should handle the request
+
 app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
 app.use('/movie',moviesRoute);
+
 
 app.use((req, res, next)=>{
    const error = new Error('Not Found');
