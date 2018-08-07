@@ -18,6 +18,10 @@ Mongoose.Promise = global.Promise;
 
 Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
+app.get('/', function(req, res){
+    res.json({message:"hello world"});
+});
+
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers",
