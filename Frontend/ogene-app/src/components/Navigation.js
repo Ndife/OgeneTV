@@ -5,21 +5,26 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import {Link } from 'react-router-dom';
 
 const styles = {
   root: {
     flexGrow: 1,
   },
+  nav:{
+    backgroundColor: 'black',
+  },
   flex: {
     flexGrow: 1,
+    color: "blue"
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
   },
+  app: {
+    backgroundColor: 'transparent'
+  }
 };
 
 
@@ -27,11 +32,8 @@ function Navigation(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
+      {/* <AppBar className={classes.app} position="static"> */}
+        <Toolbar className={classes.app}>
           <Typography variant="title" color="inherit" className={classes.flex}>
             News
           </Typography>
@@ -39,7 +41,7 @@ function Navigation(props) {
           <Link to ='/signup'><Button color="inherit">Signup</Button></Link>
           <Link to ='/'><Typography variant="title" color="inherit">Home</Typography></Link>
         </Toolbar>
-      </AppBar>
+      {/* </AppBar> */}
     </div>
   );
 }
