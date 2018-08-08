@@ -39,7 +39,7 @@ next();
 app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
-app.use('/movie',moviesRoute);
+app.use('/movies',moviesRoute);
 
 
 app.use((req, res, next)=>{
