@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var user = require('../Models/user1');
-//var userProfile = require('./authRoutes');
+var user = require('../models/user1');
 
 
 
@@ -17,4 +16,8 @@ router.get('/:id', (req,res)=>{
         console.log('there exists and error somehere!!')
     });
 })
+
+// router.get('/', (req, res) => {
+//     res.send('You have reached here ' + req.user);
+// })
 module.exports = router;
