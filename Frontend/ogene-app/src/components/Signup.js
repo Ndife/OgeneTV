@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import './Login.css';
+// import Typography from '@material-ui/core/Typography';
 // import Validator from "validator";
 
 const styles = theme => ({
@@ -14,12 +15,14 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
+    flexDirection: 'row',
     backgroundColor: 'white',
-    width: '-moz-fit-content',
-    margin: 'auto',
     height: '365px',
     boxShadow: '0px 4px 8px 0px #7a6a6a',
+    // marginLeft: theme.spacing.unit,
+    // marginRight: theme.spacing.unit,
+    width: 633,
+    margin: 'auto'
   },
   button: {
     margin: theme.spacing.unit,
@@ -33,10 +36,10 @@ const styles = theme => ({
   },
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 300,
-    marginTop: "30px",
+    marginLeft: 10,
+    marginRight: 15,
+    width: 260,
+    marginTop: "40px",
   },
   menu: {
     width: 200,
@@ -94,26 +97,46 @@ class Signup extends React.Component {
           <div className='form-container'>
         <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <TextField
-            id="email"
-            label="Email"
+            id="username"
+            label="Username"
             className={classes.textField}
-            value={this.state.email}
+            value={this.state.username}
             onChange={this.handleChange}
             margin="auto"
           />
            <TextField
-          id="password"
-          label="Password"
+          id="email"
+          label="Email"
           className={classes.textField}
-          type="password"
-          autoComplete="current-password"
+          type="email"
           onChange={this.handleChange}
           margin="auto"
         />
+             <TextField
+            id="password"
+            label="Password"
+            className={classes.textField}
+            type="password"
+            autoComplete="current-password"
+            onChange={this.handleChange}
+            margin="auto"
+          />
+        <TextField
+             id="confirm-password"
+             label="Confirm-Password"
+             className={classes.textField}
+             type="confirm-password"
+             autoComplete="confirm-password"
+             onChange={this.handleChange}
+             margin="auto"
+             />
         <Button variant="contained" color="primary" className={classes.button}
         type="submit">
        Sign up
       </Button>
+      <div>
+        <p>Sign up with FB</p>
+      </div>
         </form>
         </div>
         );
