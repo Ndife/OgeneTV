@@ -8,7 +8,7 @@ var movieController = require('../controllers/movies');
 var upload = require('../movieUpload')
 
 
-router.post('/', upload.single('movieFile'), movieController.addMovie);
+router.post('/', upload.any('movieFile'), movieController.addMovie);
 //GET all the movies listing
 router.get('/', movieController.getAllMovies);
 //DELETE a movie by passing its Id
