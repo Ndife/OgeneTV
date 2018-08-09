@@ -1,0 +1,29 @@
+html, body {
+	margin: 20px;
+	background-color: aqua;
+}
+.main-box {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	margin: auto;
+	width: 40%;
+	border: 1px solid #f00;
+	background-color: antiquewhite;
+	text-align: center;
+	padding: 90px 0px 90px 0px;
+}
+form input {
+	width: 70%;
+	line-height: 30px;
+	padding-left: 10px;
+	border-radius: 6px;
+	margin-top: 10px;
+	border: 1px solid #000;
+}
+form input[type="button"] {
+	margin-top: 100px; 
+	width: 150px;
+	cursor: pointer;
+}
