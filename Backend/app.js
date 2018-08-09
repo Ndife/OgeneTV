@@ -10,6 +10,7 @@ const keys = require('./config/key');
 const cookieSession = require('express-session');
 
 
+
 const adminRoute = require('./routes/admin');
 const orderRoute = require('./routes/order');
 const usersRoute = require('./routes/users');
@@ -53,6 +54,11 @@ next();
 app.use(passport.initialize());
 app.use(passport.session());
 
+ app.use(cookieSession({
+     secret:'compare me',
+     resave:false,
+     saveUninitialized:false
+ }));
 // Cookie-Session
 app.use(cookieSession({
     maxAge: 24 * 60 ^ 60 * 1000,
