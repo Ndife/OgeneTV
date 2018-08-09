@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Navigation from './Navigation';
+// import Navigation from './Navigation';
 import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
+import './Login.css';
 // import Validator from "validator";
 
 const styles = theme => ({
@@ -13,11 +15,18 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-
+    backgroundColor: 'white',
+    width: '-moz-fit-content',
+    margin: 'auto',
+    height: '365px',
+    boxShadow: '0px 4px 8px 0px #7a6a6a',
   },
   button: {
     margin: theme.spacing.unit,
     marginTop: "30px",
+    borderBottomRightRadius: "10PX",
+    borderTopLeftRadius: "10px",
+    backgroundColor: "#5858f3",
   },
   input: {
     display: 'none',
@@ -26,7 +35,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '25%',
+    width: 300,
     marginTop: "30px",
   },
   menu: {
@@ -38,7 +47,6 @@ class Login extends React.Component {
    constructor(props){
        super(props)
        this.state = {
-        username: "",
         email: "",
         password:"",
         user: {}
@@ -53,98 +61,13 @@ class Login extends React.Component {
   
     };
 
-    handleSubmit = (e) => {
-      e.preventDefault();
-
-      const {username, email, password } = this.state;
-
-      fetch('https://affiammuta.herokuapp.com/users')
-      .then(res => res.json())
-      .then(data => {
-        data.filter(user => {
-          if(user.username === username && user.email === email && user.password === password){
-            this.setState({
-              username: "",
-              email: "",
-              password: "",
-              user
-            });
-            return true
-          }
-        })
-
-        this.handleLogin(this.state.user)
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-
-    handleLogin = (user) => {
-      if(user.email !== undefined){
-        console.log('welcome ', this.state.user)
-      }else{
-        console.log('invalid', this.state.user)
-      }
-    }
-    
-    // onSubmit =() =>{
-        //     const errors = {}
-        //     if (Object.keys(errors).length === 0){
-            //         console.log(errors)
-            //     } else {
-                //         alert('Email address is ' + this.state.email + ' Password is ' + this.state.password)
-                
-                //     }
-                
-                // }
-
-            // submit = () => {
-            //     axios.post('/signin', {
-            //         email: this.state.email,
-            //         password: this.state.password
-            //       })
-            //       .then(function (response) {
-            //         console.log('route me');
-            //       })
-            //       .catch(function (error) {
-            //         console.log(error);
-            //       });
-            // }
-            
-
-    // onSubmit = (event) => { 
-    //     const errors = this.validate(this.state.data);
-    //     this.setState({ errors });
-    //     event.preventDefault();
-    //     if (Object.keys(errors).length === 0){
-    //         this.submit(this.state.data)
-    //     } else {
-    //         alert('wrong details');
-    //     }
-    // };
-
-    // validate = (data) => {
-    //     const errors = {}
-    //     if(!Validator.isEmail(data.email)) errors.email = "Invalid email"
-    //     if(!data.password) errors.password = "Can't be blank"
-    //     return errors
-    // }
   
     render() {
       const { classes } = this.props;
   
       return (
-          <div>
-          <Navigation/>
-        <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-        <TextField
-            id="username"
-            label="Username"
-            className={classes.textField}
-            value={this.state.username}
-            onChange={this.handleChange}
-            margin="auto"
-          />
+          <div className='form-container'>
+        <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
           <TextField
             id="email"
             label="Email"
@@ -155,7 +78,7 @@ class Login extends React.Component {
           />
            <TextField
           id="password"
-          label="Password"
+          label="P0assword"
           className={classes.textField}
           type="password"
           value={this.state.password}
@@ -167,7 +90,9 @@ class Login extends React.Component {
         type="submit">
         Login
       </Button>
+      <p className='message'>Don't have an account? <Link to='/signup'>Sign up</Link></p>
         </form>
+        
         </div>
         );
     }

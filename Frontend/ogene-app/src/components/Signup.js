@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Navigation from './Navigation';
+// import Navigation from './Navigation';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import './Login.css';
 // import Validator from "validator";
 
 const styles = theme => ({
@@ -14,11 +15,18 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-
+    backgroundColor: 'white',
+    width: '-moz-fit-content',
+    margin: 'auto',
+    height: '365px',
+    boxShadow: '0px 4px 8px 0px #7a6a6a',
   },
   button: {
     margin: theme.spacing.unit,
     marginTop: "30px",
+    borderBottomRightRadius: "10PX",
+    borderTopLeftRadius: "10px",
+    backgroundColor: "#5858f3",
   },
   input: {
     display: 'none',
@@ -27,7 +35,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '25%',
+    width: 300,
     marginTop: "30px",
   },
   menu: {
@@ -39,7 +47,6 @@ class Signup extends React.Component {
    constructor(props){
        super(props)
        this.state = {
-        username: "",
         email: "",
         password:"",
        };
@@ -59,33 +66,33 @@ class Signup extends React.Component {
         let data = {...this.state}
         console.log(data)
 
-      axios.post("https://affiammuta.herokuapp.com/users/create", data)
+      axios.post("https://ogenetv.herokuapp.com/users/signUp", data)
       .then(res =>{
-          if (res.status == 200){
-            console.log(res)
-            console.log(res.data);
-            this.props.history.push('/')
-          }
-         
+        console.log(res)
+        
+        if (res.status === 200){
+          console.log(res)
+          console.log(res.data);
+          this.props.history.push('/')
+        }
+        // if(res.status == 409){
+        //   console.log(res)
+        // }
       })
-      
+      .catch(err =>{
+        console.log(err)
+        if(err.status === 409){
+          console.log(err.message)
+        }
+      })
     }  
 
     render() {
       const { classes } = this.props;
   
       return (
-          <div>
-          <Navigation/>
+          <div className='form-container'>
         <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-        <TextField
-            id="username"
-            label="Username"
-            className={classes.textField}
-            value={this.state.username}
-            onChange={this.handleChange}
-            margin="auto"
-          />
           <TextField
             id="email"
             label="Email"
@@ -105,7 +112,7 @@ class Signup extends React.Component {
         />
         <Button variant="contained" color="primary" className={classes.button}
         type="submit">
-        Login
+       Sign up
       </Button>
         </form>
         </div>

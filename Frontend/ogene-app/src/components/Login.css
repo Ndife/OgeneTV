@@ -1,0 +1,15 @@
+.message{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    padding-bottom: 45px;
+    
+}
+.form-container{
+padding-top: 150px;
+background-color: #c0bbbb;
+height: 620px;
+}
+
+.form-effect :hover{
+    box-shadow: 1px 2px 0px;
+}

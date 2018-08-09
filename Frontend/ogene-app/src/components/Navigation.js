@@ -4,8 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import {Link } from 'react-router-dom';
+import Search from './Search';
+import MenuToggle from './Menutoggle';
 
 const styles = {
   root: {
@@ -23,25 +24,26 @@ const styles = {
     marginRight: 20,
   },
   app: {
-    backgroundColor: 'transparent'
-  }
+    backgroundColor: 'transparent',
+  },
+ 
 };
 
 
 function Navigation(props) {
+  
   const { classes } = props;
   return (
-    <div className={classes.root}>
-      {/* <AppBar className={classes.app} position="static"> */}
-        <Toolbar className={classes.app}>
+    <div className={classes.root} >
+      <AppBar className={classes.app} position="static">
+        <Toolbar className={classes.app.menuButton}  >
           <Typography variant="title" color="inherit" className={classes.flex}>
-            News
+          <Link to ='/'>Ogenetv</Link>
           </Typography>
-          <Link to ='/login'><Button color="inherit">Login</Button></Link>
-          <Link to ='/signup'><Button color="inherit">Signup</Button></Link>
-          <Link to ='/'><Typography variant="title" color="inherit">Home</Typography></Link>
+          <Search/>
+          <MenuToggle/>
         </Toolbar>
-      {/* </AppBar> */}
+      </AppBar>
     </div>
   );
 }
