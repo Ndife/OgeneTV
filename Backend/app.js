@@ -10,7 +10,7 @@ const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'))
+app.use('/files', express.static('files'))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
