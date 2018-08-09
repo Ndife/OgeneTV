@@ -2,13 +2,15 @@
 var mongoose = require('mongoose');
 
 var movieSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    time: Date,
     name: {type: String, required: true},
     description: {type: String, required: true},
     releaseYear: Number,
-    producer:{type: String},
+    producer: String,
+    category: String,
     price:{type: String, required: true},
-    movieFile:{type: String, required: true}
+    image: String,
+    video: String
 })
 
 module.exports = mongoose.model('Movie', movieSchema);
