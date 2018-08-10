@@ -24,7 +24,7 @@ const homeRoutes = require('./routes/home');
 
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'))
+app.use('/files', express.static('files'))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -81,7 +81,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
-app.use('/movie',moviesRoute);
+app.use('/movies',moviesRoute);
 
 
 //app.use('/', indexRouter);

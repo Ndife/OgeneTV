@@ -5,23 +5,14 @@ var multer = require('multer');
 
 var movieController = require('../controllers/movies');
 
-//Specifying the storage path for the movie
-var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, './uploads/');
-    },
-    filename: function(req, file, cb){
-        cb(null, file.originalname);
-    }
-})
-var upload = multer({storage: storage});
+var upload = require('../movieUpload')
 
 
-router.post('/', upload.single('movieFile'), movieController.addMovie);
+router.post('/', upload.any('movieFile'), movieController.addMovie);
 //GET all the movies listing
 router.get('/', movieController.getAllMovies);
 //DELETE a movie by passing its Id
-router.delete('/:id', movieController.deleteMovie);
+router.get('/delete/:id', movieController.deleteMovie);
 //POST an update to a movie by passing its Id
 router.post('/:id', movieController.updateMovie);
 //GET a particular movie by any param eg name, producer
