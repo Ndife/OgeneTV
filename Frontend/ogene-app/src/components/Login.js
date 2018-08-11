@@ -6,7 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import './Login.css';
-// import Validator from "validator";
+// import axios from 'axios';
+import Validator from "validator";
+import InlineError from './Messages/InlineErrors';
 
 const styles = theme => ({
   container: {
@@ -14,16 +16,20 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
+    // flexDirection: 'column',
     backgroundColor: 'white',
-    width: '-moz-fit-content',
-    margin: 'auto',
     height: '365px',
     boxShadow: '0px 4px 8px 0px #7a6a6a',
+    // marginLeft: theme.spacing.unit,
+    // marginRight: theme.spacing.unit,
+    width: 300,
+    marginTop: "30px",
+    margin: 'auto'
   },
   button: {
     margin: theme.spacing.unit,
-    marginTop: "30px",
+    marginLeft: '123px',
+    marginRight: '116px',
     borderBottomRightRadius: "10PX",
     borderTopLeftRadius: "10px",
     backgroundColor: "#5858f3",
@@ -47,53 +53,102 @@ class Login extends React.Component {
    constructor(props){
        super(props)
        this.state = {
-        email: "",
-        password:"",
-        user: {}
+         user: {
+           email: "",
+           password: "",
+         },
+        loading: false,
+        errors: {}
        };
    }
   
    handleChange = event =>{
      this.setState({
-
-       [event.target.id]: event.target.value
+      user: {...this.state.user, [event.target.id]: event.target.value }
      });
-  
+    };
+    submit = user =>{
+      console.log(user);
+    }
+
+    handleSubmit = (e) =>{
+      e.preventDefault();
+      const errors = this.validate(this.state.user);
+      this.setState({errors});
+      if(Object.keys(errors).length ===0){
+        this.submit(this.state.user)
+      }
     };
 
-  
-    render() {
-      const { classes } = this.props;
-  
-      return (
-          <div className='form-container'>
-        <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-          <TextField
-            id="email"
-            label="Email"
-            className={classes.textField}
-            value={this.state.email}
-            onChange={this.handleChange}
-            margin="auto"
-          />
-           <TextField
-          id="password"
-          label="P0assword"
-          className={classes.textField}
-          type="password"
-          value={this.state.password}
-          autoComplete="current-password"
-          onChange={this.handleChange}
-          margin="auto"
-        />
-        <Button variant="contained" color="primary" className={classes.button}
-        type="submit">
-        Login
-      </Button>
-      <p className='message'>Don't have an account? <Link to='/signup'>Sign up</Link></p>
-        </form>
+    validate = user => {
+     const errors = {};
+     if (!Validator.isEmail(user.email)) errors.email = "Invalid Email";
+    if (!user.password) errors.password = "cant be blank";
+    return errors;
+    }
+
+    // handleSubmit = (e) => {
+    //   e.preventDefault();
+
+    //     let data = {...this.state}
+    //     console.log(data)
+
+    //   axios.post("https://ogenetv.herokuapp.com/users/login", data)
+    //   .then(res =>{
+    //     console.log(res)
         
-        </div>
+    //     if (res.status === 200){
+    //       console.log(res)
+    //       console.log(res.data);
+    //       this.props.history.push('/')
+    //     }
+    //     // if(res.status == 409){
+    //     //   console.log(res)
+    //     // }
+    //   })
+    //   .catch(err =>{
+    //     console.log(err)
+    //     if(err.status === 401){
+    //       console.log(err.message)
+    //     }
+    //   })
+    // }  
+
+  
+      render() {
+        const { classes } = this.props;
+        const { errors } = this.state;
+  
+        return (
+          <div className='form-container'>
+            <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+              <TextField
+                id="email"
+                label="Email"
+                className={classes.textField}
+                value={this.state.email}
+                onChange={this.handleChange}
+                margin="auto"
+                />
+              {errors.email && <InlineError text={errors.email}/>}
+              <TextField
+              id="password"
+              label="Password"
+              className={classes.textField}
+              type="password"
+              value={this.state.password}
+              autoComplete="current-password"
+              onChange={this.handleChange}
+              margin="auto"
+              />
+              {errors.password && <InlineError text={errors.password}/>}
+              <br/>
+              <Button variant="contained" color="primary" className={classes.button} type="submit">
+                Login
+              </Button>
+              <p className='message'>Don't have an account? <Link to='/signup'>Sign up</Link></p>
+            </form>
+          </div>
         );
     }
 };
@@ -101,6 +156,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  submit: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Login);
