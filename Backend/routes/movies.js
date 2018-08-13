@@ -1,11 +1,8 @@
 //This file contains the routes to the movies database
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-
 var movieController = require('../controllers/movies');
-
-var upload = require('../movieUpload')
+var upload = require('../functions/movieUpload')
 
 
 router.post('/', upload.any('movieFile'), movieController.addMovie);
@@ -17,7 +14,7 @@ router.get('/delete/:id', movieController.deleteMovie);
 router.post('/:id', movieController.updateMovie);
 //GET a particular movie by any param eg name, producer
 router.get('/search', movieController.getByParam);
-//GET a movie by its Id
+//GET a movie by its Id/
 router.get('/:id', movieController.getById);
 
 module.exports = router;

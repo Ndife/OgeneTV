@@ -1,4 +1,3 @@
-var app = require('../Backend/app');
 const http = require('http');
 const app = require('./app');
 
