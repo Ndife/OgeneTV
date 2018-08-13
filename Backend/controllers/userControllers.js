@@ -37,10 +37,13 @@ passport.use(new facebookStartegy({
                 done(null, currentUser);
             }else{
                 var  newUser = new User({
-                    f_name:profile.displayName,
-                    facebookId:profile.id,
-                    // f_image:profile.photo[0].value
+                    name:profile.displayName,
+                    email:profile.emails[0].value,
+                    verified:true,
+                    status:true,
+                    password:''
                 });
+                
                 return newUser.save()
                 .then(result =>{
                     console.log('New user created'+ result)
