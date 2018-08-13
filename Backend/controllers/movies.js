@@ -1,9 +1,6 @@
 //This file contains the operations on the model
 var Movie = require('../models/movies');
-var deleteFilePath = require('../deleteFile');
-
-var mongoose = require('mongoose');
-var multer = require('multer');
+var deleteFilePath = require('../functions/deleteFile');
 
 exports.addMovie = function(req, res, next){
     Movie.find({name: req.body.name}, function(err, movie){

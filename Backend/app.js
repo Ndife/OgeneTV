@@ -16,7 +16,6 @@ const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
 
 //var indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const homeRoutes = require('./routes/home');
@@ -79,7 +78,6 @@ app.use('/movies',moviesRoute);
 
 
 //app.use('/', indexRouter);
- app.use('/users', usersRouter);
 app.use('/auth', authRoutes);
 app.use('/',homeRoutes);
 app.use('/profile', profileRoutes)
