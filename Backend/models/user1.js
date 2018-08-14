@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var user1Schema = mongoose.Schema({
-    f_name:String,
-    facebookId:String,
-    f_image:String
-    // username:String,
-    // googleId:String
+    name:String,
+    email:String,
+    verified: {type:Boolean, require:true},
+    status:{type:Boolean, require:true},
+    password:String
+ 
 })
 
 module.exports = mongoose.model('user', user1Schema);
