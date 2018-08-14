@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import axios from 'axios';
-import './Recent.css';
 // import Homepage from './Homepage';
 
 const styles = theme => ({
@@ -37,26 +35,11 @@ const styles = theme => ({
   },
 });
 
-const Api_key = 'd013a387b3c354c8c90a27a0d125b352';
-
-class RecentMovies extends React.Component {
+class Trends extends React.Component {
   state = {
     spacing: '16',
-    movies: []
+    movies: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   };
-
-  componentDidMount(){
-   
-    axios.get(`https://cors-anywhere.herokuapp.com/food2fork.com/api/search?key=${Api_key}&
-    q=shredded%20chicken&count=10`)
-    .then(res => {
-      console.log(res)
-      this.setState({ movies: res.data.recipes})
-      console.log(this.state.movies)
-    })
-    
-}
-
 
   handleChange = key => (event, value) => {
     this.setState({
@@ -70,15 +53,13 @@ class RecentMovies extends React.Component {
 
     return (
         <div>
+       {/* <Homepage/> */}
       <Grid container className={classes.root} spacing={40}>
             <Grid item xs={6} sm={3} className={classes.cards}>
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
-                {this.state.movies.map(movie => (
-                <Grid key={movie} item>
-                    <Paper className={classes.paper} >
-                          <img className="recent-image" src={movie.image_url} alt=''/>
-                          <p>{movie.title}</p>
-                    </Paper>
+                {this.state.movies.map(value => (
+                <Grid key={value} item>
+                    <Paper className={classes.paper} />
                 </Grid>
                 ))}
             </Grid>
@@ -89,8 +70,8 @@ class RecentMovies extends React.Component {
   }
 }
 
-RecentMovies.propTypes = {
+Trends.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RecentMovies);
+export default withStyles(styles)(Trends);

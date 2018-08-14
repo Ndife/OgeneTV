@@ -6,9 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import './Login.css';
-// import axios from 'axios';
+import axios from 'axios';
 import Validator from "validator";
 import InlineError from './Messages/InlineErrors';
+import spinner from './assets/spinner.gif';
 
 const styles = theme => ({
   container: {
@@ -68,12 +69,23 @@ class Login extends React.Component {
      });
     };
     submit = user =>{
-      console.log(user);
+      axios.post("https://ogene.herokuapp.com/users/login", user, {headers: { }})
+      .then(res =>{
+      console.log(res.data.message);
+      if (res.status === 200){
+        console.log(res)
+        console.log(res.data.message);
+        this.props.history.push('/')
+      }
+      })
+  
+      // this.props.history.push('/');
     }
 
     handleSubmit = (e) =>{
       e.preventDefault();
       const errors = this.validate(this.state.user);
+      this.setState({ loading: true})
       this.setState({errors});
       if(Object.keys(errors).length ===0){
         this.submit(this.state.user)
@@ -85,6 +97,7 @@ class Login extends React.Component {
      if (!Validator.isEmail(user.email)) errors.email = "Invalid Email";
     if (!user.password) errors.password = "cant be blank";
     return errors;
+    
     }
 
     // handleSubmit = (e) => {
@@ -117,10 +130,18 @@ class Login extends React.Component {
   
       render() {
         const { classes } = this.props;
-        const { errors } = this.state;
+        const { errors, loading } = this.state;
   
         return (
           <div className='form-container'>
+           {loading && <div style={{
+                    width: '10%',
+                    position: 'absolute',
+                    marginTop: '7%',
+                    marginLeft: '45%',
+                    alignItems: "center"
+                }}><img alt="spinner" src={spinner}/></div>}
+
             <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
               <TextField
                 id="email"
@@ -156,7 +177,10 @@ class Login extends React.Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
-  submit: PropTypes.func.isRequired
+  submit: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  })
 };
 
 export default withStyles(styles)(Login);

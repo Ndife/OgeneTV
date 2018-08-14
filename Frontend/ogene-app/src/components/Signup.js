@@ -52,6 +52,7 @@ class Signup extends React.Component {
        this.state = {
         email: "",
         password:"",
+        loading: false,
        };
    }
   
@@ -71,23 +72,23 @@ class Signup extends React.Component {
 
       axios.post("https://ogenetv.herokuapp.com/users/signUp", data)
       .then(res =>{
-        console.log(res)
+        console.log(res.data.message)
         
         if (res.status === 200){
           console.log(res)
-          console.log(res.data);
+          console.log(res.data.message);
           this.props.history.push('/')
         }
         // if(res.status == 409){
         //   console.log(res)
         // }
       })
-      .catch(err =>{
-        console.log(err)
-        if(err.status === 409){
-          console.log(err.message)
-        }
-      })
+      // .catch(err =>{
+      //   console.log(err.data.message)
+      //   if(err.status === 409){
+      //     console.log(err.data.message)
+      //   }
+      // })
     }  
 
     render() {
@@ -125,7 +126,7 @@ class Signup extends React.Component {
              id="confirm-password"
              label="Confirm-Password"
              className={classes.textField}
-             type="confirm-password"
+             type="password"
              autoComplete="confirm-password"
              onChange={this.handleChange}
              margin="auto"

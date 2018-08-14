@@ -1,0 +1,11 @@
+.image-logo{
+    height: 40px;
+    width: 100px;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+}
+
+.image-logo:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }

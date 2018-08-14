@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import {Link } from 'react-router-dom';
 import Search from './Search';
 import MenuToggle from './Menutoggle';
+import logo from './assets/logo.png';
+import './Navigation.css';
 
 const styles = {
   root: {
@@ -24,7 +26,7 @@ const styles = {
     marginRight: 20,
   },
   app: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#373636',
   },
  
 };
@@ -38,7 +40,7 @@ function Navigation(props) {
       <AppBar className={classes.app} position="static">
         <Toolbar className={classes.app.menuButton}  >
           <Typography variant="title" color="inherit" className={classes.flex}>
-          <Link to ='/'>Ogenetv</Link>
+          <Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link>
           </Typography>
           <Search/>
           <MenuToggle/>

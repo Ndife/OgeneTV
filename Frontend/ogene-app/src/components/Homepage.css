@@ -1,3 +1,23 @@
 .container-nav{
-    width: 84%;
+    display: flex;
+    margin: auto;
+    width: 87%;
+    margin-top: 50px;
+    
+}
+.container-nav-category, .container-nav-recent{
+    padding-left: 30px;
+    color: white;
+    text-decoration: none;
+}
+
+.container-body{
+    margin: auto;
+    width: 83%;
+    padding-top: 20px;
+}
+.container-category{
+    display: flex;
+    margin: auto;
+    width: 87%;
 }
