@@ -85,6 +85,8 @@ exports.verify = (req, res, next) => {
 }
 
 
+
+
 exports.logIn = (req, res, next) => {
     if((req.body.password != null && req.body.password != undefined) && (req.body.email != null && req.body.email != undefined)){
         User.findOne({
