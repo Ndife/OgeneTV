@@ -88,31 +88,34 @@ exports.verify = (req, res, next) => {
 
 
 exports.logIn = (req, res, next) => {
-    if((req.body.password != null && req.body.password != undefined) && (req.body.email != null && req.body.email != undefined)){
-        User.findOne({
-                    email: req.body.email
-                }).select('email password')
-                .exec(function(err, Currentuser){
-                    if (err) throw err;
-                        if (Currentuser == null){
-
-                        res.status(201).json({message : "user does not exist"});
-                        }
-                        else{
-                            var validPassword =  bcrypt.compareSync(req.body.password, Currentuser.password);
-                            if(!validPassword){
-                                res.status(202).json({message : "username or password invalid"});
-                            }
-                            else{
-                                var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},`${key.secretkey()}`)
-                                res.status(200).json({message : "Login Successful", token : token});
-                            }
-                        }
-                    })
-                }else{
-                    res.status(203).json({message : "Please provide an email and a password"});
-
+    if((req.body.password != '') && (req.body.email != '')){
+        User.findOne({email: req.body.email}).select('email password verified')
+        .exec(function(err, Currentuser){
+                if (Currentuser == null){
+                res.status(201).json({message : "email does not exist"});
                 }
+                else{
+                    u = Currentuser
+                    if(u.verified == false){
+                        res.status(205).json({message : "please verify your email to login"});
+                    }else {
+                    var validPassword =  bcrypt.compareSync(req.body.password, Currentuser.password);
+                    if(!validPassword){
+                        res.status(202).json({message : "email or password invalid"});
+                    }
+                    else{
+                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},`${key.secretkey()}`)
+                        res.status(200).json({message : "Login Successful", token : token});
+                    }
+                }
+            }
+            
+            })
+    }else{
+        res.status(203).json({message : "Please provide an email and a password"});
+
+    }   
 }
+
 
  
