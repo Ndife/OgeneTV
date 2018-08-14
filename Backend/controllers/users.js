@@ -56,10 +56,11 @@ exports.signUp = (req,res,next)=>{
                    return res.status(500).json({err:err});
                 }else {
                     const user = new User({
-                        _id: new mongoose.Types.ObjectId(), 
+                        name:req.body.name,
                         email: req.body.email,
-                        password: hash, 
-                        verified:false
+                        verified:false,
+                        status:true,
+                        password:hash
                     })
                     user.save()
                     .then(docs =>{
