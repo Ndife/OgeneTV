@@ -15,7 +15,6 @@ const adminRoute = require('./routes/admin');
 const orderRoute = require('./routes/order');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
-const paymentRoute = require('./routes/payment');
 
 //var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
