@@ -29,7 +29,7 @@ passport.use(new facebookStartegy({
     profileFields:['id','displayName','picture','email']
 },(req, accessToken, refreshToken, profile , done)=>{
     if(profile){
-        User.findOne({facebookId: profile.id})
+        User.findOne({email: profile.emails[0].value})
         .exec()
         .then(currentUser =>{
             if(currentUser){
