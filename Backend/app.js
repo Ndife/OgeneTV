@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const Mongoose = require('mongoose');
 const passport = require('passport');
-const ejs = require('ejs');
+//const ejs = require('ejs');
 const keys = require('./config/key');
 const cookieSession = require('express-session');
 
@@ -15,6 +15,7 @@ const adminRoute = require('./routes/admin');
 const orderRoute = require('./routes/order');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
+const paymentRoute = require('./routes/payment');
 
 //var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -82,6 +83,7 @@ app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
+
 
 
 //app.use('/', indexRouter);
