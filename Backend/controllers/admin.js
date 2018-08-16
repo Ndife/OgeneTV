@@ -82,11 +82,11 @@ exports.BlockUser = function (req, res) {
     })
 }
 
-exports.UnBlockUser = function (req, res) {
+exports.unBlockUser = function (req, res) {
     var userId = { _id: req.params.id }
     user.findByIdAndUpdate(userId, { status: true }, function (err, data) {
-        if (data) res.json({ err: err, message: 'User Has Been UnBlocked!!' })
-        res.json({ err: err, message: 'Error Blocking User' });
+        if (data) res.json({message: 'User Has Been UnBlocked!!' })
+        res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
 
