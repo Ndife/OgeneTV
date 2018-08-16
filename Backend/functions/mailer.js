@@ -1,5 +1,4 @@
 var nodemailer = require('nodemailer');
-
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -8,7 +7,8 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-module.exports.subscriberAdded= function(email, callback) {
+//client email body
+exports.subscriberAdded= function(email, callback) {
     var mailOptions = {
         from: '"OgeneTV"',
         to: email,
@@ -24,4 +24,16 @@ module.exports.subscriberAdded= function(email, callback) {
                 </center>`
     };
     transporter.sendMail(mailOptions, callback);
+}
+
+
+//Admin email body
+exports.adminAdded = function(email,callback,name) {
+    var mailOptions = {
+        from: '"OgeneTV"',
+        to: email,
+        subject: 'Welcome to OgeneTV Admin Page',
+        html: `<center><h2><strong></string><p>Dear, ${name}.</p><br>You have successfully signed up for the Admin role in OgeneTV</strong></h2><center>`
+ };
+ transporter.sendMail(mailOptions, callback);
 }
