@@ -77,7 +77,7 @@ exports.decrypt = function (candidatePassword, hash, callback) {
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
     user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
-        if (data) res.json({ err: err, message: 'User Has Been Blocked till Further Notice !!' })
+        if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
         res.json({ err: err, message: 'Error Blocking User' });
     })
 }
