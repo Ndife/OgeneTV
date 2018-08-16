@@ -3,9 +3,8 @@ const bcrypt = require('bcrypt');
 var nodemailer = require('nodemailer');
 var user = require('../models/users');
 var admin = require('../models/admin');
-
-
-
+const jwt = require('jsonwebtoken');
+const key = require('../secretKey');
 
 exports.adminSignUp = function (req, res) {
     var mail = { email: req.body.email }
@@ -92,22 +91,6 @@ exports.AdminGetAllUsers = function (req, res) {
     })
 }
 
-exports.getAdmin = function (email, callback) {
-    var query = { email: email }
-    admin.findOne(query, callback);
-
-}
-exports.getAdminByid = function (id, callback) {
-    admin.findById(id, callback);
-
-}
-exports.decrypt = function (candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-        if (err) throw err
-        callback(null, isMatch);
-
-    });
-}
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
     user.findByIdAndUpdate(userId, { status: false }, function (err, datas) {
@@ -123,22 +106,33 @@ exports.UnBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error Blocking User' });
     })
 }
-// exports.AdminLogin = function(req , res){
-//     var email = {email:req.body.email}
-//     admin.findOne(email , function(err , result){
-//         if(result){
-//             bcrypt.compare(req.body.password , result[0].password, function(err, rest){
-//                 if(rest){
-//                     res.json({message:'login Successful !!'})
-//                 }else{
-//                     res.json({message:'Admin username or password is Incorrect !!'})
-//                 }
-//             } )
-//         }else{
-//             res.json({message:'Admin Email Or Password Does Not Exist !!'})
-//         }
-//     })
-// }
+exports.AdminLogin = function(req , res){
+    var email = {email:req.body.email}
+    admin.find(email , function(err , result){
+        if(result.length>=1){
+            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+                if(rest){
+                          const token = jwt.sign({
+                             email: result[0].email,
+                             id: result[0]._id
+                         }, 
+                         `${key.secretkey()}`,
+                     );
+                        return res.status(200).json({
+                             message:'login successful',
+                             token,
+         
+                         });
+                     
+                }else{
+                    res.json({message:'Admin username or password is Incorrect !!'})
+                }
+            } )
+        }else{
+            res.json({message:'Admin Email Or Password Does Not Exist !!'})
+        }
+    })
+}
 
 
 
