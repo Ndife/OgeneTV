@@ -62,7 +62,8 @@ exports.signUp = (req, res, next) => {
 exports.verify = (req, res, next) => {
     var email = req.params.email
     const user = new User({
-        verified: true
+        verified: true,
+        status: true
     })
     User.find({email})
         .then(data => {
