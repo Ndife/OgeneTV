@@ -2,7 +2,7 @@ const User = require('../models/users');
 const mongoose = require('mongoose'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const key = require('../functions/secretKey');
+const secret = require('../functions/secret')
 const mailer = require('../functions/mailer');
 
 
