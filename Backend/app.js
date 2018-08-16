@@ -83,6 +83,7 @@ app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
 
 
+
 //app.use('/', indexRouter);
 app.use('/auth', authRoutes);
 app.use('/',homeRoutes);
