@@ -36,7 +36,7 @@ exports.adminSignUp = function (req, res) {
 }
 
 
-exports.AdminGetUser = function (req, res) {
+exports.adminGetUser = function (req, res) {
     var mails = { email: req.body.email }
     user.find(mails, function (err, dat) {
         if (dat.length >= 1) {
@@ -47,7 +47,7 @@ exports.AdminGetUser = function (req, res) {
     })
 }
 
-exports.AdminGetAllUsers = function (req, res) {
+exports.adminGetAllUsers = function (req, res) {
     user.find({}, function (err, data) {
         if (data.length >= 1) {
             res.json({ err: err, message: data })
