@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
 // import Homepage from './Homepage';
 
 const styles = theme => ({
@@ -38,14 +39,25 @@ const styles = theme => ({
 class Trends extends React.Component {
   state = {
     spacing: '16',
-    movies: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    movies: []
   };
-
+  
+  componentDidMount(){
+   
+    axios.get('https://affiammuta.herokuapp.com/books')
+    .then(res => {
+      console.log(res)
+      
+      // this.setState({ movies: res.data.books})
+      // console.log(this.state.movies)
+    })
+  }
   handleChange = key => (event, value) => {
     this.setState({
       [key]: value,
     });
   };
+
 
   render() {
     const { classes } = this.props;
@@ -59,7 +71,7 @@ class Trends extends React.Component {
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
                 {this.state.movies.map(value => (
                 <Grid key={value} item>
-                    <Paper className={classes.paper} />
+                    <Paper className={classes.paper} >{value.title}</Paper>
                 </Grid>
                 ))}
             </Grid>
