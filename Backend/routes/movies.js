@@ -1,11 +1,8 @@
 //This file contains the routes to the movies database
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-
 var movieController = require('../controllers/movies');
-
-var upload = require('../movieUpload')
+var upload = require('../functions/movieUpload')
 
 
 router.post('/', upload.any(), movieController.addMovie);

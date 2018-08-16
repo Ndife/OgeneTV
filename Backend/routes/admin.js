@@ -32,7 +32,7 @@ router.post('/getUser', adminControllers.AdminGetUser);
 router.get('/getUsers', adminControllers.AdminGetAllUsers);
 router.post('/getAdmin', adminControllers.getAdmin);
 router.get('/blockUser/:id', adminControllers.BlockUser);
-router.get('/UnblockUser/:id', adminControllers.UnBlockUser);
+router.get('/unblockUser/:id', adminControllers.unBlockUser);
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
