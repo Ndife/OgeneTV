@@ -6,11 +6,11 @@ cloudinary.config({
     api_secret: 'KDNbVDKcu7VctfxkDgZiWX04My8' 
 })
 
-eexports.upload = function(file){
+exports.upload = function(file){
     return new Promise(resolve => {
         cloudinary.uploader.upload(file, function(result){
             resolve({url: result.url, Id: result.public_id});
-        })
+        }, {resource_type: "auto"})
    })
 }
 
