@@ -5,22 +5,24 @@ var admin = require('../models/admin');
 var mailer = require('../functions/mailer');
 
 
+
+// ADMIN METHODS.
 exports.adminSignUp = function (req, res) {
-    var mail = { email: req.body.email }
+    var mail = {email: req.body.email}
     model.find(mail, function (err, data) {
         if (data.length >= 1) {
-            return res.json({ message: 'user already Exists !!' })
+            return res.json({ message: 'email already Exists !!' })
         } else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if (err)
-                    return res.json({ err: err, message: 'Error creating Password !!' });
+                    return res.json({message: 'Error creating Password !!' });
                 var details = {
                     email: req.body.email,
                     username: req.body.username,
                     password: hash,
                 }
                 model.create(details, function (err) {
-                    if (err) res.json({ err: err, message: 'Error During Admin Signup !!' });
+                    if (err) res.json({message: 'Error During Admin Signup !!' });
                     mailer.adminAdded(details.email,(err,info)=>{
                         if(err){
                             res.json({error:err});
@@ -36,13 +38,15 @@ exports.adminSignUp = function (req, res) {
 }
 
 
-exports.adminGetUser = function (req, res) {
+
+// USERS/CLIENT METHODS.
+exports.getUser = function (req, res) {
     var mails = { email: req.body.email }
     user.find(mails, function (err, dat) {
         if (dat.length >= 1) {
             res.json({ message: dat });
         } else {
-            res.json({ err: err, message: 'user was not found' });
+            res.json({message: 'user was not found' });
         }
     })
 }
