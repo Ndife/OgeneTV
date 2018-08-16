@@ -19,7 +19,7 @@ exports.adminSignUp = function (req, res) {
                 var details = {
                     email: req.body.email,
                     name: req.body.name,
-                    password: hash,
+                    password: hash
 
                 }
 
@@ -110,8 +110,8 @@ exports.decrypt = function (candidatePassword, hash, callback) {
 }
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
-    user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
-        if (data) res.json({ err: err, message: 'User Has Been Blocked till Further Notice !!' })
+    user.findByIdAndUpdate(userId, { status: false }, function (err, datas) {
+        if (datas) res.json({ err: err, message: 'User Has Been Blocked till Further Notice !!' })
         res.json({ err: err, message: 'Error Blocking User' });
     })
 }
@@ -123,6 +123,22 @@ exports.UnBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error Blocking User' });
     })
 }
+// exports.AdminLogin = function(req , res){
+//     var email = {email:req.body.email}
+//     admin.findOne(email , function(err , result){
+//         if(result){
+//             bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+//                 if(rest){
+//                     res.json({message:'login Successful !!'})
+//                 }else{
+//                     res.json({message:'Admin username or password is Incorrect !!'})
+//                 }
+//             } )
+//         }else{
+//             res.json({message:'Admin Email Or Password Does Not Exist !!'})
+//         }
+//     })
+// }
 
 
 
