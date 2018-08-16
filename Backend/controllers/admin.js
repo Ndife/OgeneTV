@@ -1,6 +1,5 @@
 const model = require('../models/admin');
 const bcrypt = require('bcrypt');
-var nodemailer = require('nodemailer');
 var user = require('../models/users');
 var admin = require('../models/admin');
 var mailer = require('../functions/mailer');
@@ -30,8 +29,8 @@ exports.adminSignUp = function (req, res) {
                         }
                     },details.username);
                 });
-            })
-        }
+            }) 
+        } 
 
     })
 }
