@@ -104,7 +104,7 @@ exports.logIn = (req, res, next) => {
                         res.status(202).json({message : "email or password invalid"});
                     }
                     else{
-                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key)
+                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"}) 
                         res.status(200).json({message : "Login Successful", token : token});
                     }
                 }
