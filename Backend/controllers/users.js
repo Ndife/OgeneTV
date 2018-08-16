@@ -1,179 +1,126 @@
 const User = require('../models/users');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 const bcrypt = require('bcrypt');
-var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
-const key = require('../secretKey')
 const movieModel = require('../models/movies');
 const ObjectID = require('mongoose').Types.ObjectId;
-
-
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'stilesndife@gmail.com',
-        pass: 'j0sephbr0'
-    }
-  });
-  function subscriberAdded(email){
-    var mailOptions = {
-        from: '"OgeneTV"',
-        to: email,
-        subject: 'Welcome to OgeneTV',
-        html: `<center><h2><strong></string>Please verify your email address by clicking the link below</strong></h2>
-                <div style="text-align:center; width: 50%; font-family:tahoma; columns: #909090;">
-                <div style="background: wheat; padding:8%">
-               
-               <a href="https://www.google.com"><button style="color: red">Verify Email</button></a><br><br>
-               <small>not working? Try copying and pasting the link below into your brower</small><br>
-               <p> here</p>
-               </div>
-                </center>`
-      };
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-          return false;
-        } else {
-          console.log('Email sent: ' + info.response);
-          return true;
-        }
-      });
-}
+const secret = require('../functions/secret')
+const mailer = require('../functions/mailer');
 
 
 
-exports.signUp = (req,res,next)=>{
+exports.signUp = (req, res, next) => {
+    if((req.body.password =="")){
+        res.status(203).json({message : "Please provide a password"})
+    }else {
     User.find({email: req.body.email})
-    .exec()
-    .then(user =>{
-        if(user.length>=1){
-            return res.status(409).json({
-                    message: 'email already exist'
-                }   
-            )
-        }else {
-            bcrypt.hash(req.body.password,10, (err, hash)=>{
-                if(err){
-                   return res.status(500).json({err:err});
-                }else {
-                    const user = new User({
-                        name:req.body.name,
-                        email: req.body.email,
-                        verified:false,
-                        status:true,
-                        password:hash
-                    })
-                    user.save()
-                    .then(docs =>{
-                        subscriberAdded(user.email)
-                        return res.status(201).json({
-                            message: 'User created successfully',
-                            email: docs.email,
-                            verified: docs.verified,
-                            request: {
-                                type: 'GET',
-                                url: 'http://localhost:500/users/' + docs.email
-                            }
+        .then(user => {
+            if (user.length >= 1)   res.status(201).json({message: 'email already exist'})
+            else {
+                User.find({username:req.body.username})
+                .then(username=>{
+                    if(username.length>=1) res.status(202).json({message: 'Username already exist'})
+                })
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    if (err)  res.status(205).json({ err: err}); 
+                    else {
+                        const user = new User({
+                            _id: new mongoose.Types.ObjectId(),
+                            email: req.body.email,
+                            username: req.body.username,
+                            password: hash,
+                            verified: false,
+                            status: false 
                         })
-                     
-                    })
-                    .catch(err =>{
-                        res.status(500).json({
-                            ErrMessage: 'Sorry error occur',
-                            err: err
-                        });
-                    })
-                
-                }
-    
-            
-            })
-        }
-    })
-       
-}
+                            user.save(function(err){
+                                if(err){ res.status(203).json({Message: 'email or username invalid'})
+                                }else {mailer.subscriberAdded(user.email, function (error, info) {
+                                        if (error) {
+                                            console.log(error);
+                                            res.status(309).json({
+                                                message: error
+                                            });
+                                        } else {
+                                            console.log('Email sent: ' + info.response);
+                                            res.status(200).json({
+                                                message: 'User created successfully',
+                                                username:user.username,
+                                                email:user.email
+                                            });
+                                        }
+                                    });
+                                }
+                            })
+
+                    }
 
 
-
-
-exports.verify = (req,res,next)=>{
-    var email = req.params.email
-      const user = new User({
-          verified: true
-      })
-      User.find({email})
-      .select('-__v -_id -password')
-      .then(data =>{
-          if(data.length<1){
-              res.status(401).json({message:'email does not exist'})
-          }else{
-              User.update({email},user)
-              .exec()
-              .then(docs =>{
-                  res.status(200).json({
-                      message: 'email verified successfully',
-                      data,
-                      request:{
-                          type:'GET',
-                          url: `http://localhost:3000/user/` 
-                      }
-                  });
-              })
-              .catch(err =>{
-                  res.status(500).json({
-                      error: err
-                  });
-              });
-          }
-      })
-      .catch(err =>{
-          res.status(404).json({message:'Invalid email ID'})
-      });
-      
-  
-  
-}
-
-
-exports.logIn = (req,res,next)=>{
-    User.find({email:req.body.email})
-    .exec()
-    .then(user =>{
-        if(user.length<1){
-            return res.status(401).json( {message:'email incorrect'});
-        }
-        bcrypt.compare(req.body.password, user[0].password, (err, result)=>{
-
-            if(err){
-                return res.status(401).json({
-                    message: 'password is incorrect'
                 })
             }
-            if(result){
-               const token = jwt.sign({
-                    email: user[0].email,
-                    id: user[0]._id
-                }, 
-                `${key.secretkey()}`,
-            );
-               return res.status(200).json({
-                    message:'login successful',
-                    token,
-
-                });
-            }
-            res.status(401).json({
-                message:'password is incorrect'
-            })
         })
-    })
-    .catch(err =>{
-        res.status(500).json({
-            error: err
-        });
-    })
+    }
 }
+
+
+exports.verify = (req, res, next) => {
+    var email = req.params.email
+    const user = new User({
+        verified: true,
+        status: true
+    })
+    User.find({email})
+        .then(data => {
+            if (data.length < 1) {
+                res.status(401).json({message: 'email does not exist'})
+            } else {
+                User.update({email}, user)
+                    .exec()
+                    .then(docs => {
+                        res.status(200).json({ message: 'email verified successfully',});
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err});
+                     });
+            }
+        })
+        .catch(err => {
+            res.status(404).json({ message: 'Invalid email ID'})
+        });
+}
+
+
+
+
+exports.logIn = (req, res, next) => {
+    if((req.body.password != '') && (req.body.email != '')){
+        User.findOne({email: req.body.email}).select('email password verified')
+        .exec(function(err, Currentuser){
+                if (Currentuser == null){
+                res.status(201).json({message : "email does not exist"});
+                }
+                else{
+                    u = Currentuser
+                    if(u.verified == false){
+                        res.status(205).json({message : "please verify your email to login"});
+                    }else {
+                    var validPassword =  bcrypt.compareSync(req.body.password, Currentuser.password);
+                    if(!validPassword){
+                        res.status(202).json({message : "email or password invalid"});
+                    }
+                    else{
+                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"}) 
+                        res.status(200).json({message : "Login Successful", token : token});
+                    }
+                }
+            }
+            
+            })
+    }else{
+        res.status(203).json({message : "Please provide an email and a password"});
+
+    }   
+}
+
 
 exports.getMovies = function(req, res){
     var user = new ObjectID(req.body.user)
@@ -206,3 +153,4 @@ exports.getMovies = function(req, res){
     })
 
 }
+
