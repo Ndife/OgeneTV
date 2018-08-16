@@ -4,9 +4,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const Mongoose = require('mongoose');
-const passport = require('passport');
 const keys = require('./config/key');
-const cookieSession = require('express-session');
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -47,26 +45,6 @@ app.get('/', function(req, res){
     res.json({message:"hello world"});
 });
 
-
-//require('./auth')(passport);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
- app.use(cookieSession({
-     secret:'compare me',
-     resave:false,
-     saveUninitialized:false
- }));
-// Cookie-Session
-app.use(cookieSession({
-    maxAge: 24 * 60 ^ 60 * 1000,
-    keys: [keys.session.cookiekey],
-    secret: keys.secret.word,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: true}
-}));
 
 app.set('view engine', 'ejs');
 
