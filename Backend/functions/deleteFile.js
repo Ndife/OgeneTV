@@ -1,6 +1,6 @@
 var fs = require('fs');
 var multer = require('multer');
-var Movie = require('./models/movies');
+var Movie = require('../models/movies');
 
 var deleteFilePath = function(req, res, movie){
         fs.unlink(movie.image, (err) => {

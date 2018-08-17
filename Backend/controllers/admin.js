@@ -1,6 +1,5 @@
 const model = require('../models/admin');
 const bcrypt = require('bcrypt');
-var nodemailer = require('nodemailer');
 var user = require('../models/users');
 var admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
@@ -17,57 +16,24 @@ exports.adminSignUp = function (req, res) {
                     return res.json({ err: err, message: 'Error creating Password !!' });
                 var details = {
                     email: req.body.email,
-                    name: req.body.name,
-                    password: hash
 
                 }
-
-                var transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: 'stilesndife@gmail.com',
-                        pass: 'j0sephbr0'
-                    }
-                });
-                function subscriberAdded(email) {
-                    var mailOptions = {
-                        from: '"OgeneTV"',
-                        to: email,
-                        subject: 'Welcome to OgeneTV Admin Page',
-                        html: `<center><h2><strong></string>Thanks For Signning Up As Admin </strong></h2><center>
-           
-               <p> You Have Successfully Signed Up as OgeneTv Admin  and your Login email is </p>
-               ` + details.email + `            
-               <p> Your Password is</p>
-                ` + req.body.password
-
-
-                    };
-                    transporter.sendMail(mailOptions, function (error, info) {
-                        if (error) {
-                            console.log(error);
-                            return false;
-                        } else {
-                            console.log('Email sent: ' + info.response);
-                            return true;
-                        }
-                    });
-                }
-
                 model.create(details, function (err) {
                     if (err) res.json({ err: err, message: 'Error During Admin Signup !!' });
-                    res.json({ message: 'Admin Was Created Successfully !!' });
-
-                    subscriberAdded(details.email);
-
+                    mailer.adminAdded(details.email,(err,info)=>{
+                        if(err){
+                            res.json({error:err});
+                        }else {
+                            res.json({ message: 'Admin Was Created Successfully !!' });
+                        }
+                    },details.username);
                 });
-
-
-            })
-        }
+            }) 
+        } 
 
     })
 }
+
 
 exports.AdminGetUser = function (req, res) {
     var mails = { email: req.body.email }
@@ -77,10 +43,9 @@ exports.AdminGetUser = function (req, res) {
         } else {
             res.json({ err: err, message: 'user was not found' });
         }
-
     })
-
 }
+
 exports.AdminGetAllUsers = function (req, res) {
     user.find({}, function (err, data) {
         if (data.length >= 1) {
@@ -93,17 +58,18 @@ exports.AdminGetAllUsers = function (req, res) {
 
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
-    user.findByIdAndUpdate(userId, { status: false }, function (err, datas) {
-        if (datas) res.json({ err: err, message: 'User Has Been Blocked till Further Notice !!' })
+
+    user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
+        if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
         res.json({ err: err, message: 'Error Blocking User' });
     })
 }
 
-exports.UnBlockUser = function (req, res) {
+exports.unBlockUser = function (req, res) {
     var userId = { _id: req.params.id }
     user.findByIdAndUpdate(userId, { status: true }, function (err, data) {
-        if (data) res.json({ err: err, message: 'User Has Been UnBlocked!!' })
-        res.json({ err: err, message: 'Error Blocking User' });
+        if (data) res.json({message: 'User Has Been UnBlocked!!' })
+        res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
 exports.AdminLogin = function(req , res){
