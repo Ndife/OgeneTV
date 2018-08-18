@@ -17,9 +17,9 @@ exports.signUp = (req, res, next) => {
         .then(user => {
             if (user.length >= 1)   res.status(201).json({message: 'email already exist'})
             else {
-                User.find({username:req.body.username})
-                .then(username=>{
-                    if(username.length>=1) res.status(202).json({message: 'Username already exist'})
+                User.find({name:req.body.name})
+                .then(name=>{
+                    if(name.length>=1) res.status(202).json({message: 'Username already exist'})
                 })
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err)  res.status(205).json({ err: err}); 
@@ -27,7 +27,7 @@ exports.signUp = (req, res, next) => {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId(),
                             email: req.body.email,
-                            username: req.body.username,
+                            name: req.body.name,
                             password: hash,
                             verified: false,
                             status: false 
@@ -137,9 +137,18 @@ exports.UserAddMovie = function(req, res){
                         res.json({err:err, message:'Movie Already Exists In Library!!'})
 
                     }else{
-                    data.movies.push(data2._id)
-                    data.save()
-                    res.json({message:'Movie Purchase Successful'})
+                        movieModel.findByIdAndUpdate(data2,{$inc:{downloads:1}},function(err, result){
+                            if(result){
+                                data.movies.push(data2._id)
+                    
+                                data.save()
+                                res.json({message:'Movie Purchase Successful'})
+
+                            }else{
+                                res.json({err:err, message:'Error Occured While Getting Movies !!'})
+                            }
+                        })
+                   
                     }
 
                 }
