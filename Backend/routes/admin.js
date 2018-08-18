@@ -6,5 +6,7 @@ router.post('/login', adminControllers.AdminLogin);
 router.post('/getUser', adminControllers.AdminGetUser);
 router.get('/getUsers', adminControllers.AdminGetAllUsers);
 router.get('/blockUser/:id', adminControllers.BlockUser);
-router.get('/UnblockUser/:id', adminControllers.UnBlockUser);
+router.get('/UnblockUser/:id', adminControllers.unBlockUser);;
+
+
 module.exports = router;
