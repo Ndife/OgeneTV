@@ -1,0 +1,72 @@
+.wrapper{
+background-image: url('../components/assets/ogenetv.jpg');
+/* background-repeat: no-repeat; */
+background-size: 100%;
+}
+.container{
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.container>div{
+    width: 75%;
+    display: inline-block;
+}
+
+.container-card{
+    vertical-align: top;
+}
+
+.container-card-col{
+    display: inline-block;
+    width: 25% !important;
+    margin-top: 16px;
+}
+.container-card-col1{
+    background-color: white;
+    margin: auto;
+    width: 214px;
+    height: 220px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15PX;
+}
+
+.container-card-xs1{
+    width: 75%;
+    margin: auto;
+    background-color: white;
+    margin: auto;
+    border-radius: 4px;
+    height: 597px;
+    margin-top: 30px;
+}
+
+.container-box{
+    outline: 1px solid black;
+    display: inline-flex;
+    width: 100%;
+}
+
+/* .container-box>div{
+    width: 30%;
+} */
+
+.like-btn{
+    outline: 1px solid black;
+    padding-top: 20px;
+    width: 30%;
+    padding-left: 15px;
+}
+.movie-title{
+    outline: 1px solid black;
+    text-align: center;
+    color: #049ee1;
+    width: 60%;
+}
+.rent-btn{
+    outline: 1px solid black;
+    width: 25%;
+    padding-top: 17px;
+    padding-right: 15px;
+    
+}
