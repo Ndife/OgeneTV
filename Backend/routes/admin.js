@@ -4,10 +4,10 @@ var adminControllers = require('../controllers/admin');
 
 
 router.post('/signUp', adminControllers.adminSignUp);
-router.get('/getUser', adminControllers.getUser);
-router.get('/getUsers', adminControllers.adminGetAllUsers);
+router.post('/getUser', adminControllers.getUser);
+router.get('/getUsers', adminControllers.getAllUsers);
 router.post('/getAdmin', adminControllers.getAdmin);
 router.get('/blockUser/:id', adminControllers.BlockUser);
 router.get('/unblockUser/:id', adminControllers.unBlockUser);
 
-module.exports = router;
+module.exports = router; 

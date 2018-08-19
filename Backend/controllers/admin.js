@@ -15,7 +15,7 @@ exports.adminSignUp = function (req, res) {
         } else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if (err)
-                    return res.json({message: 'Error creating Password !!' });
+                    return res.json({message: 'Error creating Password !!' }); 
                 var details = {
                     email: req.body.email,
                     username: req.body.username,
@@ -23,7 +23,7 @@ exports.adminSignUp = function (req, res) {
                 }
                 model.create(details, function (err) {
                     if (err) res.json({message: 'Error During Admin Signup !!' });
-                    mailer.adminAdded(details.email,(err,info)=>{
+                    mailer.adminAdded(details.email,(err,info)=>{ 
                         if(err){
                             res.json({error:err});
                         }else {
@@ -35,6 +35,19 @@ exports.adminSignUp = function (req, res) {
         } 
 
     })
+}
+
+
+
+exports.getAdmin = function (req, res) {
+    var query = { email: req.body.email }
+    admin.findOne(query,(err,user)=>{
+        
+        if(user!=null) {res.json({message:user})}
+        else {
+             res.json({Error:'email not found'});
+        }
+    });
 }
 
 
@@ -51,24 +64,17 @@ exports.getUser = function (req, res) {
     })
 }
 
-exports.adminGetAllUsers = function (req, res) {
+exports.getAllUsers = function (req, res) {
     user.find({}, function (err, data) {
         if (data.length >= 1) {
-            res.json({ err: err, message: data })
+            res.json({message: data })
         } else {
-            res.json({ err: err, message: 'No Users Found !!' })
+            res.json({message: 'No Users Found !!' })
         }
     })
 }
 
-exports.getAdmin = function (email, callback) {
-    var query = { email: email }
-    admin.findOne(query, callback);
-}
 
-exports.getAdminByid = function (id, callback) {
-    admin.findById(id, callback);
-}
 
 exports.decrypt = function (candidatePassword, hash, callback) {
     bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
