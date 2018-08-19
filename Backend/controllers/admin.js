@@ -15,7 +15,7 @@ exports.adminSignUp = function (req, res) {
         } else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if (err)
-                    return res.json({message: 'Error creating Password !!' }); 
+                    return res.json({message: 'Error creating Password !!' });
                 var details = {
                     email: req.body.email,
                     username: req.body.username,
@@ -23,7 +23,7 @@ exports.adminSignUp = function (req, res) {
                 }
                 model.create(details, function (err) {
                     if (err) res.json({message: 'Error During Admin Signup !!' });
-                    mailer.adminAdded(details.email,(err,info)=>{ 
+                    mailer.adminAdded(details.email,(err,info)=>{
                         if(err){
                             res.json({error:err});
                         }else {
@@ -50,6 +50,12 @@ exports.getAdmin = function (req, res) {
     });
 }
 
+exports.getAllAdmin = function(req,res){
+    admin.find({},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json({message:data});
+    })
+}
 
 
 // USERS/CLIENT METHODS.
@@ -75,19 +81,11 @@ exports.getAllUsers = function (req, res) {
 }
 
 
-
-exports.decrypt = function (candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-        if (err) throw err
-        callback(null, isMatch);
-    });
-}
-
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
     user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
         if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
-        res.json({ err: err, message: 'Error Blocking User' });
+        res.json({message: 'Error Blocking User' });
     })
 }
 
