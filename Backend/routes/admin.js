@@ -9,5 +9,6 @@ router.get('/getUsers', adminControllers.getAllUsers);
 router.post('/getAdmin', adminControllers.getAdmin);
 router.get('/blockUser/:id', adminControllers.BlockUser);
 router.get('/unblockUser/:id', adminControllers.unBlockUser);
+router.get('/getAllAdmin',adminControllers.getAllAdmin);
 
 module.exports = router; 
