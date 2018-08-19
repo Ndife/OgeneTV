@@ -8,6 +8,7 @@ text-align: center;
 border: 2px solid #2db1ef;
 margin-right: 2px;
 color: white;
+margin-right: 15px;
 }
 
 .search-input:hover,
@@ -15,3 +16,4 @@ color: white;
     height: 30px;
 width: 120px;
 }
+

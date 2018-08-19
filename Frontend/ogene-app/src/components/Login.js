@@ -75,6 +75,8 @@ class Login extends React.Component {
       if (res.status === 200){
         console.log(res)
         console.log(res.data.message);
+        sessionStorage.setItem('user', res.data.token);
+        console.log( sessionStorage.getItem('user'))
         this.props.history.push('/')
       }
       })

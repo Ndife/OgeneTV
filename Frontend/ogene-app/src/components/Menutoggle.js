@@ -18,15 +18,17 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
   },
   btn:{
-    border: '2px solid #5858f3',
+    // border: '2px solid #5858f3',
     borderBottomRightRadius: "10PX",
     borderTopLeftRadius: "10px",
-    backgroundColor: "#5858f3",
+    // backgroundColor: "#5858f3",
     height: '33px',
     fontSize: '13px',
     minWidth: '50px',
     minHeight: '18px',
     padding: '0',
+    backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )',
+    color: '#FFFFFF',
   }
 });
 

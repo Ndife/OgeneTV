@@ -3,6 +3,7 @@ import Navigation from './Navigation';
 // import RecentMovies from './Recent';
 // import {Link} from 'react-router-dom';
 import './Homepage.css';
+import '../App';
 // import Trends from './Trends';
 import MovieTab from './MovieTabs';
 // import Category from './Category';
@@ -10,7 +11,7 @@ import MovieTab from './MovieTabs';
 
 const Homepage = () =>{
   return(
-    <div>
+    <div className='home'>
       <Navigation/>
       {/* <Category/> */}
       {/* <div className='container-nav'>

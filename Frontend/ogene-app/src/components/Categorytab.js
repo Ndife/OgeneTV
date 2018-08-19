@@ -30,10 +30,18 @@ TabContainer.propTypes = {
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
     width: '92%',
     margin: 'auto'
   },
+
+  navBar:{
+    backgroundColor: '#002f43',
+  },
+
+  typo: {
+    color: 'white'
+  }
 });
 
 class CategoryMoviesTab extends React.Component {
@@ -54,12 +62,13 @@ class CategoryMoviesTab extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="default">
+        <AppBar position="static" color="default" className={classes.navBar}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
             indicatorColor="primary"
-            textColor="primary"
+            // textColor="primary"
+            className={classes.typo}
             fullWidth
           >
             <Tab label="Action" />

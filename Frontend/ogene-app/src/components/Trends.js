@@ -46,10 +46,9 @@ class Trends extends React.Component {
    
     axios.get('https://affiammuta.herokuapp.com/books')
     .then(res => {
-      console.log(res)
-      
-      // this.setState({ movies: res.data.books})
-      // console.log(this.state.movies)
+      console.log(res.data)
+      this.setState({ movies: res.data})
+      console.log(this.state.movies)
     })
   }
   handleChange = key => (event, value) => {
@@ -71,7 +70,9 @@ class Trends extends React.Component {
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
                 {this.state.movies.map(value => (
                 <Grid key={value} item>
-                    <Paper className={classes.paper} >{value.title}</Paper>
+                    <Paper className={classes.paper} >
+                    <img  src={value.bookImage} alt='nn'/>
+                    </Paper>
                 </Grid>
                 ))}
             </Grid>

@@ -15,8 +15,11 @@ import DramaMovies from './components/SubCategories/Drama';
 import EpicMovies from './components/SubCategories/Epic';
 import HorrorMovies from './components/SubCategories/Horror';
 import RomanceMovies from './components/SubCategories/Romance';
-// import Navigation from './components/Navigation';
-// import './App.css'; 
+import AdminTester from './components/Admintesting/AdminUpload';
+import RentMovies from './components/RentMovies';
+// import GuestRoutes from './components/AuthUser/GuestRoutes';
+import UserRoutes from './components/AuthUser/UserRoutes';
+
 
 class App extends Component {
   state={
@@ -31,7 +34,7 @@ componentDidMount(){
    
       <BrowserRouter>
        
-        <div className="home">  
+        <div >  
         
           <Switch>
             
@@ -48,6 +51,8 @@ componentDidMount(){
             <Route path="/epic" component={EpicMovies}/>
             <Route path="/horror" component={HorrorMovies}/>
             <Route path="/romance" component={RomanceMovies}/>
+            <Route path="/admin" component={AdminTester} exact/>
+            <UserRoutes path="/rent/:id" component={RentMovies} exact/>
             <Route component={Error}/>
             
           </Switch>

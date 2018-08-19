@@ -50,6 +50,7 @@ class Signup extends React.Component {
    constructor(props){
        super(props)
        this.state = {
+         username: "",
         email: "",
         password:"",
         loading: false,
@@ -70,13 +71,14 @@ class Signup extends React.Component {
         let data = {...this.state}
         console.log(data)
 
-      axios.post("https://ogenetv.herokuapp.com/users/signUp", data)
+      axios.post("https://ogene.herokuapp.com/users/signUp", data)
       .then(res =>{
         console.log(res.data.message)
         
         if (res.status === 200){
           console.log(res)
           console.log(res.data.message);
+          sessionStorage.setItem('user', res.data.token);
           this.props.history.push('/')
         }
         // if(res.status == 409){

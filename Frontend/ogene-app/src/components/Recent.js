@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import './Recent.css';
+import {Link} from 'react-router-dom';
 // import Homepage from './Homepage';
 
 const styles = theme => ({
@@ -27,11 +28,15 @@ const styles = theme => ({
     flexBasis: 'auto!important',
   },
   paper: {
-    height: 220,
+    height: 260,
     width: 214,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
+    backgroundColor: '#000',
+    boxShadow: '4px 4px 8px 0 rgba(20, 13, 13, 0.2)',
+    cursor: 'pointer',
   },
+  
   control: {
     padding: theme.spacing.unit * 2,
   },
@@ -76,8 +81,31 @@ class RecentMovies extends React.Component {
                 {this.state.movies.map(movie => (
                 <Grid key={movie} item>
                     <Paper className={classes.paper} >
+                        <div className="image-api">
                           <img className="recent-image" src={movie.image_url} alt=''/>
-                          <p>{movie.title}</p>
+                        </div>
+                          <div className="items">
+                            <div className="sub-items">
+                              <p>{movie.title.length < 20 ? `${movie.title}`: `${movie.title.substring(0, 25)}...`}</p>
+                            </div>
+                            <div className='star-rating'>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
+                            </div>
+                            <div className='rating'>
+                              <div className='sub-item2'>
+                              <i className="fa fa-heart"></i>
+                              </div>
+                              <div className="sub-item1">
+                                <Link to={{
+                                    pathname: `/rent/${movie.recipe_id}`,
+                                    state: { movies: movie.title}
+                                    }}><button className='view-btn'>More Details</button>
+                                  </Link>
+                              </div>
+                            </div>
+                          </div>
                     </Paper>
                 </Grid>
                 ))}

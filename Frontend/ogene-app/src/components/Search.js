@@ -26,7 +26,7 @@ state = {
 
         return(
             <form onSubmit={this.searchMovies}>
-            <input className="search-input" type="search" name='movieName' placeholder="search movies"/>
+            <input className="search-input" type="search" name='movieName' placeholder="search movies" />
             </form>
         );
     }

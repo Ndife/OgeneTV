@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 // import Navigation from '../Navigation';
 // import {Link} from 'react-router-dom';
 import '../Homepage.css';
+import '../Recent.css';
+import {Link} from 'react-router-dom';
 // import Homepage from './Homepage';
 
 const styles = theme => ({
@@ -25,10 +27,11 @@ const styles = theme => ({
     flexBasis: 'auto!important',
   },
   paper: {
-    height: 220,
-    width: 214,
+    height: 230,
+    width: 193,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
+    backgroundColor: '#000',
   },
   control: {
     padding: theme.spacing.unit * 2,
@@ -52,19 +55,42 @@ class ActionMovies extends React.Component {
     const { spacing } = this.state;
 
     return (
-        <div>
-            {/* <Homepage/> */}
-            <Grid container className={classes.root} spacing={16}>
-                <Grid item xs={6} sm={3} className={classes.cards}>
-                  <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
-                      {this.state.movies.map(value => (
-                      <Grid key={value} item>
-                          <Paper className={classes.paper}>{value}</Paper>
-                      </Grid>
-                      ))}
-                  </Grid>
+      <div>
+      <Grid container className={classes.root} spacing={16}>
+            <Grid item xs={6} sm={3} className={classes.cards}>
+            <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
+                {this.state.movies.map(movie => (
+                <Grid key={movie} item>
+                    <Paper className={classes.paper} >
+                        <div className="image-api">
+                          <img className="recent-image" src={movie} alt=''/>
+                        </div>
+                          <div className="items">
+                            <div className="sub-items">
+                              {/* <p>{movie.title.length < 20 ? `${movie.title}`: `${movie.title.substring(0, 25)}...`}</p> */}
+                            </div>
+                            <div>
+                              <p>producer </p>
+                            </div>
+                            <div className='rating'>
+                              <div className='sub-item2'>
+                                <p>price </p>
+                              </div>
+                              <div className="sub-item1">
+                                <Link to={{
+                                    pathname: `/rent/${movie.recipe_id}`,
+                                    state: { movies: movie.title}
+                                    }}><button className='view-btn'>More Details</button>
+                                  </Link>
+                              </div>
+                            </div>
+                          </div>
+                    </Paper>
                 </Grid>
+                ))}
             </Grid>
+            </Grid>
+      </Grid>
       </div>
     );
   }
