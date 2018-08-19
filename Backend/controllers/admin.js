@@ -65,6 +65,7 @@ exports.searchAdmin = function(req,res){
     })
 }
 
+
 // USERS/CLIENT METHODS.
 exports.getUser = function (req, res) {
     var mails = { email: req.body.email }
@@ -74,6 +75,14 @@ exports.getUser = function (req, res) {
         } else {
             res.json({message: 'user was not found' });
         }
+    })
+}
+
+exports.searchUser = function(req,res){
+    var value = req.params.value;
+    user.find({"title":{$regex: value, $options: 'i'}},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json(data);
     })
 }
 
