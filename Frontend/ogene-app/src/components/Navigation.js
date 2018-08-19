@@ -48,7 +48,7 @@ const Navigation = (props, isAuthenticated) =>{
           <Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link>
           </Typography>
           <Search/>
-         <Link to="/"><button onClick={ () => Logout()}>logout</button></Link>
+         <Link to="/"><button className='logout' onClick={ () => Logout()}>LOGOUT</button></Link>
         </Toolbar>
       </AppBar>
     </div>

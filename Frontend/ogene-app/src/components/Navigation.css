@@ -9,3 +9,14 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+
+  .logout{
+    height: 26px;
+    background-image: linear-gradient(to right, #049EE1, #312783 );
+    cursor: pointer;
+    color: white;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10PX;
+    /* border-color: #5858f3; */
+    border: none;
+  }
