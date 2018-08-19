@@ -10,5 +10,7 @@ router.post('/getAdmin', adminControllers.getAdmin);
 router.get('/blockUser/:id', adminControllers.BlockUser);
 router.get('/unblockUser/:id', adminControllers.unBlockUser);
 router.get('/getAllAdmin',adminControllers.getAllAdmin);
+router.get('/searchAdmin/:value',adminControllers.searchAdmin);
+
 
 module.exports = router; 
