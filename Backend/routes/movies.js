@@ -11,11 +11,11 @@ router.get('/', movieController.getAllMovies);
 //DELETE a movie by passing its Id
 router.get('/delete/:id', movieController.deleteMovie);
 //POST an update to a movie by passing its Id
-router.post('/:id', movieController.updateMovie);
+router.post('/find/:id', movieController.updateMovie);
 //GET a particular movie by any param eg name, producer
 router.get('/get', movieController.getByParam);
 
-router.get('/search/:value', movieController.searchMovie);
+router.post('/search', movieController.searchMovie);
 //GET a movie by its Id
 router.get('/find/:id', movieController.getById);
 
