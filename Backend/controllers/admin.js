@@ -2,8 +2,8 @@ const model = require('../models/admin');
 const bcrypt = require('bcrypt');
 var user = require('../models/users');
 var admin = require('../models/admin');
-var mailer = require('../functions/mailer');
-
+const jwt = require('jsonwebtoken');
+const key = require('../secretKey');
 
 
 
@@ -135,22 +135,33 @@ exports.unBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
-// exports.AdminLogin = function(req , res){
-//     var email = {email:req.body.email}
-//     admin.findOne(email , function(err , result){
-//         if(result){
-//             bcrypt.compare(req.body.password , result[0].password, function(err, rest){
-//                 if(rest){
-//                     res.json({message:'login Successful !!'})
-//                 }else{
-//                     res.json({message:'Admin username or password is Incorrect !!'})
-//                 }
-//             } )
-//         }else{
-//             res.json({message:'Admin Email Or Password Does Not Exist !!'})
-//         }
-//     })
-// }
+exports.AdminLogin = function(req , res){
+    var email = {email:req.body.email}
+    admin.find(email , function(err , result){
+        if(result.length>=1){
+            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+                if(rest){
+                          const token = jwt.sign({
+                             email: result[0].email,
+                             id: result[0]._id
+                         }, 
+                         `${key.secretkey()}`,
+                     );
+                        return res.status(200).json({
+                             message:'login successful',
+                             token,
+         
+                         });
+                     
+                }else{
+                    res.json({message:'Admin username or password is Incorrect !!'})
+                }
+            } )
+        }else{
+            res.json({message:'Admin Email Or Password Does Not Exist !!'})
+        }
+    })
+}
 
 exports.deleteUser = function(req,res){
     var query = {_id:req.params.id};

@@ -121,8 +121,7 @@ exports.logIn = (req, res, next) => {
     }   
 }
 
-
-exports.getMovies = function(req, res){
+exports.UserAddMovie = function(req, res){
     var user = new ObjectID(req.body.user)
     var movie = new ObjectID (req.body.movie)
     User.findById({_id:user}, function(err, data){
@@ -154,3 +153,12 @@ exports.getMovies = function(req, res){
 
 }
 
+exports.UserWatchMovie = function(req, res){
+    var id= req.params.id
+    User.findById(id, function(err, data){
+        console.log(err)
+        if(err)res.json({message:"an error occures"})
+        res.json(data.movies)
+    }).populate('movies')
+
+}

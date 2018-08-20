@@ -15,4 +15,4 @@ var movieSchema = mongoose.Schema({
     videoID: String
 })
 
-module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.model('movie', movieSchema);
