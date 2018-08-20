@@ -18,6 +18,6 @@ exports.delete = function(publicId){
     return new Promise(resolve => {
         cloudinary.uploader.destroy(publicId, function(result){
             resolve(result);
-        })
+        }, {resource_type: "auto"})
     })
 }

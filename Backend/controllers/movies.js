@@ -7,7 +7,6 @@ exports.addMovie = function(req, res, next){
     try {
     Movie.find({title: req.body.title}, function(err, movie){
         if (movie.length){
-            console.log(movie);
             res.status(409).json({message: 'Movie has been uploaded before'})
         } else if (req.files.length != 2){
             return res.json({mesage: 'Please upload both image and video files'})
@@ -86,7 +85,7 @@ exports.getById = function(req, res, next){
         } else {
                res.status(401).json({message: 'No valid entry for required Id'});
         }
-    })
+    });
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -126,7 +125,7 @@ exports.updateMovie = function(req, res){
 
 exports.searchMovie = function(req, res){
     try {
-        var value= req.params.value;
+        var value= req.body.title;
         Movie.find({"title":{$regex: value, $options: 'i'}}, '-__v', function(err, movie){
             if (err) {
                 res.json({err:err, message:'sorry, could not find movie'})
@@ -157,7 +156,7 @@ exports.deleteMovie = function(req, res, next){
                                 }else{
                                     res.status(200).json({message: 'The movie was deleted'});
                                 }
-                                })
+                            })
                         })
                     })
                 }
@@ -168,4 +167,21 @@ exports.deleteMovie = function(req, res, next){
     }catch (exception) {
         console.log('Error: ' + exception);
     } 
+}
+
+exports.sortRecent = function(req, res, next){
+    try {
+        //var count = req.query.count;
+        var value = Number.parseInt(req.query.value);
+        Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
+        .exec((err, movies) => {
+            if(err){
+                res.status(500).json({Error: err})
+            } else {
+                res.status(200).json({message: movies});
+            }
+        })
+    } catch (exception) {
+        console.log('Error: ' + exception)
+    }
 }
