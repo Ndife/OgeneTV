@@ -182,10 +182,8 @@ exports.UserDeleteMovie = function(req, res){
                 if(err){
                     res.json({err:err,message:'Error Encountered While '})
                 }else if(data){
-                    //checking if the user movies id is the same with the id in the movie table
-                if(JSON.stringify(user.movies).includes(JSON.stringify(data._id))){
-                movieModel.findByIdAndUpdate(data,{$inc:{downloads:-1}}, function(err , ans){
-                    if(ans){
+                    //checking if the user movies id is the same with the id in the movie tablry
+             
                         //findng the user movie id in the user table
                         let movieIndex = user.movies.findIndex(function(movie) {
                             return movie._id == data._id || movie._id == JSON.stringify(data._id);
@@ -195,13 +193,8 @@ exports.UserDeleteMovie = function(req, res){
                         user.save();
 
                         res.json({message:'user Successfully Deleted Movies '})
-                    }else{
-                        res.json({err:err,message:'Deletion Not Successfully '})
-                    }
-                })
-            }else{
-                res.json({message:'User Does Not Have Such Movies To Delete !!'})
-            }
+                
+           
                 }else{
                     res.json({err:err, message:'Video Not Found !!'})
                 }
