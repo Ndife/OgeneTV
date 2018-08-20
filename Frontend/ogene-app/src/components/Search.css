@@ -2,7 +2,7 @@
 border-bottom-right-radius: 10px;
 border-top-left-radius: 10px;
 height: 30px;
-width: 60px;
+width: 120px;
 background-color: transparent;
 text-align: center;
 border: 2px solid #2db1ef;
@@ -11,9 +11,9 @@ color: white;
 margin-right: 15px;
 }
 
-.search-input:hover,
+/* .search-input:hover,
 .search-input:focus{
     height: 30px;
 width: 120px;
-}
+} */
 

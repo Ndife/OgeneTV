@@ -32,17 +32,20 @@ background-size: 100%;
 }
 
 .container-card-xs1{
-    width: 75%;
+    width: 70%;
     margin: auto;
     background-color: white;
     margin: auto;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     height: 597px;
     margin-top: 30px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10PX;
+    font-family: roboto;
 }
 
 .container-box{
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     display: inline-flex;
     width: 100%;
 }
@@ -52,21 +55,34 @@ background-size: 100%;
 } */
 
 .like-btn{
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     padding-top: 20px;
     width: 30%;
     padding-left: 15px;
+    color: #049ee1;
 }
 .movie-title{
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     text-align: center;
     color: #049ee1;
     width: 60%;
 }
 .rent-btn{
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     width: 25%;
     padding-top: 17px;
     padding-right: 15px;
     
+}
+.rent-image{
+    width: '100%'; 
+    border-radius: '4px';
+    height: 423px
+}
+.rating-color{
+    color: #FF0404;
+}
+.rent-details{
+    text-align: center;
+    font-size: 20px;
 }

@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 // import rejected from './assets/rejected.jpg';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import like from './assets/like.png';
+// import like from './assets/like.png';
 import axios from 'axios';
 
 const styles = theme =>({
@@ -16,10 +16,12 @@ const styles = theme =>({
     borderTopLeftRadius: "10px",
     backgroundColor: "#5858f3",
     width: 18,
+    backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )',
+    color: '#FFFFFF'
   },
 });
 
-const Api_key = 'd013a387b3c354c8c90a27a0d125b352';
+const Api_key = 'a7d7788c2a57044879237c810d135ba0';
 
 class RentMovies extends Component{
   state ={
@@ -29,11 +31,10 @@ class RentMovies extends Component{
 
   componentDidMount(){
     const title = this.props.location.state.movies
-    axios.get(`https://cors-anywhere.herokuapp.com/food2fork.com/api/search?key=${Api_key}&
-    q=${title}`)
+    axios.get(`https://api.themoviedb.org/3/search/movie?query=${title}&api_key=${Api_key}`)
     .then(res => {
-      console.log(res.data.recipes[0])
-      this.setState({ activeMovie: res.data.recipes[0]})
+      console.log(res.data.results[0])
+      this.setState({ activeMovie: res.data.results[0]})
       console.log(this.state.activeMovie)
     })
     
@@ -49,20 +50,32 @@ class RentMovies extends Component{
         <div className='container'>
             <div className='container-card'>
               <div className='container-card-xs1'>
-              <img src={film.image_url} alt="film" style={{width: '100%', borderRadius: '4px'}}/>
-              <div className='container-box'>
-                <div className='like-btn'>
-                  <img src={like} alt='like'style={{height: '30px'}}/>
+                <div className='rent-image'>
+                  <img src={film.poster_path} alt="film" style={{width: '100%', borderRadius: '4px', height: '423px'}}/>
                 </div>
-                <div className='movie-title'>
-                  <p>{film.title}</p>
+                <div className='container-box'>
+                  <div className='like-btn'>
+                    {/* <img src={like} alt='like'style={{height: '30px'}}/> */}
+                    <i className='fa fa-heart' style={{height: '30px'}}></i>
+                  </div>
+                  <div className='movie-title'>
+                    <p>{film.title}</p>
+                    <i className='fa fa-star rating-color'></i> <i className='fa fa-star rating-color'></i>
+                    <i className='fa fa-star rating-color'></i><i className='fa fa-star rating-color'></i>
+                    <i className='fa fa-star rating-color'></i> 
+                  </div>
+                  <div className='rent-btn'>
+                    <Button variant="contained" color="primary" className={classes.button} type="submit">
+                      Rent
+                    </Button>
+                  </div>
+                  <br/>
                 </div>
-                <div className='rent-btn'>
-                  <Button variant="contained" color="primary" className={classes.button} type="submit">
-                    Rent
-                  </Button>
-                </div>
-              </div>
+                  <div className='rent-details'>
+                    <p>
+                      {film.overview}
+                    </p>
+                  </div>
               </div>
             </div>
             <div className='container-card-col'>

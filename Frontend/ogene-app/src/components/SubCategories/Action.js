@@ -55,7 +55,7 @@ class ActionMovies extends React.Component {
     const { spacing } = this.state;
 
     return (
-      <div>
+       <div>
       <Grid container className={classes.root} spacing={16}>
             <Grid item xs={6} sm={3} className={classes.cards}>
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
@@ -63,18 +63,20 @@ class ActionMovies extends React.Component {
                 <Grid key={movie} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie} alt=''/>
+                          <img className="recent-image" src={movie.image_url} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">
                               {/* <p>{movie.title.length < 20 ? `${movie.title}`: `${movie.title.substring(0, 25)}...`}</p> */}
                             </div>
-                            <div>
-                              <p>producer </p>
+                            <div className='star-rating'>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
                             </div>
                             <div className='rating'>
                               <div className='sub-item2'>
-                                <p>price </p>
+                              <i className="fa fa-heart"></i>
                               </div>
                               <div className="sub-item1">
                                 <Link to={{

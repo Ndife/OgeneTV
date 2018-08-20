@@ -42,33 +42,31 @@ const styles = theme => ({
   },
 });
 
-const Api_key = 'd013a387b3c354c8c90a27a0d125b352';
-
+// const Api_key = 'd013a387b3c354c8c90a27a0d125b352';
 class RecentMovies extends React.Component {
   state = {
     spacing: '16',
     movies: []
   };
-
+  
   componentDidMount(){
-   
-    axios.get(`https://cors-anywhere.herokuapp.com/food2fork.com/api/search?key=${Api_key}&
-    q=shredded%20chicken&count=10`)
+    
+    axios.get(`https://api.themoviedb.org/3/search/movie?query=marvel&api_key=a7d7788c2a57044879237c810d135ba0`)
     .then(res => {
       console.log(res)
-      this.setState({ movies: res.data.recipes})
+      this.setState({ movies: res.data.results})
       console.log(this.state.movies)
     })
     
-}
-
-
+  }
+  
+  
   handleChange = key => (event, value) => {
     this.setState({
       [key]: value,
     });
   };
-
+  
   render() {
     const { classes } = this.props;
     const { spacing } = this.state;
@@ -82,7 +80,7 @@ class RecentMovies extends React.Component {
                 <Grid key={movie} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie.image_url} alt=''/>
+                          <img className="recent-image" src={movie.poster_path} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">
@@ -99,7 +97,7 @@ class RecentMovies extends React.Component {
                               </div>
                               <div className="sub-item1">
                                 <Link to={{
-                                    pathname: `/rent/${movie.recipe_id}`,
+                                    pathname: `/rent/${movie.id}`,
                                     state: { movies: movie.title}
                                     }}><button className='view-btn'>More Details</button>
                                   </Link>
