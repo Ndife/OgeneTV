@@ -6,6 +6,7 @@ var mailer = require('../functions/mailer');
 
 
 
+
 // ADMIN METHODS.
 exports.adminSignUp = function (req, res) {    
     var query1 = {username:req.body.username}
@@ -120,6 +121,7 @@ exports.getAllUsers = function (req, res) {
 
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
+
     user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
         if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
         res.json({message: 'Error Blocking User' });
@@ -133,6 +135,22 @@ exports.unBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
+// exports.AdminLogin = function(req , res){
+//     var email = {email:req.body.email}
+//     admin.findOne(email , function(err , result){
+//         if(result){
+//             bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+//                 if(rest){
+//                     res.json({message:'login Successful !!'})
+//                 }else{
+//                     res.json({message:'Admin username or password is Incorrect !!'})
+//                 }
+//             } )
+//         }else{
+//             res.json({message:'Admin Email Or Password Does Not Exist !!'})
+//         }
+//     })
+// }
 
 exports.deleteUser = function(req,res){
     var query = {_id:req.params.id};

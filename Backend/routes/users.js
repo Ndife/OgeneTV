@@ -7,5 +7,6 @@ const checkAuth = require('../functions/check-auth');
 router.post('/signUp',users.signUp);
 router.get('/verify/:email',checkAuth,users.verify);
 router.post('/login', users.logIn);
+router.post('/buy', users.getMovies);
 
 module.exports = router; 

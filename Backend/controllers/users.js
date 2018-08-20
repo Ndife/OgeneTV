@@ -2,8 +2,11 @@ const User = require('../models/users');
 const mongoose = require('mongoose'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const movieModel = require('../models/movies');
+const ObjectID = require('mongoose').Types.ObjectId;
 const secret = require('../functions/secret')
 const mailer = require('../functions/mailer');
+
 
 
 exports.signUp = (req, res, next) => {
@@ -119,4 +122,35 @@ exports.logIn = (req, res, next) => {
 }
 
 
- 
+exports.getMovies = function(req, res){
+    var user = new ObjectID(req.body.user)
+    var movie = new ObjectID (req.body.movie)
+    User.findById({_id:user}, function(err, data){
+        if(data){
+            movieModel.findOne({_id:movie} , function(err, data2){
+                if(!data2){
+                    res.json({err:err, message:'Movies Not Found !!'})
+
+                }else{
+             
+                    
+                    if(JSON.stringify(data.movies).includes(JSON.stringify(data2._id))  ){
+                        res.json({err:err, message:'Movie Already Exists In Library!!'})
+
+                    }else{
+                    data.movies.push(data2._id)
+                    data.save()
+                    res.json({message:'Movie Purchase Successful'})
+                    }
+
+                }
+
+             
+            })
+        }else{
+            res.json({err:err,message:'User Not Found'})
+        }
+    })
+
+}
+
