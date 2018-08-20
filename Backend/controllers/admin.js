@@ -42,7 +42,6 @@ exports.adminSignUp = function (req, res) {
 exports.getAdmin = function (req, res) {
     var query = { email: req.body.email }
     admin.findOne(query,(err,user)=>{
-        
         if(user!=null) {res.json({message:user})}
         else {
              res.json({Error:'email not found'});
@@ -59,11 +58,13 @@ exports.getAllAdmin = function(req,res){
 
 exports.searchAdmin = function(req,res){
     var value = req.params.value;
-    admin.find({"title":{$regex: value, $options: 'i'}},(err,data)=>{
+    admin.find({"title":{$regex: value, $options: "i"}},(err,data)=>{
         if(err) res.json({Error:err});
         res.json(data);
     })
 }
+
+
 
 
 // USERS/CLIENT METHODS.
@@ -112,6 +113,22 @@ exports.unBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
+
+exports.deleteUser = function(req,res){
+    var query = {_id:req.params.id};
+    user.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid user id'});
+    }else if(data.length<1){
+            res.json({message:'user not found'});
+    }else {
+        user.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'User deleted successfully'}) };
+        })
+    }
+    })
+    
+} 
 
 
 
