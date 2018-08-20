@@ -1,6 +1,7 @@
 //This file contains the operations on the model
 var Movie = require('../models/movies');
 var fs = require('fs');
+var cloud = require('../functions/cloudinaryUpload');
 
 exports.addMovie = function(req, res, next){
     try {
@@ -21,16 +22,32 @@ exports.addMovie = function(req, res, next){
                 category: req.body.category,
                 price: req.body.price,
                 image: req.files[0].path,
-                video: req.files[1].path
+                imageID: '',
+                video: req.files[1].path,
+                videoID: ''
             }
-            Movie.create(movie, function(err){
-                if(err){
-                        res.status(500).json({err: err, message: 'Something went wrong'});
-                }else{
-                    console.log(movie);
-                        res.status(201).json({message: 'Movie was added successfully'});
-                }
-             });
+            cloud.upload(movie.image).then((result) => {
+                movie.image = result.url;
+                movie.imageID = result.Id;
+                //console.log(movie.video);
+                cloud.upload(movie.video).then((result) => {
+                    movie.video = result.url;
+                    movie.videoID = result.Id;
+                    Movie.create(movie, function(err){
+                        if(err){
+                                res.status(500).json({err: err, message: 'Something went wrong'});
+                        }else{
+                            console.log(movie);
+                                res.status(201).json({message: 'Movie was added successfully'});
+                        }
+                     });
+                }).catch((error)=>{
+                    console.log(error)
+                })
+            }).catch((error) => {
+                console.log(error);
+            })
+           
         }
     })
     } catch (exception) {
@@ -132,24 +149,17 @@ exports.deleteMovie = function(req, res, next){
                 if (err){
                     res.status(404).json({message: 'The required movie does not exist'});
                 }else{
-                fs.unlink(movie.image, (err) => {
-                    if(err){
-                       return 'File not found';
-                    }else{
-                        fs.unlink(movie.video, (err) => {
-                            if(err){
-                              return 'File not found';
-                            }
+                    cloud.delete(movie.imageID).then(() => {
+                        cloud.delete(movie.videoID).then(() => {
+                            Movie.remove(id, function(err){
+                                if(err) {
+                                    res.status(500).json({err: err, message: 'The resource could not be deleted'})
+                                }else{
+                                    res.status(200).json({message: 'The movie was deleted'});
+                                }
+                                })
                         })
-                    }
-                })
-                Movie.remove(id, function(err){
-                if(err) {
-                    res.status(500).json({err: err, message: 'The resource could not be deleted'})
-                }else{
-                    res.status(200).json({message: 'The movie was deleted'});
-                }
-                })
+                    })
                 }
             }else{
                 res.status(404).json({message: 'The movie with required Id not found'});
