@@ -196,7 +196,7 @@ exports.UserDeleteMovie = function(req, res){
 
                         res.json({message:'user Successfully Deleted Movies '})
                     }else{
-                        res.json({err:err,message:'Deletion Not Successful '})
+                        res.json({err:err,message:'Deletion Not Successfully '})
                     }
                 })
             }else{
