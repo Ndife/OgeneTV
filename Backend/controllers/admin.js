@@ -5,63 +5,126 @@ var admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
 const key = require('../secretKey');
 
-exports.adminSignUp = function (req, res) {
-    var mail = { email: req.body.email }
-    model.find(mail, function (err, data) {
-        if (data.length >= 1) {
-            return res.json({ message: 'user already Exists !!' })
-        } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if (err)
-                    return res.json({ err: err, message: 'Error creating Password !!' });
-                var details = {
-                    email: req.body.email,
 
-                }
-                model.create(details, function (err) {
-                    if (err) res.json({ err: err, message: 'Error During Admin Signup !!' });
-                    mailer.adminAdded(details.email,(err,info)=>{
-                        if(err){
-                            res.json({error:err});
-                        }else {
-                            res.json({ message: 'Admin Was Created Successfully !!' });
+
+// ADMIN METHODS.
+exports.adminSignUp = function (req, res) {    
+    var query1 = {username:req.body.username}
+    var query2 = {email:req.body.email};
+    model.find(query1,(err,users)=>{
+        if(users.length >=1){
+            res.json('username already exist');
+        }else {
+            model.find(query2,(err,email)=>{ 
+                if(email.length >=1){
+                    res.json('email already exist');
+                }else {
+                    bcrypt.hash(req.body.password, 10, (err, hash) => {
+                        if (err)
+                            return res.json({message: 'Error creating Password !!' });
+                        var details = {
+                            email: req.body.email,
+                            username: req.body.username,
+                            password: hash,
                         }
-                    },details.username);
-                });
-            }) 
+                        model.create(details, function (err) {
+                            if (err) res.json({message: 'Error During Admin Signup !!' });
+                            mailer.adminAdded(details.email,(err,info)=>{
+                                if(err){
+                                    res.json({error:err});
+                                }else {
+                                    res.json({ message: 'Admin Was Created Successfully !!' });
+                                }
+                            },details.username);
+                        });
+                    }) 
+                }
+            })
         } 
-
     })
 }
 
 
-exports.AdminGetUser = function (req, res) {
+
+exports.getAdmin = function (req, res) {
+    var query = { email: req.body.email }
+    admin.findOne(query,(err,user)=>{
+        if(user!=null) {res.json({message:user})}
+        else {
+             res.json({Error:'email not found'});
+        }
+    });
+}
+
+exports.getAllAdmin = function(req,res){
+    admin.find({},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json({message:data});
+    })
+}
+
+exports.searchAdmin = function(req,res){
+    var value = req.params.value;
+    admin.find({"username":{$regex: value, $options: "i"}},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json(data);
+    })
+}
+
+exports.deleteAdmin = function(req,res){
+    var query = {_id:req.params.id};
+    admin.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid Admin id'})
+    }else if(data.length<1){
+            res.json({message:'Admin not found'});
+    }else {
+        admin.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'Admin deleted successfully'}) };
+        })
+    }
+    })
+}
+
+
+
+// USERS/CLIENT METHODS.
+exports.getUser = function (req, res) {
     var mails = { email: req.body.email }
     user.find(mails, function (err, dat) {
         if (dat.length >= 1) {
             res.json({ message: dat });
         } else {
-            res.json({ err: err, message: 'user was not found' });
+            res.json({message: 'user was not found' });
         }
     })
 }
 
-exports.AdminGetAllUsers = function (req, res) {
+exports.searchUser = function(req,res){
+    var value = req.params.value;
+    user.find({"username":{$regex: value, $options: 'i'}},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json(data);
+    })
+}
+
+exports.getAllUsers = function (req, res) {
     user.find({}, function (err, data) {
         if (data.length >= 1) {
-            res.json({ err: err, message: data })
+            res.json({message: data })
         } else {
-            res.json({ err: err, message: 'No Users Found !!' })
+            res.json({message: 'No Users Found !!' })
         }
     })
 }
+
 
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
 
     user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
         if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
-        res.json({ err: err, message: 'Error Blocking User' });
+        res.json({message: 'Error Blocking User' });
     })
 }
 
@@ -114,6 +177,22 @@ exports.SearchUser = function(req,res){
 
     })
 }
+
+exports.deleteUser = function(req,res){
+    var query = {_id:req.params.id};
+    user.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid user id'});
+    }else if(data.length<1){
+            res.json({message:'user not found'});
+    }else {
+        user.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'User deleted successfully'}) };
+        })
+    }
+    })
+    
+} 
 
 
 
