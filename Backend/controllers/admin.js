@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 var user = require('../models/users');
 var admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
-const key = require('../secretKey');
+const key = require('../functions/secret');
 
 
 
