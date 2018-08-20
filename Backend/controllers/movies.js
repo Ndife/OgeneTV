@@ -63,10 +63,10 @@ exports.getAllMovies = function(req, res, next){
             }else if(movies.length == 0){
                 res.status(200).json({message: 'List of movies is empty'})
             }else{
-                showMovies = movies && movies.length< 11;
+                
                 res.status(200).json({
                     count: movies.length,
-                    movies: showMovies
+                    movies,
                 })
             }    
     })
