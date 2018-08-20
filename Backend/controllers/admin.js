@@ -58,7 +58,7 @@ exports.getAllAdmin = function(req,res){
 
 exports.searchAdmin = function(req,res){
     var value = req.params.value;
-    admin.find({"title":{$regex: value, $options: "i"}},(err,data)=>{
+    admin.find({"username":{$regex: value, $options: "i"}},(err,data)=>{
         if(err) res.json({Error:err});
         res.json(data);
     })
@@ -95,7 +95,7 @@ exports.getUser = function (req, res) {
 
 exports.searchUser = function(req,res){
     var value = req.params.value;
-    user.find({"title":{$regex: value, $options: 'i'}},(err,data)=>{
+    user.find({"username":{$regex: value, $options: 'i'}},(err,data)=>{
         if(err) res.json({Error:err});
         res.json(data);
     })
