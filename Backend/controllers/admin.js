@@ -7,33 +7,39 @@ var mailer = require('../functions/mailer');
 
 
 // ADMIN METHODS.
-exports.adminSignUp = function (req, res) {
-    var mail = {email: req.body.email}
-    model.find(mail, function (err, data) {
-        if (data.length >= 1) {
-            return res.json({ message: 'email already Exists !!' })
-        } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if (err)
-                    return res.json({message: 'Error creating Password !!' });
-                var details = {
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: hash,
-                }
-                model.create(details, function (err) {
-                    if (err) res.json({message: 'Error During Admin Signup !!' });
-                    mailer.adminAdded(details.email,(err,info)=>{
-                        if(err){
-                            res.json({error:err});
-                        }else {
-                            res.json({ message: 'Admin Was Created Successfully !!' });
+exports.adminSignUp = function (req, res) {    
+    var query1 = {username:req.body.username}
+    var query2 = {email:req.body.email};
+    model.find(query1,(err,users)=>{
+        if(users.length >=1){
+            res.json('username already exist');
+        }else {
+            model.find(query2,(err,email)=>{ 
+                if(email.length >=1){
+                    res.json('email already exist');
+                }else {
+                    bcrypt.hash(req.body.password, 10, (err, hash) => {
+                        if (err)
+                            return res.json({message: 'Error creating Password !!' });
+                        var details = {
+                            email: req.body.email,
+                            username: req.body.username,
+                            password: hash,
                         }
-                    },details.username);
-                });
-            }) 
+                        model.create(details, function (err) {
+                            if (err) res.json({message: 'Error During Admin Signup !!' });
+                            mailer.adminAdded(details.email,(err,info)=>{
+                                if(err){
+                                    res.json({error:err});
+                                }else {
+                                    res.json({ message: 'Admin Was Created Successfully !!' });
+                                }
+                            },details.username);
+                        });
+                    }) 
+                }
+            })
         } 
-
     })
 }
 
