@@ -164,10 +164,53 @@ exports.UserAddMovie = function(req, res){
 
 exports.UserWatchMovie = function(req, res){
     var id= req.params.id
-    User.findById(id, function(err, data){
+    User.findById(id,'_id', function(err, data){
         console.log(err)
         if(err)res.json({message:"an error occures"})
         res.json(data.movies)
     }).populate('movies')
+}
+
+exports.UserDeleteMovie = function(req, res){
+    var user = new ObjectID(req.body.user);
+    var movies = new ObjectID(req.body.movies);
+    User.findById({_id:user},  function(err, user){
+        if(err){
+            res.json({err:err, message:'Error Occured While Finding User !!'})
+        }else if(user){
+            movieModel.findById({_id:movies}, function(err, data){
+                if(err){
+                    res.json({err:err,message:'Error Encountered While '})
+                }else if(data){
+                    //checking if the user movies id is the same with the id in the movie table
+                if(JSON.stringify(user.movies).includes(JSON.stringify(data._id))){
+                movieModel.findByIdAndUpdate(data,{$inc:{downloads:-1}}, function(err , ans){
+                    if(ans){
+                        //findng the user movie id in the user table
+                        let movieIndex = user.movies.findIndex(function(movie) {
+                            return movie._id == data._id || movie._id == JSON.stringify(data._id);
+                        });
+                        //removes the user id from the array object
+                        user.movies.splice(movieIndex, 1);
+                        user.save();
+
+                        res.json({message:'user Successfully Deleted Movies '})
+                    }else{
+                        res.json({err:err,message:'Deletion Not Successful '})
+                    }
+                })
+            }else{
+                res.json({message:'User Does Not Have Such Movies To Delete !!'})
+            }
+                }else{
+                    res.json({err:err, message:'Video Not Found !!'})
+                }
+
+            })
+
+        }else{
+            res.json({err:err, message:'User Not Found'})
+        }
+    })    
 
 }
