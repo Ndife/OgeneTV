@@ -5,7 +5,7 @@ var movieController = require('../controllers/movies');
 var upload = require('../functions/movieUpload')
 
 
-router.post('/', upload.any(), movieController.addMovie);
+router.post('/add', upload.any(), movieController.addMovie);
 //GET all the movies listing
 router.get('/', movieController.getAllMovies);
 //DELETE a movie by passing its Id
@@ -17,6 +17,8 @@ router.get('/get', movieController.getByParam);
 
 router.get('/search/:value', movieController.searchMovie);
 //GET a movie by its Id
-router.get('/:id', movieController.getById);
+router.get('/find/:id', movieController.getById);
+
+router.get('/recent', movieController.sortRecent);
 
 module.exports = router;

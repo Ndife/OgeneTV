@@ -86,10 +86,11 @@ exports.getById = function(req, res, next){
         } else {
                res.status(401).json({message: 'No valid entry for required Id'});
         }
-    })
+    });
     } catch (exception) {
         console.log('Error: ' + exception);
     }
+    //next();
 }
 
 exports.getByParam = function(req, res, next){
@@ -168,4 +169,21 @@ exports.deleteMovie = function(req, res, next){
     }catch (exception) {
         console.log('Error: ' + exception);
     } 
+}
+
+exports.sortRecent = function(req, res, next){
+    try {
+        //var count = req.query.count;
+        var value = Number.parseInt(req.query.value);
+        Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
+        .exec((err, movies) => {
+            if(err){
+                res.status(500).json({Error: err})
+            } else {
+                res.status(200).json({message: movies});
+            }
+        })
+    } catch (exception) {
+        console.log('Error: ' + exception)
+    }
 }
