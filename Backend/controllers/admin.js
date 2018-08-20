@@ -72,6 +72,7 @@ exports.unBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
+
 exports.AdminLogin = function(req , res){
     var email = {email:req.body.email}
     admin.find(email , function(err , result){
@@ -97,6 +98,20 @@ exports.AdminLogin = function(req , res){
         }else{
             res.json({message:'Admin Email Or Password Does Not Exist !!'})
         }
+    })
+}
+exports.SearchUser = function(req,res){
+    var name =  req.body.name
+    user.find({'name':{$regex:name,$options:'i'}},'-__v', function(err, data){
+        if(err){
+            res.json({err:err, message:'Error Encountered In finding USer'})
+        }else if(data.length == 0){
+            res.json({err:err, message:'Could Not Find Movie !!'})
+
+        }else{
+            res.json({data})
+        }
+
     })
 }
 
