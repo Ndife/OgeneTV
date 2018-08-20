@@ -10,9 +10,9 @@ var movieSchema = mongoose.Schema({
     category: {type: String, required: true},
     price: {type: String, required: true},
     image: {type: String, required: true},
-    imageID: {type: String, required: true},
+    imageID: String,
     video: {type: String, required: true},
-    videoID: {type: String, required: true}
+    videoID: String,
 })
 
 module.exports = mongoose.model('movie', movieSchema);
