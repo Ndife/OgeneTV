@@ -64,6 +64,20 @@ exports.searchAdmin = function(req,res){
     })
 }
 
+exports.deleteAdmin = function(req,res){
+    var query = {_id:req.params.id};
+    admin.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid Admin id'})
+    }else if(data.length<1){
+            res.json({message:'Admin not found'});
+    }else {
+        admin.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'Admin deleted successfully'}) };
+        })
+    }
+    })
+}
 
 
 
