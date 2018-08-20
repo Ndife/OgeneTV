@@ -33,7 +33,7 @@ exports.adminAdded = function(email,callback,name) {
         from: '"OgeneTV"',
         to: email,
         subject: 'Welcome to OgeneTV Admin Page',
-        html: `<center><h2><strong></string><p>Dear, ${name}.</p><br>You have successfully signed up for the Admin role in OgeneTV</strong></h2><center>`
+        html: `<center><h2><strong></string><p>Dear, ${name}.</p><br>You have successfully signed up as an Admin in OgeneTV</strong></h2><center>`
  };
  transporter.sendMail(mailOptions, callback);
 }
