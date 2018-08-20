@@ -9,6 +9,7 @@ router.get('/verify/:email', users.verify);
 router.post('/login', users.logIn);
 router.post('/buy', users.UserAddMovie);
 router.get('/view/:id',users.UserWatchMovie);
-//router.post('/buy',user1.getMovies);
+router.post('/delete', users.UserDeleteMovie);
+
 
 module.exports = router;
