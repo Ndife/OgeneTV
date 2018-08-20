@@ -63,9 +63,10 @@ exports.getAllMovies = function(req, res, next){
             }else if(movies.length == 0){
                 res.status(200).json({message: 'List of movies is empty'})
             }else{
+                showMovies = movies && movies.length< 11;
                 res.status(200).json({
                     count: movies.length,
-                    movies: movies
+                    movies: showMovies
                 })
             }    
     })
@@ -116,7 +117,7 @@ exports.updateMovie = function(req, res){
     var update = req.body;
     Movie.findByIdAndUpdate(id, update, function(err){
             if(err) res.status(500).json({err: err, message: 'Update error'});
-            res.status(201).json({message: update});
+            res.status(201).json({message: 'movies updated successfully'});
     })
     } catch (exception) {
         console.log('Error: ' + exception);
