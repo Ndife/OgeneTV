@@ -70,7 +70,7 @@ exports.getAllMovies = function(req, res, next){
                 })
             }    
     })
-    .select('-__v')
+    .select('-__v').limit(20) 
     } catch (exception) {
         console.log('Error: ' + exception);
 }
