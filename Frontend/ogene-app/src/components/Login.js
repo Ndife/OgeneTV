@@ -10,6 +10,7 @@ import axios from 'axios';
 import Validator from "validator";
 import InlineError from './Messages/InlineErrors';
 import spinner from './assets/spinner.gif';
+import logo from './assets/logo.png';
 
 const styles = theme => ({
   container: {
@@ -59,7 +60,8 @@ class Login extends React.Component {
            password: "",
          },
         loading: false,
-        errors: {}
+        errors: {},
+        showing: false
        };
    }
   
@@ -69,16 +71,25 @@ class Login extends React.Component {
      });
     };
     submit = user =>{
-      axios.post("https://ogene.herokuapp.com/users/login", user, {headers: { }})
+      axios.post("https://ogenetv.herokuapp.com/users/login", user, {headers: { }})
       .then(res =>{
-      console.log(res.data.message);
-      if (res.status === 200){
-        console.log(res)
-        console.log(res.data.message);
+        if(res.data.message === 'email or password invalid'){
+          console.log(res.data.message);
+          this.setState({
+            errors: res.data.message,
+            showing: true
+          })
+      }else{
+        this.setState({
+          loading: false
+        })
         sessionStorage.setItem('user', res.data.token);
-        console.log( sessionStorage.getItem('user'))
         this.props.history.push('/')
+        window.location.reload();
       }
+        this.setState({
+          loading: false
+        })
       })
   
       // this.props.history.push('/');
@@ -102,76 +113,60 @@ class Login extends React.Component {
     
     }
 
-    // handleSubmit = (e) => {
-    //   e.preventDefault();
-
-    //     let data = {...this.state}
-    //     console.log(data)
-
-    //   axios.post("https://ogenetv.herokuapp.com/users/login", data)
-    //   .then(res =>{
-    //     console.log(res)
-        
-    //     if (res.status === 200){
-    //       console.log(res)
-    //       console.log(res.data);
-    //       this.props.history.push('/')
-    //     }
-    //     // if(res.status == 409){
-    //     //   console.log(res)
-    //     // }
-    //   })
-    //   .catch(err =>{
-    //     console.log(err)
-    //     if(err.status === 401){
-    //       console.log(err.message)
-    //     }
-    //   })
-    // }  
-
   
       render() {
         const { classes } = this.props;
         const { errors, loading } = this.state;
+
+        // let output = { errors ? <div>{errors}</div> : ('')}
   
         return (
-          <div className='form-container'>
-           {loading && <div style={{
-                    width: '10%',
-                    position: 'absolute',
-                    marginTop: '7%',
-                    marginLeft: '45%',
-                    alignItems: "center"
+          <div>
+            <div><Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link></div>
+            <div className='form-container'>
+              {loading && <div style={{
+                      width: '10%',
+                      position: 'absolute',
+                      marginTop: '7%',
+                      marginLeft: '45%',
+                      alignItems: "center"
                 }}><img alt="spinner" src={spinner}/></div>}
 
-            <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-              <TextField
-                id="email"
-                label="Email"
+
+              <form className={classes.container}  row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+                
+                <div>
+                  { this.state.showing && <div>{errors}</div>}
+                </div>
+
+                <TextField
+                  id="email"
+                  label="Email"
+                  className={classes.textField}
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                  margin="auto"
+                  />
+                {errors.email && <InlineError text={errors.email}/>}
+                <TextField
+                id="password"
+                label="Password"
                 className={classes.textField}
-                value={this.state.email}
+                type="password"
+                value={this.state.password}
+                autoComplete="current-password"
                 onChange={this.handleChange}
                 margin="auto"
                 />
-              {errors.email && <InlineError text={errors.email}/>}
-              <TextField
-              id="password"
-              label="Password"
-              className={classes.textField}
-              type="password"
-              value={this.state.password}
-              autoComplete="current-password"
-              onChange={this.handleChange}
-              margin="auto"
-              />
-              {errors.password && <InlineError text={errors.password}/>}
-              <br/>
-              <Button variant="contained" color="primary" className={classes.button} type="submit">
-                Login
-              </Button>
-              <p className='message'>Don't have an account? <Link to='/signup'>Sign up</Link></p>
-            </form>
-          </div>
+                {errors.password && <InlineError text={errors.password}/>}
+                <br/>
+                <Button variant="contained" color="primary" className={classes.button} type="submit">
+                  Login
+                </Button>
+                <p className='message'>Don't have an account? <Link to='/signup'>Sign up</Link></p>
+              </form>
+            </div>
+          </div>  
         );
     }
 };

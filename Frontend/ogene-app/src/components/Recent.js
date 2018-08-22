@@ -51,10 +51,10 @@ class RecentMovies extends React.Component {
   
   componentDidMount(){
     
-    axios.get(`https://api.themoviedb.org/3/search/movie?query=marvel&api_key=a7d7788c2a57044879237c810d135ba0`)
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
     .then(res => {
       console.log(res)
-      this.setState({ movies: res.data.results})
+      this.setState({ movies: res.data.movies})
       console.log(this.state.movies)
     })
     
@@ -80,7 +80,7 @@ class RecentMovies extends React.Component {
                 <Grid key={movie} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie.poster_path} alt=''/>
+                          <img className="recent-image" src={movie.image} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">
@@ -97,7 +97,7 @@ class RecentMovies extends React.Component {
                               </div>
                               <div className="sub-item1">
                                 <Link to={{
-                                    pathname: `/rent/${movie.id}`,
+                                    pathname: `/rent/${movie._id}`,
                                     state: { movies: movie.title}
                                     }}><button className='view-btn'>More Details</button>
                                   </Link>

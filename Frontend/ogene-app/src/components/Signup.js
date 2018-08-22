@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import './Login.css';
+import {Link} from 'react-router-dom'
 // import Typography from '@material-ui/core/Typography';
 // import Validator from "validator";
 
@@ -16,7 +17,7 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     height: '365px',
     boxShadow: '0px 4px 8px 0px #7a6a6a',
     // marginLeft: theme.spacing.unit,
@@ -50,9 +51,10 @@ class Signup extends React.Component {
    constructor(props){
        super(props)
        this.state = {
-         username: "",
+        username: "",
         email: "",
         password:"",
+        confirmPassword: "",
         loading: false,
        };
    }
@@ -71,7 +73,11 @@ class Signup extends React.Component {
         let data = {...this.state}
         console.log(data)
 
-      axios.post("https://ogene.herokuapp.com/users/signUp", data)
+        if(this.state.password !== this.state.confirmPassword){
+          alert("password don't match")
+        }
+
+      axios.post("https://ogenetv.herokuapp.com/users/signUp", data)
       .then(res =>{
         console.log(res.data.message)
         
@@ -99,6 +105,7 @@ class Signup extends React.Component {
       return (
           <div className='form-container'>
         <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+        <div>
           <TextField
             id="username"
             label="Username"
@@ -125,20 +132,23 @@ class Signup extends React.Component {
             margin="auto"
           />
         <TextField
-             id="confirm-password"
-             label="Confirm-Password"
+             id="confirmPassword"
+             label="ConfirmPassword"
              className={classes.textField}
              type="password"
              autoComplete="confirm-password"
              onChange={this.handleChange}
              margin="auto"
              />
+             </div>
+             <div>
         <Button variant="contained" color="primary" className={classes.button}
         type="submit">
        Sign up
       </Button>
+      </div>
       <div>
-        <p>Sign up with FB</p>
+        <p>Already a member? <Link to ='login'>Login</Link></p>
       </div>
         </form>
         </div>

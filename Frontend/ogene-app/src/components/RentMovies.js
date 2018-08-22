@@ -21,7 +21,7 @@ const styles = theme =>({
   },
 });
 
-const Api_key = 'a7d7788c2a57044879237c810d135ba0';
+// const Api_key = 'a7d7788c2a57044879237c810d135ba0';
 
 class RentMovies extends Component{
   state ={
@@ -31,10 +31,10 @@ class RentMovies extends Component{
 
   componentDidMount(){
     const title = this.props.location.state.movies
-    axios.get(`https://api.themoviedb.org/3/search/movie?query=${title}&api_key=${Api_key}`)
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
     .then(res => {
-      console.log(res.data.results[0])
-      this.setState({ activeMovie: res.data.results[0]})
+      console.log(res.data.movies[0])
+      this.setState({ activeMovie: res.data.movies[0]})
       console.log(this.state.activeMovie)
     })
     
@@ -51,7 +51,7 @@ class RentMovies extends Component{
             <div className='container-card'>
               <div className='container-card-xs1'>
                 <div className='rent-image'>
-                  <img src={film.poster_path} alt="film" style={{width: '100%', borderRadius: '4px', height: '423px'}}/>
+                  <img src={film.image} alt="film" style={{width: '100%', borderRadius: '4px', height: '423px'}}/>
                 </div>
                 <div className='container-box'>
                   <div className='like-btn'>
@@ -73,7 +73,7 @@ class RentMovies extends Component{
                 </div>
                   <div className='rent-details'>
                     <p>
-                      {film.overview}
+                      {film.description}
                     </p>
                   </div>
               </div>

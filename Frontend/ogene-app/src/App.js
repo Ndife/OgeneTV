@@ -8,15 +8,10 @@ import CategoryMovies from './components/Category';
 import Error from './Error/Error';
 import './App.css';
 import Trends from './components/Trends';
-import ActionMovies from './components/SubCategories/Action';
-import ComedyMovies from './components/SubCategories/Comedy';
-import CrimeMovies from './components/SubCategories/Crime';
-import DramaMovies from './components/SubCategories/Drama';
-import EpicMovies from './components/SubCategories/Epic';
-import HorrorMovies from './components/SubCategories/Horror';
-import RomanceMovies from './components/SubCategories/Romance';
 import AdminTester from './components/Admintesting/AdminUpload';
 import RentMovies from './components/RentMovies';
+import WatchMovies from './components/WatchMovies';
+import Payment from './components/Payment';
 // import GuestRoutes from './components/AuthUser/GuestRoutes';
 import UserRoutes from './components/AuthUser/UserRoutes';
 
@@ -44,15 +39,10 @@ componentDidMount(){
             <Route path="/" component={RecentMovies} exact/>
             <Route path="/categories" component={CategoryMovies} exact/>
             <Route path="/trends" component={Trends}exact/>
-            <Route path="/action" component={ActionMovies} exact/>
-            <Route path="/comedy" component={ComedyMovies}/>
-            <Route path="/crime" component={CrimeMovies}/>
-            <Route path="/drama" component={DramaMovies}/>
-            <Route path="/epic" component={EpicMovies}/>
-            <Route path="/horror" component={HorrorMovies}/>
-            <Route path="/romance" component={RomanceMovies}/>
             <Route path="/admin" component={AdminTester} exact/>
-            <UserRoutes path="/rent/:id" component={RentMovies} exact/>
+            <Route path="/movies" component={WatchMovies} exact/>
+            <Route path="/payment" component={Payment}/>
+            <UserRoutes path="/rent/:id" component={RentMovies} />
             <Route component={Error}/>
             
           </Switch>

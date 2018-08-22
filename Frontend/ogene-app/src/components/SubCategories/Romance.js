@@ -26,7 +26,7 @@ const styles = theme => ({
   },
   paper: {
     height: 220,
-    width: 193,
+    width: 191,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
     backgroundColor: '#000',
