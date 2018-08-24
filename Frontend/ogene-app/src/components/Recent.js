@@ -36,7 +36,6 @@ const styles = theme => ({
     boxShadow: '4px 4px 8px 0 rgba(20, 13, 13, 0.2)',
     cursor: 'pointer',
   },
-  
   control: {
     padding: theme.spacing.unit * 2,
   },
