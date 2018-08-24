@@ -8,12 +8,13 @@ import CategoryMovies from './components/Category';
 import Error from './Error/Error';
 import './App.css';
 import Trends from './components/Trends';
-import AdminTester from './components/Admintesting/AdminUpload';
+import AdminTester from './Admintesting/AdminUpload/AdminUpload';
 import RentMovies from './components/RentMovies';
 import WatchMovies from './components/WatchMovies';
 import Payment from './components/Payment';
 // import GuestRoutes from './components/AuthUser/GuestRoutes';
 import UserRoutes from './components/AuthUser/UserRoutes';
+import Dashboard from './Admintesting/AdminDashboard/Dashboard';
 
 
 class App extends Component {
@@ -39,10 +40,11 @@ componentDidMount(){
             <Route path="/" component={RecentMovies} exact/>
             <Route path="/categories" component={CategoryMovies} exact/>
             <Route path="/trends" component={Trends}exact/>
-            <Route path="/admin" component={AdminTester} exact/>
-            <Route path="/movies" component={WatchMovies} exact/>
+            <Route path="/upload" component={AdminTester} exact/>
+            <Route path="/admin" component={Dashboard}/>
+            <UserRoutes path="/movies/:id" component={WatchMovies} exact/>
             <Route path="/payment" component={Payment}/>
-            <UserRoutes path="/rent/:id" component={RentMovies} />
+            <Route path="/rent/:id" component={RentMovies} />
             <Route component={Error}/>
             
           </Switch>

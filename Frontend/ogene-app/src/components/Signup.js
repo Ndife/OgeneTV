@@ -6,7 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import './Login.css';
-import {Link} from 'react-router-dom'
+import './Signup.css';
+import {Link} from 'react-router-dom';
+import logo from './assets/logo.png';
 // import Typography from '@material-ui/core/Typography';
 // import Validator from "validator";
 
@@ -17,20 +19,23 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    // backgroundColor: 'white',
-    height: '365px',
-    boxShadow: '0px 4px 8px 0px #7a6a6a',
-    // marginLeft: theme.spacing.unit,
-    // marginRight: theme.spacing.unit,
-    width: 633,
-    margin: 'auto'
+    // boxShadow: '2px 0px 5px 8px #b7c3d3',
+    boxShadow: '2px 0px 8px 3px #b7c3d3',
+    width: '60%',
+    margin: 'auto',
+    cursor: 'pointer',
+    borderRadius: '5px',
+    backgroundColor: 'white',
   },
+    
+
   button: {
     margin: theme.spacing.unit,
     marginTop: "30px",
     borderBottomRightRadius: "10PX",
     borderTopLeftRadius: "10px",
-    backgroundColor: "#5858f3",
+    // backgroundColor: "#5858f3",
+    backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )'
   },
   input: {
     display: 'none',
@@ -103,9 +108,12 @@ class Signup extends React.Component {
       const { classes } = this.props;
   
       return (
+        <div>
+          <div><Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link></div>
           <div className='form-container'>
         <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-        <div>
+        <div className='facebook-signup'><p>Sign up with <i className='fa fa-facebook' id='icon'></i></p></div>
+        <div className='signup-details'>
           <TextField
             id="username"
             label="Username"
@@ -141,16 +149,19 @@ class Signup extends React.Component {
              margin="auto"
              />
              </div>
-             <div>
-        <Button variant="contained" color="primary" className={classes.button}
-        type="submit">
-       Sign up
-      </Button>
-      </div>
-      <div>
-        <p>Already a member? <Link to ='login'>Login</Link></p>
-      </div>
+             <div className='signup-btn'>
+                <div className='signup-btn' >
+                  <Button variant="contained" color="primary" className={classes.button}
+                    type="submit">
+                    Sign up
+                </Button>
+              </div>
+              <div className='signup-alt'>
+                <p>Already a member? <Link to ='login'>Login</Link></p>
+              </div>
+            </div>
         </form>
+        </div>
         </div>
         );
     }

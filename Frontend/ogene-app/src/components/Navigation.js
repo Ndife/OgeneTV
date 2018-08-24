@@ -47,6 +47,8 @@ const Navigation = (props, isAuthenticated) =>{
           <Typography variant="title" color="inherit" className={classes.flex}>
           <Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link>
           </Typography>
+          <Link to ='/'><Typography>Movies</Typography></Link>
+          <Typography>News</Typography>
           <Search/>
          <Link to="/"><button className='logout' onClick={ () => Logout()}>LOGOUT</button></Link>
         </Toolbar>

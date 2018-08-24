@@ -26,7 +26,6 @@ const styles = theme => ({
     fontSize: '13px',
     minWidth: '50px',
     minHeight: '18px',
-    padding: '0',
     backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )',
     color: '#FFFFFF',
   }

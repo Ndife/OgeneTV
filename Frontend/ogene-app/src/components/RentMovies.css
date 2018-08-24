@@ -23,12 +23,13 @@ background-size: 100%;
     margin-top: 16px;
 }
 .container-card-col1{
-    background-color: white;
+    background-color: #000;
     margin: auto;
     width: 214px;
-    height: 220px;
+    height: 260px;
     border-top-left-radius: 15px;
-    border-bottom-right-radius: 15PX;
+    border-bottom-right-radius: 15px;
+    padding-top: 10px;
 }
 
 .container-card-xs1{

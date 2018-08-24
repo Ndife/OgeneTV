@@ -1,14 +1,20 @@
 .image-logo{
     height: 40px;
-    width: 100px;
+    width: 138px;
     -webkit-transition: -webkit-transform .8s ease-in-out;
     transition: transform .8s ease-in-out;
+    padding: 15px;
+    /* box-shadow: 2px 0px 8px 3px #001d2d;
+    border-radius: 5px; */
 }
 
-.image-logo:hover {
+.image-logo:hover{
+  box-shadow: none;
+}
+/* .image-logo:hover {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
-  }
+  } */
 
   .logout{
     height: 26px;
@@ -19,4 +25,22 @@
     border-bottom-right-radius: 10PX;
     /* border-color: #5858f3; */
     border: none;
+  }
+
+  .MuiTypography-body1-55 {
+    color: white !important;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    line-height: 1.46429em;
+    padding-right: 30px;
+  }
+
+  .MuiTypography-body1-54 {
+    color: white !important;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    line-height: 1.46429em;
+    padding-right: 30px;
   }

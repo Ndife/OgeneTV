@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import './AdminUpload.css'
+// import Dashboard from '../AdminDashboard/Dashboard'
 
 class AdminTester extends Component{
     state = {
@@ -53,7 +55,8 @@ class AdminTester extends Component{
     render(){
         const {name, description, releaseYear, producer, price, category} = this.state
             return(
-                <div>
+                <div className="upload-form">
+                    {/* <Dashboard/> */}
                     <form action='https://ogenetv.herokuapp.com/movies/' method="post" enctype='mulTipart/form-data' onSubmit = {this.fileUpload}>
                         <input 
                         type="file" 

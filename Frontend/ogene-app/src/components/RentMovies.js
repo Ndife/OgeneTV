@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import './RentMovies.css';
 import Navigation from './Navigation';
-// import rejected from './assets/rejected.jpg';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-// import like from './assets/like.png';
+import './Recent.css';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 const styles = theme =>({
   button: {
@@ -26,17 +26,27 @@ const styles = theme =>({
 class RentMovies extends Component{
   state ={
     activeMovie: [],
-    rentMovies: [1, 2, 3, 4, 5, 6],
+    rentMovies: [],
   }
 
   componentDidMount(){
     const title = this.props.location.state.movies
-    axios.get(`https://ogenetv.herokuapp.com/movies/`)
+    // const { match: { params } } = this.props;
+    axios.get(`https://ogenetv.herokuapp.com/movies/${title}?`)
     .then(res => {
-      console.log(res.data.movies[0])
+      console.log(res.data.movies)
+      // console.log(title)
       this.setState({ activeMovie: res.data.movies[0]})
       console.log(this.state.activeMovie)
     })
+
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
+    .then(res => {
+      console.log(res.data.movies)
+      this.setState({ rentMovies: res.data.movies})
+      console.log(this.state.rentMovies)
+    })
+
     
 }
 
@@ -65,9 +75,13 @@ class RentMovies extends Component{
                     <i className='fa fa-star rating-color'></i> 
                   </div>
                   <div className='rent-btn'>
+                  <Link to={{
+                      pathname: `/movies/${film._id}`,
+                      state: { movies: film.title}}}>
                     <Button variant="contained" color="primary" className={classes.button} type="submit">
                       Rent
                     </Button>
+                    </Link>
                   </div>
                   <br/>
                 </div>
@@ -81,7 +95,32 @@ class RentMovies extends Component{
             <div className='container-card-col'>
             {this.state.rentMovies.map(val => (
               <div key={val} className='container-card-col1'>
-               <p> {val} </p>
+               {/* <img src={val.image} alt="film" style={{width: '100%', borderRadius: '4px', height: '423px'}}/> */}
+               <div className="image-api">
+                          <img className="recent-image" src={val.image} alt=''/>
+                        </div>
+                          <div className="items">
+                            <div className="sub-items">
+                              <p>{val.title.length < 20 ? `${val.title}`: `${val.title.substring(0, 25)}...`}</p>
+                            </div>
+                            <div className='star-rating'>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i><i className="fa fa-star"></i>
+                              <i className="fa fa-star"></i>
+                            </div>
+                            <div className='rating'>
+                              <div className='sub-item2'>
+                              <i className="fa fa-heart"></i>
+                              </div>
+                              <div className="sub-item1">
+                                <Link to={{
+                                    pathname: `/rent/${val._id}`,
+                                    state: { movies: val.title}
+                                    }}><button className='view-btn'>More Details</button>
+                                  </Link>
+                              </div>
+                            </div>
+                          </div>
               </div>
             ))}
             </div>

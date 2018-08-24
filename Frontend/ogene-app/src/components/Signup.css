@@ -1,0 +1,35 @@
+.signup-details{
+    width: 96%;
+    display: flex;
+    flex-wrap: inherit;
+    justify-content: center;
+}
+ .signup-alt{
+    padding-bottom: 60px;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
+ }
+
+.signup-btn{
+   display: grid;
+} 
+.container:hover{
+    box-shadow: '2px 0px 8px 3px #b7c3d3';
+  }
+  .facebook-signup{
+    padding-top: 30px;
+    font-family: Roboto;
+    font-size: 36px;
+  }
+#icon{
+    background-color: #0990d6;
+    border: 1px solid #0990d6;
+    border-radius: 22px;
+    width: 25px;
+    height: 25px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    color: white;
+    padding-right: 7px;
+}

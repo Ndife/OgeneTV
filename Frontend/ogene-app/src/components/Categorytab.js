@@ -36,7 +36,8 @@ const styles = theme => ({
   },
 
   navBar:{
-    backgroundColor: '#002f43',
+    // backgroundColor: '#002f43',
+    backgroundColor: 'transparent'
   },
 
   typo: {

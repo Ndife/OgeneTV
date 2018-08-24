@@ -29,11 +29,12 @@ const styles = theme => ({
     width: '92%',
     margin: 'auto',
     marginTop: "100px",
-    backgroundColor: '#002f43',
+    backgroundColor: 'transparent',
   },
 
   navBar:{
-    backgroundColor: '#002f43',
+    // backgroundColor: '#002f43',
+    backgroundColor: 'transparent'
   },
 
   typo: {

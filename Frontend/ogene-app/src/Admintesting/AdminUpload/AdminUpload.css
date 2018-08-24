@@ -1,0 +1,6 @@
+.upload-form{
+    display: grid;
+    outline: 1px solid black;
+    height: 400px;
+}
+

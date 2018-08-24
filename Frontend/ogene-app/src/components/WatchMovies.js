@@ -24,25 +24,25 @@ const styles = theme =>({
 
 class WatchMovies extends Component{
   state ={
-    activeMovie: ['igbo'],
+    rentedMovie: [],
     rentMovies: [1, 2, 3, 4, 5, 6],
   }
 
   componentDidMount(){
-    // const title = this.props.location.state.movies
-    // axios.get(`https://ogenetv.herokuapp.com/movies/${title}`)
-    // .then(res => {
-    //   console.log(res.data.results[0])
-    //   this.setState({ activeMovie: res.data.movies[0]})
-    //   console.log(this.state.activeMovie)
-    // })
+    const title = this.props.location.state.movies
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
+    .then(res => {
+      console.log(res.data.movies[0])
+      this.setState({ rentedMovie: res.data.movies[3]})
+      console.log(this.state.rentedMovie)
+    })
     
 }
 
     render(){
       console.log(this.props)
       const { classes } = this.props;
-      const film = this.state.activeMovie
+      const films = this.state.rentedMovie
     return(
       <div className='wrapper'>
         <Navigation/>
@@ -50,10 +50,10 @@ class WatchMovies extends Component{
             <div className='container-card'>
               <div className='movie-container'>
                 <div className='movie-video'>
-                    <video controls autoplay className="movie-video">
-                      <source src="movie.mp4" type="video/mp4"/>
-                      <source src="movie.ogg" type="video/ogg"/>
-                    </video>
+                    <video controls autoplay className="movie-video"
+                      src={films.video} type="video/mp4"/>
+                      {/* <source src={films.video} type="video/ogg"/>
+                    </video> */}
                 </div>
               </div>
             </div>

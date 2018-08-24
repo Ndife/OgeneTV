@@ -11,7 +11,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import logo from './assets/logo.png';
 
 
 const styles = theme => ({
@@ -38,7 +39,7 @@ const styles = theme => ({
     // backgroundColor: 'white',
     // height: '365px',
     boxShadow: '0px 4px 8px 0px #7a6a6a',
-    width: '66%',
+    width: '60%',
     margin: 'auto'
   },
   button: {
@@ -46,7 +47,7 @@ const styles = theme => ({
     marginTop: "30px",
     borderBottomRightRadius: "10PX",
     borderTopLeftRadius: "10px",
-    backgroundColor: "#5858f3",
+    backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )'
   },
   input: {
     display: 'none',
@@ -115,6 +116,8 @@ class Payment extends React.Component {
       const { classes } = this.props;
   
       return (
+        <div>
+          <div><Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link></div>
         <div className='form-container'>
         <FormControl component="fieldset" className={classes.formControl}>
             <form className={classes.container} row={true} noValidate autoComplete="off" onSubmit={this.handleSubmit}>
@@ -171,6 +174,7 @@ class Payment extends React.Component {
                 </Button>
             </form>
     </FormControl>
+        </div>
         </div>
         );
     }
