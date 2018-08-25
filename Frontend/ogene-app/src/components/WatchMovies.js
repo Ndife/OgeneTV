@@ -3,7 +3,7 @@ import './RentMovies.css';
 import './WatchMovies.css';
 import Navigation from './Navigation';
 // import rejected from './assets/rejected.jpg';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 // import like from './assets/like.png';
 import axios from 'axios';
@@ -28,20 +28,18 @@ class WatchMovies extends Component{
     rentMovies: [1, 2, 3, 4, 5, 6],
   }
 
-  componentDidMount(){
-    const title = this.props.location.state.movies
-    axios.get(`https://ogenetv.herokuapp.com/movies/`)
+  componentDidMount() {
+    const title = this.props.match.params.id
+    axios.get(`https://ogenetv.herokuapp.com/movies/${title}`)
     .then(res => {
-      console.log(res.data.movies[0])
-      this.setState({ rentedMovie: res.data.movies[3]})
-      console.log(this.state.rentedMovie)
+      console.log(res)
+      this.setState({ activeMovie: res.data.message })
     })
-    
 }
 
     render(){
-      console.log(this.props)
-      const { classes } = this.props;
+     
+      // const { classes } = this.props;
       const films = this.state.rentedMovie
     return(
       <div className='wrapper'>

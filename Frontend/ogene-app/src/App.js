@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Homepage from "./components/Homepage";
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -18,40 +18,40 @@ import Dashboard from './Admintesting/AdminDashboard/Dashboard';
 
 
 class App extends Component {
-  state={
+  state = {
     isAuth: false
   }
-componentDidMount(){
- 
-}
+  componentDidMount() {
 
-  render()  {
-    return(
-   
+  }
+
+  render() {
+    return (
+
       <BrowserRouter>
-       
-        <div >  
-        
+
+        <div >
+
           <Switch>
-            
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/" component={Homepage} exact/>
-            <Route path="/" component={RecentMovies} exact/>
-            <Route path="/categories" component={CategoryMovies} exact/>
-            <Route path="/trends" component={Trends}exact/>
-            <Route path="/upload" component={AdminTester} exact/>
-            <Route path="/admin" component={Dashboard}/>
-            <UserRoutes path="/movies/:id" component={WatchMovies} exact/>
-            <Route path="/payment" component={Payment}/>
-            <Route path="/rent/:id" component={RentMovies} />
-            <Route component={Error}/>
-            
+
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/" component={Homepage} exact />
+            <Route exact path="/" component={RecentMovies} exact />
+            <Route exact path="/categories" component={CategoryMovies} exact />
+            <Route exact path="/trends" component={Trends} exact />
+            <Route exact path="/upload" component={AdminTester} exact />
+            <Route exact path="/admin" component={Dashboard} />
+            <UserRoutes path="/movies/:id" component={WatchMovies} exact />
+            <Route exact path="/payment" component={Payment} />
+            <Route exact path="/rent/:id" component={RentMovies} />
+            <Route component={Error} />
+
           </Switch>
         </div>
-      
+
       </BrowserRouter>
-      
+
     );
   }
 }

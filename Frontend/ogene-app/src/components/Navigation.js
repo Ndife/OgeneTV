@@ -9,6 +9,7 @@ import Search from './Search';
 import MenuToggle from './Menutoggle';
 import logo from './assets/logo.png';
 import './Navigation.css';
+import UserToggle from './UserAccount'
 // import Validator from "validator";
 // import {connect} from 'react-redux'
 
@@ -35,36 +36,33 @@ const styles = {
 
 
 const Navigation = (props, isAuthenticated) =>{
-  const Logout = () =>{
-    sessionStorage.removeItem('user');
-  }
+ 
   const { classes } = props;
   if (sessionStorage.getItem('user')){
   return (
     <div className={classes.root} >
-      <AppBar className={classes.app} position="static">
-        <Toolbar className={classes.app.menuButton}  >
-          <Typography variant="title" color="inherit" className={classes.flex}>
+      <AppBar className={classes.app} position="static">           
+        <Toolbar className={classes.app.menuButton} >
+        <Typography variant="title" color="inherit" className={classes.flex}>
           <Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link>
           </Typography>
-          <Link to ='/'><Typography>Movies</Typography></Link>
-          <Typography>News</Typography>
           <Search/>
-         <Link to="/"><button className='logout' onClick={ () => Logout()}>LOGOUT</button></Link>
-        </Toolbar>
+         {/* <Link to="/"><button className='logout' onClick={ () => Logout()}>LOGOUT</button></Link> */}
+         <UserToggle/>
+          </Toolbar>
       </AppBar>
     </div>
   );} else{
     return (
       <div className={classes.root} >
         <AppBar className={classes.app} position="static">
-          <Toolbar className={classes.app.menuButton}  >
+         <Toolbar className={classes.app.menuButton}  >
             <Typography variant="title" color="inherit" className={classes.flex}>
             <Link to ='/'><img src={logo} alt='logo' className='image-logo'/></Link>
             </Typography>
             <Search/>
             <MenuToggle/>
-          </Toolbar>
+           </Toolbar>
         </AppBar>
       </div>
     );

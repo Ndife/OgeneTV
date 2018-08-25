@@ -73,19 +73,21 @@ class Login extends React.Component {
     submit = user =>{
       axios.post("https://ogenetv.herokuapp.com/users/login", user, {headers: { }})
       .then(res =>{
-        if(res.data.message === 'email or password invalid'){
+        console.log(res)
+        if(res.data.message === 'email or password invalid'|| res.data.message === 'email does not exist'){
           console.log(res.data.message);
           this.setState({
             errors: res.data.message,
             showing: true
           })
+          window.location.reload();
       }else{
         this.setState({
           loading: false
         })
-        sessionStorage.setItem('user', res.data.token);
+        sessionStorage.setItem('user', res.data.currentUser.email,res.data.token);
         this.props.history.push('/')
-        window.location.reload();
+        // window.location.reload();
       }
         this.setState({
           loading: false

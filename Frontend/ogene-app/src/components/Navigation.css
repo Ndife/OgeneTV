@@ -44,3 +44,28 @@
     line-height: 1.46429em;
     padding-right: 30px;
   }
+
+  .navBar{
+    background-color: '#002f43'
+  }
+
+  @media screen and (max-width: 500px){
+    .image-logo {
+      padding: 0;
+      margin: 0;
+      width: 80px;
+      height: 30px
+    }
+
+    /* .MenuToggle-btn-72{
+      width: 5%;
+    } */
+
+    .search-input {
+      width: 111px;
+    }
+
+    .search-input:hover:focus {
+      width: 80px
+    }
+  }
