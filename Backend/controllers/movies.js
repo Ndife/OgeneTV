@@ -1,6 +1,5 @@
 //This file contains the operations on the model
 var Movie = require('../models/movies');
-var fs = require('fs');
 var cloud = require('../functions/cloudinaryUpload');
 
 exports.addMovie = function(req, res, next){
@@ -114,8 +113,11 @@ exports.updateMovie = function(req, res){
     var id = req.params.id;
     var update = req.body;
     Movie.findByIdAndUpdate(id, update, function(err){
-            if(err) res.status(500).json({err: err, message: 'Update error'});
+            if(err){
+                res.status(500).json({err: err, message: 'Update error'});
+            } else {
             res.status(201).json({message: update});
+            }
     })
     } catch (exception) {
         console.log('Error: ' + exception);
@@ -125,7 +127,7 @@ exports.updateMovie = function(req, res){
 
 exports.searchMovie = function(req, res){
     try {
-        var value= req.body.title;
+        var value = req.params.value;
         Movie.find({"title":{$regex: value, $options: 'i'}}, '-__v', function(err, movie){
             if (err) {
                 res.json({err:err, message:'sorry, could not find movie'})
@@ -138,8 +140,8 @@ exports.searchMovie = function(req, res){
     } catch (exception) {
         console.log('Error: ' + exception);
     }
-
 }
+
 exports.deleteMovie = function(req, res, next){
     try {
     var id = ({_id:req.params.id});
@@ -148,8 +150,8 @@ exports.deleteMovie = function(req, res, next){
                 if (err){
                     res.status(404).json({message: 'The required movie does not exist'});
                 }else{
-                    cloud.delete(movie.imageID).then(() => {
-                        cloud.delete(movie.videoID).then(() => {
+                    cloud.deleteVideoFile(movie.videoID).then(() => {
+                        cloud.delete(movie.imageID).then(() => {
                             Movie.remove(id, function(err){
                                 if(err) {
                                     res.status(500).json({err: err, message: 'The resource could not be deleted'})
@@ -171,7 +173,6 @@ exports.deleteMovie = function(req, res, next){
 
 exports.sortRecent = function(req, res, next){
     try {
-        //var count = req.query.count;
         var value = Number.parseInt(req.query.value);
         Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
         .exec((err, movies) => {
