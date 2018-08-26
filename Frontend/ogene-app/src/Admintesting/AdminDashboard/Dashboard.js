@@ -4,20 +4,22 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-// import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-// import {Link} from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import AdminTester from '../AdminUpload/AdminUpload';
 import Users from '../Users/Users'
 import './Dashboard.css'
-// import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import DashboardDetails from '../DashboardDetails/DashboardDetails';
+import logo from '../ImageAssets/logo.png'
+import {Link} from 'react-router-dom';
+import MovieLibrary from '../MovieLibrary/MovieLibrary';
+import AdminProfile from '../AdminProfile/AdminProfile'
 
 const drawerWidth = 240;
 
@@ -38,7 +40,7 @@ function TabContainer({ children, dir }) {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 440,
+    // height: 440,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -131,8 +133,9 @@ class Dashboard extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Logo
+            <Link to ='/admin'><img src={logo} alt='logo' className='image-logo'/></Link>
             </Typography>
+           <AdminProfile/>
           </Toolbar>
         </AppBar>
         <Hidden mdUp>
@@ -170,19 +173,17 @@ class Dashboard extends React.Component {
             index={this.state.value}
             onChangeIndex={this.handleChangeIndex}
             >
+            <TabContainer dir={theme.direction}><DashboardDetails /></TabContainer>
             <TabContainer dir={theme.direction}><AdminTester /></TabContainer>
             <TabContainer dir={theme.direction}><Users /></TabContainer>
+            <TabContainer dir={theme.direction}><MovieLibrary /></TabContainer>
             {/* <TabContainer dir={theme.direction}><CrimeMovies /></TabContainer>
             <TabContainer dir={theme.direction}><DramaMovies /></TabContainer>
             <TabContainer dir={theme.direction}><EpicMovies /></TabContainer>
             <TabContainer dir={theme.direction}><HorrorMovies /></TabContainer>
             <TabContainer dir={theme.direction}><RomanaceMovies /></TabContainer> */}
             </SwipeableViews>
-
-
-
-          <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography>
-        </main>
+          </main>
       </div>
     );
   }

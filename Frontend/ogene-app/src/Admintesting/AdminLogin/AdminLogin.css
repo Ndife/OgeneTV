@@ -6,7 +6,7 @@
 }
 .form-container{
 /* padding-top: 85px; */
-background-image: url('./assets/login.jpg');
+background-image: url('../ImageAssets/login.jpg');
 background-repeat: no-repeat;
 background-size: 100%;
 height: 600px;

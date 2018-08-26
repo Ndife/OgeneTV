@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import '../Homepage.css';
 import '../Recent.css';
 import {Link} from 'react-router-dom';
+import axios from 'axios'
 // import Homepage from './Homepage';
 
 const styles = theme => ({
@@ -31,7 +32,10 @@ const styles = theme => ({
     width: 191,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
-    backgroundColor: '#000',
+    backgroundColor: '#0e0d0d',
+    zIndex: 10,
+    marginRight: '13px',
+    boxShadow: '2px 1px 5px #474141',
   },
   control: {
     padding: theme.spacing.unit * 2,
@@ -41,8 +45,19 @@ const styles = theme => ({
 class ActionMovies extends React.Component {
   state = {
     spacing: '16',
-    movies: ['Action', 'gun', 'shoot', 'Action', 'gun', 'shoot', 1, 2, 3, 4]
+    movies: []
   };
+
+  componentDidMount(){
+    
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
+    .then(res => {
+      console.log(res)
+      this.setState({ movies: res.data.movies})
+      console.log(this.state.movies)
+    })
+    
+  }
 
   handleChange = key => (event, value) => {
     this.setState({
@@ -60,14 +75,14 @@ class ActionMovies extends React.Component {
             <Grid item xs={6} sm={3} className={classes.cards}>
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
                 {this.state.movies.map(movie => (
-                <Grid key={movie} item>
+                <Grid key={movie._id} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie.image_url} alt=''/>
+                          <img className="recent-image" src={movie.image} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">
-                              {/* <p>{movie.title.length < 20 ? `${movie.title}`: `${movie.title.substring(0, 25)}...`}</p> */}
+                              <p>{movie.title.length < 20 ? `${movie.title}`: `${movie.title.substring(0, 25)}...`}</p>
                             </div>
                             <div className='star-rating'>
                               <i className="fa fa-star"></i><i className="fa fa-star"></i>
@@ -79,8 +94,8 @@ class ActionMovies extends React.Component {
                               <i className="fa fa-heart"></i>
                               </div>
                               <div className="sub-item1">
-                                <Link to={{
-                                    pathname: `/rent/${movie.recipe_id}`,
+                                  <Link to={{
+                                    pathname: `/rent/${movie._id}`,
                                     state: { movies: movie.title}
                                     }}><button className='view-btn'>More Details</button>
                                   </Link>

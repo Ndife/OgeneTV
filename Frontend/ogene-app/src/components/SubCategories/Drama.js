@@ -29,7 +29,10 @@ const styles = theme => ({
     width: 191,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
-    backgroundColor: '#000',
+    backgroundColor: '#0e0d0d',
+    zIndex: 10,
+    marginRight: '13px',
+    boxShadow: '2px 1px 5px #474141',
   },
   control: {
     padding: theme.spacing.unit * 2,

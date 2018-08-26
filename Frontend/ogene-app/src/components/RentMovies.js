@@ -9,17 +9,17 @@ import { Link, Redirect } from 'react-router-dom';
 
 
 const styles = theme => ({
-  button: {
-    // margin: theme.spacing.unit,
-    marginLeft: '123px',
-    marginRight: '116px',
-    borderBottomRightRadius: "10PX",
-    borderTopLeftRadius: "10px",
-    backgroundColor: "#5858f3",
-    width: 18,
-    backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )',
-    color: '#FFFFFF'
-  },
+  // button: {
+  //   // margin: theme.spacing.unit,
+  //   marginLeft: '123px',
+  //   marginRight: '116px',
+  //   borderBottomRightRadius: "10PX",
+  //   borderTopLeftRadius: "10px",
+  //   backgroundColor: "#5858f3",
+  //   width: 18,
+  //   backgroundImage: 'linear-gradient(to right, #049EE1, #312783 )',
+  //   color: '#FFFFFF'
+  // },
 });
 
 // const Api_key = 'a7d7788c2a57044879237c810d135ba0';
@@ -111,7 +111,7 @@ class RentMovies extends Component {
           <div className='container-card'>
             <div className='container-card-xs1'>
               <div className='rent-image'>
-                <img src={film.image} alt="film" style={{ width: '100%', borderRadius: '4px', height: '423px' }} />
+                <img src={film.image} alt="film" className='rent-image'  />
               </div>
               <div className='container-box'>
                 <div className='like-btn'>
@@ -129,7 +129,7 @@ class RentMovies extends Component {
                     pathname: `/movies/${film._id}`,
                     state: { movies: film.title }
                   }}> */}
-                    <Button variant="contained" color="primary" className={classes.button} type="submit" onClick={this.payWithPaystack}>
+                    <Button variant="contained" color="primary" className='RentMovies-button-1' type="submit" onClick={this.payWithPaystack}>
                       Rent
                     </Button>
                   {/* </Link> */}

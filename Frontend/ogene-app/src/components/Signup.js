@@ -19,7 +19,6 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    // boxShadow: '2px 0px 5px 8px #b7c3d3',
     boxShadow: '2px 0px 8px 3px #b7c3d3',
     width: '60%',
     margin: 'auto',

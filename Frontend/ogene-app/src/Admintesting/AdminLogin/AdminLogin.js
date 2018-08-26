@@ -5,12 +5,12 @@ import TextField from '@material-ui/core/TextField';
 // import Navigation from './Navigation';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
-import './Login.css';
+import './AdminLogin.css';
 import axios from 'axios';
 import Validator from "validator";
-import InlineError from './Messages/InlineErrors';
-import spinner from './assets/spinner.gif';
-import logo from './assets/logo.png';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import spinner from '../ImageAssets/spinner.gif';
+import logo from '../ImageAssets/logo.png'
 
 const styles = theme => ({
   container: {
@@ -24,7 +24,6 @@ const styles = theme => ({
     marginTop: "30px",
     margin: 'auto',
     boxShadow: '2px 0px 8px 3px #b7c3d3',
-    // boxShadow: '2px 2px 5px 2px #616060',
     border: '1px solid #b7c3d3',
     borderRadius: '5px',
     paddingTop: '30px',
@@ -54,7 +53,7 @@ const styles = theme => ({
   },
 });
 
-class Login extends React.Component {
+class AdminLogin extends React.Component {
    constructor(props){
        super(props)
        this.state = {
@@ -74,7 +73,7 @@ class Login extends React.Component {
      });
     };
     submit = user =>{
-      axios.post("https://ogenetv.herokuapp.com/users/login", user, {headers: { }})
+      axios.post("https://ogenetv.herokuapp.com/users/Adminlogin", user, {headers: { }})
       .then(res =>{
         console.log(res)
         if(res.data.message === 'email or password invalid'|| res.data.message === 'email does not exist'){
@@ -89,7 +88,7 @@ class Login extends React.Component {
           loading: false
         })
         sessionStorage.setItem('user', res.data.currentUser.email,res.data.token);
-        this.props.history.push('/')
+        this.props.history.push('/admin')
         // window.location.reload();
       }
         this.setState({
@@ -152,7 +151,7 @@ class Login extends React.Component {
                   onChange={this.handleChange}
                   margin="auto"
                   />
-                {errors.email && <InlineError text={errors.email}/>}
+                {errors.email && <ErrorMessage text={errors.email}/>}
                 <TextField
                 id="password"
                 label="Password"
@@ -163,7 +162,7 @@ class Login extends React.Component {
                 onChange={this.handleChange}
                 margin="auto"
                 />
-                {errors.password && <InlineError text={errors.password}/>}
+                {errors.password && <ErrorMessage text={errors.password}/>}
                 <br/>
                 <Button variant="contained" color="primary" className={classes.button} type="submit">
                   Login
@@ -177,7 +176,7 @@ class Login extends React.Component {
 };
 
 
-Login.propTypes = {
+AdminLogin.propTypes = {
   classes: PropTypes.object.isRequired,
   submit: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -185,4 +184,4 @@ Login.propTypes = {
   })
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(AdminLogin);

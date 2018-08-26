@@ -29,7 +29,10 @@ const styles = {
     marginRight: 20,
   },
   app: {
-    backgroundColor: '#002f43',
+    // backgroundColor: '#002f43',
+    backgroundColor: '#0e0d0d',
+    position: 'fixed',
+    top: '0px',
   },
  
 };

@@ -28,8 +28,9 @@ const styles = theme => ({
     // backgroundColor: theme.palette.background.paper,
     width: '92%',
     margin: 'auto',
-    marginTop: "100px",
+    // marginTop: "75px",
     backgroundColor: 'transparent',
+    paddingTop: '170px',
   },
 
   navBar:{

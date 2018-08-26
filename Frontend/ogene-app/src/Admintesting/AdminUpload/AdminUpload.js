@@ -57,7 +57,7 @@ class AdminTester extends Component{
             return(
                 <div className="upload-form">
                     {/* <Dashboard/> */}
-                    <form action='https://ogenetv.herokuapp.com/movies/' method="post" enctype='mulTipart/form-data' onSubmit = {this.fileUpload}>
+                    <form action='https://ogenetv.herokuapp.com/movies/' method="post" enctype='mulTipart/form-data' className='form-control' onSubmit = {this.fileUpload}>
                         <input 
                         type="file" 
                         name='image'
@@ -68,6 +68,7 @@ class AdminTester extends Component{
                         type="file" 
                         name='video'
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -76,6 +77,7 @@ class AdminTester extends Component{
                         placeholder="title"
                         value={name}
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -84,6 +86,7 @@ class AdminTester extends Component{
                         placeholder="description"
                         value={description}
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -92,6 +95,7 @@ class AdminTester extends Component{
                         placeholder="releaseYear"
                         value={releaseYear}
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -100,6 +104,7 @@ class AdminTester extends Component{
                         placeholder="producer"
                         value={producer}
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -108,6 +113,7 @@ class AdminTester extends Component{
                         placeholder="category"
                         value={category}
                         onChange={this.onChange}
+                        className="input-value"
                         />
 
                         <input
@@ -116,9 +122,10 @@ class AdminTester extends Component{
                         placeholder="price"
                         value={price}
                         onChange={this.onChange}
+                        className="input-value"
                         />
                         
-                        <button>Upload</button>
+                        <button className='upload-btn'>Upload</button>
                     </form>
                 </div>
             );

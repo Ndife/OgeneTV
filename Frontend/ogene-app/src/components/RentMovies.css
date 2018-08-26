@@ -5,11 +5,11 @@ background-size: 100%;
 }
 .container{
     width: 100%;
-    display: inline-block;
+    display: inline-flex;
     box-sizing: border-box;
 }
 .container>div{
-    width: 75%;
+    width: 73%;
     display: inline-block;
 }
 
@@ -19,9 +19,13 @@ background-size: 100%;
 
 .container-card-col{
     display: inline-block;
-    width: 25% !important;
+    width: 25%;
     margin-top: 16px;
 }
+.container-box>div{
+    width: 33% !important;
+}
+
 .container-card-col1{
     background-color: #000;
     margin: auto;
@@ -30,11 +34,12 @@ background-size: 100%;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
     padding-top: 10px;
+    margin-left: 325px;
 }
 
 .container-card-xs1{
-    width: 70%;
-    margin: auto;
+    width: 100%;
+    /* margin: auto; */
     background-color: white;
     margin: auto;
     /* border-radius: 4px; */
@@ -43,6 +48,7 @@ background-size: 100%;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10PX;
     font-family: roboto;
+    margin-left: 160px;
 }
 
 .container-box{
@@ -76,8 +82,8 @@ background-size: 100%;
     
 }
 .rent-image{
-    width: '100%'; 
-    border-radius: '4px';
+    width: 100%; 
+    border-radius: 4px;
     height: 423px
 }
 .rating-color{
@@ -86,4 +92,187 @@ background-size: 100%;
 .rent-details{
     text-align: center;
     font-size: 20px;
+}
+
+.RentMovies-button-1 {
+    width: 18px;
+    color: #FFFFFF;
+    margin-left: 123px !important;
+    margin-right: 116px;
+    background-color: #5858f3;
+    background-image: linear-gradient(to right, #049EE1, #312783 );
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10PX;
+}
+
+
+@media screen and (max-width: 500px){
+    .RentMovies-button-1 {
+        width: 18px;
+        color: #FFFFFF;
+        margin-left: 45px !important;
+        /* margin-right: 116px; */
+        background-color: #5858f3;
+        background-image: linear-gradient(to right, #049EE1, #312783 );
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+    }
+
+    .container {
+        width: 100%;    
+        box-sizing: border-box;
+        display: block;
+    }
+
+    .container > div {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .container-card-xs1 {
+        width: 90%;
+        margin: auto;
+        background-color: white;
+        margin: auto;
+        border-radius: 4px;
+        height: 397px;
+        margin-top: 30px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+        font-family: roboto;
+    }
+    .rent-image {
+        width: 100%;
+        height: 230px !important;
+    }
+
+    .container-card-col1 {
+        background-color: #000;
+        margin: auto;
+        width: 214px;
+        height: 260px;
+        border-top-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding-top: 10px;
+    }
+    .container-box{
+        height: 70px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 680px){
+    .RentMovies-button-1 {
+        width: 18px;
+        color: #FFFFFF;
+        margin-left: 45px !important;
+        /* margin-right: 116px; */
+        background-color: #5858f3;
+        background-image: linear-gradient(to right, #049EE1, #312783 );
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+    }
+
+    .container {
+        width: 100%;    
+        box-sizing: border-box;
+        display: block;
+    }
+
+    .container-box{
+        height: 70px;
+        width: 100%;
+    }
+
+    .container > div {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .container-card-xs1 {
+        width: 90%;
+        margin: auto;
+        background-color: white;
+        margin: auto;
+        border-radius: 4px;
+        height: 397px;
+        margin-top: 30px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+        font-family: roboto;
+    }
+    .rent-image {
+        width: 100%;
+        height: 230px !important;
+    }
+
+    .container-card-col1 {
+        background-color: #000;
+        margin: auto;
+        width: 214px;
+        height: 260px;
+        border-top-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding-top: 10px;
+    }
+}
+
+@media screen and (min-width: 980px){
+    .RentMovies-button-1 {
+        width: 18px;
+        color: #FFFFFF;
+        margin-left: 123px;
+        margin-right: 116px;
+        background-color: #5858f3;
+        background-image: linear-gradient(to right, #049EE1, #312783 );
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+    }
+
+    .container{
+        width: 100%;
+        display: inline-flex;
+        box-sizing: border-box;
+    }
+
+    .container-box{
+        height: 70px;
+        width: 100%;
+    }
+
+    .container>div{
+        width: 73%;
+        display: inline-block;
+    }
+    
+
+    .container-card-xs1{
+        width: 100%;
+        /* margin: auto; */
+        background-color: white;
+        margin: auto;
+        /* border-radius: 4px; */
+        height: 597px;
+        margin-top: 30px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10PX;
+        font-family: roboto;
+        margin-left: 160px;
+    }
+    .rent-image{
+        width: 100%; 
+        border-radius: 4px;
+        height: 423px
+    }
+
+    .container-card-col1{
+        background-color: #000;
+        margin: auto;
+        width: 214px;
+        height: 260px;
+        border-top-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding-top: 10px;
+        margin-left: 325px;
+    }
 }

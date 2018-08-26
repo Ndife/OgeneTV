@@ -15,6 +15,8 @@ import Payment from './components/Payment';
 // import GuestRoutes from './components/AuthUser/GuestRoutes';
 import UserRoutes from './components/AuthUser/UserRoutes';
 import Dashboard from './Admintesting/AdminDashboard/Dashboard';
+import AdminLogin from './Admintesting/AdminLogin/AdminLogin';
+import AdminRoutes from './Admintesting/AdminAuth/AdminRoutes'
 
 
 class App extends Component {
@@ -41,7 +43,8 @@ class App extends Component {
             <Route exact path="/categories" component={CategoryMovies} exact />
             <Route exact path="/trends" component={Trends} exact />
             <Route exact path="/upload" component={AdminTester} exact />
-            <Route exact path="/admin" component={Dashboard} />
+            <AdminRoutes exact path="/admin" component={Dashboard} />
+            <Route exact path="/adminlogin" component={AdminLogin} />
             <UserRoutes path="/movies/:id" component={WatchMovies} exact />
             <Route exact path="/payment" component={Payment} />
             <Route exact path="/rent/:id" component={RentMovies} />

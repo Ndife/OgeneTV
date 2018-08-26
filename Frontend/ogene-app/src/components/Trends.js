@@ -32,8 +32,10 @@ const styles = theme => ({
     width: 214,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
-    backgroundColor: '#000',
-    boxShadow: '4px 4px 8px 0 rgba(20, 13, 13, 0.2)',
+    backgroundColor: '#0e0d0d',
+    zIndex: 10,
+    marginRight: '13px',
+    boxShadow: '2px 1px 5px #474141',
     cursor: 'pointer',
   },
   

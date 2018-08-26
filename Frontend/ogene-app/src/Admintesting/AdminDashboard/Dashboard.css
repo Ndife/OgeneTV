@@ -5,3 +5,16 @@
 .MuiTabs-flexContainer-126{
     display: grid !important;
 }
+
+.MuiAppBar-colorPrimary-14 {
+    color: #fff;
+    background-color: #0e0d0d !important;
+}
+.MuiTabs-flexContainer-153 {
+    display: grid !important;
+}
+
+.MuiTypography-colorInherit-89 {
+    color: inherit;
+    width: 90%;
+}

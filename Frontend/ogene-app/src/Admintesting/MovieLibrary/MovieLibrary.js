@@ -3,21 +3,20 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import '../Homepage.css';
-import '../Recent.css';
-import {Link} from 'react-router-dom';
-// import Homepage from './Homepage';
+// import axios from 'axios';
+import './MovieLibrary.css';
+
+
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    display: 'flex',
+    // display: 'flex',
     flexWrap: 'wrap',
     boxSizing: 'border-box',
     margin: 0,
   },
-
   cards: {
     flexGrow: 0,
     maxWidth: '100%',
@@ -25,10 +24,11 @@ const styles = theme => ({
     flexBasis: 'auto!important',
   },
   paper: {
-    height: 230,
-    width: 191,
+    height: 260,
+    width: 214,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
+    cursor: 'pointer',
     backgroundColor: '#0e0d0d',
     zIndex: 10,
     marginRight: '13px',
@@ -39,32 +39,45 @@ const styles = theme => ({
   },
 });
 
-class ComedyMovies extends React.Component {
+
+class MovieLibrary extends React.Component {
   state = {
     spacing: '16',
-    movies: ['comedy', 'laugh', 'lol', 'loma', 'smh', 'shoot', 1, 2, 3, 4]
+    movies: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ]
   };
-
+  
+//   componentDidMount(){
+    
+//     axios.get(`https://ogenetv.herokuapp.com/movies/recent`)
+//     .then(res => {
+//       console.log(res)
+//       this.setState({ movies: res.data.movies})
+//       console.log(this.state.movies)
+//     })
+    
+//   }
+  
+  
   handleChange = key => (event, value) => {
     this.setState({
       [key]: value,
     });
   };
-
+  
   render() {
     const { classes } = this.props;
     const { spacing } = this.state;
 
     return (
-      <div>
-      <Grid container className={classes.root} spacing={16}>
+        <div>
+      <Grid container className={classes.root} spacing={40}>
             <Grid item xs={6} sm={3} className={classes.cards}>
             <Grid container className={classes.paperCards} justify="center" spacing={Number(spacing)}>
                 {this.state.movies.map(movie => (
                 <Grid key={movie} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie.image_url} alt=''/>
+                          <img className="recent-image" src={movie.image} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">
@@ -80,11 +93,9 @@ class ComedyMovies extends React.Component {
                               <i className="fa fa-heart"></i>
                               </div>
                               <div className="sub-item1">
-                                <Link to={{
-                                    pathname: `/rent/${movie.recipe_id}`,
-                                    state: { movies: movie.title}
-                                    }}><button className='view-btn'>More Details</button>
-                                  </Link>
+                                
+                                <button className='view-btn'>More Details</button>
+                            
                               </div>
                             </div>
                           </div>
@@ -99,8 +110,8 @@ class ComedyMovies extends React.Component {
   }
 }
 
-ComedyMovies.propTypes = {
+MovieLibrary.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ComedyMovies);
+export default withStyles(styles)(MovieLibrary);
