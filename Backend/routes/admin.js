@@ -13,6 +13,7 @@ router.get('/getAllAdmin',adminControllers.getAllAdmin);
 router.get('/searchAdmin/:value',adminControllers.searchAdmin)
       .get('/searchUser/:value',adminControllers.searchUser)
       .get('/deleteUser/:id',adminControllers.deleteUser)
-      .get('/deleteUser/:id',adminControllers.deleteUser)
       .get('/deleteAdmin/:id',adminControllers.deleteAdmin)
+      .post('/forgotPass',adminControllers.forgotPass)
+     
 module.exports = router;   
