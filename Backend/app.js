@@ -26,6 +26,7 @@ const adminRoute = require('./routes/admin');
 const orderRoute = require('./routes/order');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
+const categoryRoute = require('./routes/category');
 
 //var indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
@@ -82,6 +83,7 @@ app.use('/admin',adminRoute);
 app.use('/order',orderRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
+app.use('/categories', categoryRoute);
 
 
 //app.use('/', indexRouter);
