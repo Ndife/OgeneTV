@@ -29,11 +29,22 @@ exports.subscriberAdded= function(email, callback) {
 
 //Admin email body
 exports.adminAdded = function(email,callback,name) {
-    var mailOptions = {
+    let mailOptions = {
         from: '"OgeneTV"',
         to: email,
         subject: 'Welcome to OgeneTV Admin Page',
         html: `<center><h2><strong></string><p>Dear, ${name}.</p><br>You have successfully signed up as an Admin in OgeneTV</strong></h2><center>`
+ };
+ transporter.sendMail(mailOptions, callback);
+}
+
+exports.recoveryPassword = function(email,callback,pass){
+    let mailOptions = {
+        from: '"OgeneTV"',
+        to: email,
+        subject: ' OgeneTV Password Recovery',
+        html: `<center><h2> <p>You have requested a password reset,<br> please use the number below to login and reset your password.</p></h2><center>
+                <br><br><h3><span style="color:rgb(222, 226, 224); background-color:blueviolet; padding: 20px; border-radius: 20px;">${pass}</span></h3>`
  };
  transporter.sendMail(mailOptions, callback);
 }
