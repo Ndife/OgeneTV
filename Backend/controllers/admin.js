@@ -206,6 +206,49 @@ exports.unBlockUser = function (req, res) {
     })
 }
 
+exports.AdminLogin = function(req , res){
+    var email = {email:req.body.email}
+    admin.find(email , function(err , result){
+        if(result.length>=1){
+            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+                if(rest){
+                          const token = jwt.sign({
+                             email: result[0].email,
+                             id: result[0]._id
+                         }, 
+                         `${key.secretkey()}`,
+                     );
+                        return res.status(200).json({
+                             message:'login successful',
+                             token,
+         
+                         });
+                     
+                }else{
+                    res.json({message:'Admin username or password is Incorrect !!'})
+                }
+            } )
+        }else{
+            res.json({message:'Admin Email Or Password Does Not Exist !!'})
+        }
+    })
+}
+exports.SearchUser = function(req,res){
+    var name =  req.body.name
+    user.find({'name':{$regex:name,$options:'i'}},'-__v', function(err, data){
+        if(err){
+            res.json({err:err, message:'Error Encountered In finding USer'})
+        }else if(data.length == 0){
+            res.json({err:err, message:'Could Not Find Movie !!'})
+
+        }else{
+            res.json({data})
+        }
+
+    })
+}
+
+
 exports.deleteUser = function(req,res){
     var query = {_id:req.params.id};
     user.find(query,(err,data)=>{

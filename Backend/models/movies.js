@@ -5,6 +5,7 @@ var movieSchema = mongoose.Schema({
     time: Date,
     title: {type: String, required: true},
     description: {type: String, required: true},
+    downloads:{type:Number, default:0},
     releaseYear:{type: Number, required: true},
     producer: {type: String, required: true},
     category: {type: String, required: true},

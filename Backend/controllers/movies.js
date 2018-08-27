@@ -172,6 +172,7 @@ exports.deleteMovie = function(req, res, next){
     } 
 }
 
+
 exports.sortRecent = function(req, res, next){
     try {
         var value = Number.parseInt(req.query.value);
@@ -187,3 +188,4 @@ exports.sortRecent = function(req, res, next){
         console.log('Error: ' + exception)
     }
 }
+
