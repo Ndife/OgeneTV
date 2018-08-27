@@ -16,5 +16,5 @@ router.get('/searchAdmin/:value',adminControllers.searchAdmin)
       .get('/deleteAdmin/:id',adminControllers.deleteAdmin)
       .post('/forgotPass',adminControllers.forgotPass)
       .post('/login',adminControllers.adminLogin)
-     
+      .post('/updateAdmin/:id',adminControllers.updateAdmin)
 module.exports = router;   
