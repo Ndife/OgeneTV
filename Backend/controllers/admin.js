@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 var user = require('../models/users');
 var admin = require('../models/admin');
 const jwt = require('jsonwebtoken');
-const key = require('../secretKey');
-
+const key = require('../functions/secret');
+const mailer = require('../functions/mailer')
 
 
 // ADMIN METHODS.
@@ -44,7 +44,56 @@ exports.adminSignUp = function (req, res) {
     })
 }
 
+exports.adminLogin = function(req , res){
+    var email = {email:req.body.email}
+    admin.find(email , function(err , result){
+        if(result.length>=1){
+            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+                if(rest){
+                          const token = jwt.sign({
+                             email: result[0].email,
+                             id: result[0]._id
+                         }, 
+                         `${key.secretkey}`,
+                     );
+                        activeUser = result.map(userr => userr.username)
+                        return res.status(200).json({
+                             message:'login successful',
+                             token,
+                             Username: activeUser.join()
+                         });
+                }else{
+                    res.json({message:'Admin username or password is Incorrect !!'})
+                }
+            } )
+        }else{
+            res.json({message:'Admin Email Or Password Does Not Exist !!'})
+        }
+    })
+}
 
+
+exports.forgotPass = function(req,res){
+    var email = {email:req.body.email}
+    var update = Math.floor(9372+Math.random()*10000).toString();
+    admin.findOne(email,(err,result) => {
+        if(err) res.json({message: err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({message: err})
+            admin.findOneAndUpdate(email,{password: hash},(error) => {
+                if(error) res.json(error)
+                mailer.recoveryPassword(email.email,(err,info)=>{
+                    if(err){
+                        res.json({error:'dad'});
+                    }else {
+                res.json({message: 'request success'}); 
+                    }
+            },update);
+        });
+    });
+})
+
+}
 
 exports.getAdmin = function (req, res) {
     var query = { email: req.body.email }
@@ -52,7 +101,7 @@ exports.getAdmin = function (req, res) {
         if(user!=null) {res.json({message:user})}
         else {
              res.json({Error:'email not found'});
-        }
+        } 
     });
 }
 
@@ -85,6 +134,27 @@ exports.deleteAdmin = function(req,res){
     }
     })
 }
+
+exports.updateAdmin = function(req,res){
+    var id = {_id:req.params.id}
+    var update = req.body.password;
+    admin.findOne(id,(err,result) => {
+        if(err) res.json({Error:err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({Error: err})
+            let details = {
+                email: req.body.email,
+                username: req.body.username,
+                password: hash
+            }
+            admin.updateOne(id,details,(error) => {
+                if(error) res.json(error);
+                res.json({message: 'updated successfully'}); 
+            })
+        });
+    }); 
+}
+
 
 
 
@@ -135,33 +205,6 @@ exports.unBlockUser = function (req, res) {
         res.json({ err: err, message: 'Error UnBlocking User' });
     })
 }
-exports.AdminLogin = function(req , res){
-    var email = {email:req.body.email}
-    admin.find(email , function(err , result){
-        if(result.length>=1){
-            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
-                if(rest){
-                          const token = jwt.sign({
-                             email: result[0].email,
-                             id: result[0]._id
-                         }, 
-                         `${key.secretkey()}`,
-                     );
-                        return res.status(200).json({
-                             message:'login successful',
-                             token,
-         
-                         });
-                     
-                }else{
-                    res.json({message:'Admin username or password is Incorrect !!'})
-                }
-            } )
-        }else{
-            res.json({message:'Admin Email Or Password Does Not Exist !!'})
-        }
-    })
-}
 
 exports.deleteUser = function(req,res){
     var query = {_id:req.params.id};
@@ -178,6 +221,4 @@ exports.deleteUser = function(req,res){
     })
     
 } 
-
-
 
