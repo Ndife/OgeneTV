@@ -1,13 +1,11 @@
 //This file contains the operations on the model
 var Movie = require('../models/movies');
-var fs = require('fs');
 var cloud = require('../functions/cloudinaryUpload');
 
 exports.addMovie = function(req, res, next){
     try {
-    Movie.find({title: req.body.title}, function(err, movie){
+    Movie.find({title: req.body.title.toLowerCase()}, function(err, movie){
         if (movie.length){
-            console.log(movie);
             res.status(409).json({message: 'Movie has been uploaded before'})
         } else if (req.files.length != 2){
             return res.json({mesage: 'Please upload both image and video files'})
@@ -15,7 +13,7 @@ exports.addMovie = function(req, res, next){
          else {
             var movie = {
                 time: Date.now(),
-                title: req.body.title,
+                title: req.body.title.toLowerCase(),
                 description: req.body.description,
                 releaseYear: req.body.releaseYear,
                 producer: req.body.producer,
@@ -29,7 +27,6 @@ exports.addMovie = function(req, res, next){
             cloud.upload(movie.image).then((result) => {
                 movie.image = result.url;
                 movie.imageID = result.Id;
-                //console.log(movie.video);
                 cloud.upload(movie.video).then((result) => {
                     movie.video = result.url;
                     movie.videoID = result.Id;
@@ -38,7 +35,7 @@ exports.addMovie = function(req, res, next){
                                 res.status(500).json({err: err, message: 'Something went wrong'});
                         }else{
                             console.log(movie);
-                                res.status(201).json({message: 'Movie was added successfully'});
+                            res.status(201).json({message: 'Movie was added successfully'});
                         }
                      });
                 }).catch((error)=>{
@@ -63,13 +60,14 @@ exports.getAllMovies = function(req, res, next){
             }else if(movies.length == 0){
                 res.status(200).json({message: 'List of movies is empty'})
             }else{
+                
                 res.status(200).json({
                     count: movies.length,
-                    movies: movies
+                    movies,
                 })
             }    
     })
-    .select('-__v')
+    .select('-__v').limit(20) 
     } catch (exception) {
         console.log('Error: ' + exception);
 }
@@ -86,7 +84,7 @@ exports.getById = function(req, res, next){
         } else {
                res.status(401).json({message: 'No valid entry for required Id'});
         }
-    })
+    });
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -115,8 +113,12 @@ exports.updateMovie = function(req, res){
     var id = req.params.id;
     var update = req.body;
     Movie.findByIdAndUpdate(id, update, function(err){
-            if(err) res.status(500).json({err: err, message: 'Update error'});
+
+            if(err){
+                res.status(500).json({err: err, message: 'Update error'});
+            } else {
             res.status(201).json({message: update});
+            }
     })
     } catch (exception) {
         console.log('Error: ' + exception);
@@ -126,7 +128,7 @@ exports.updateMovie = function(req, res){
 
 exports.searchMovie = function(req, res){
     try {
-        var value= req.params.value;
+        var value = req.params.value;
         Movie.find({"title":{$regex: value, $options: 'i'}}, '-__v', function(err, movie){
             if (err) {
                 res.json({err:err, message:'sorry, could not find movie'})
@@ -139,8 +141,8 @@ exports.searchMovie = function(req, res){
     } catch (exception) {
         console.log('Error: ' + exception);
     }
-
 }
+
 exports.deleteMovie = function(req, res, next){
     try {
     var id = ({_id:req.params.id});
@@ -149,15 +151,15 @@ exports.deleteMovie = function(req, res, next){
                 if (err){
                     res.status(404).json({message: 'The required movie does not exist'});
                 }else{
-                    cloud.delete(movie.imageID).then(() => {
-                        cloud.delete(movie.videoID).then(() => {
+                    cloud.deleteVideoFile(movie.videoID).then(() => {
+                        cloud.delete(movie.imageID).then(() => {
                             Movie.remove(id, function(err){
                                 if(err) {
                                     res.status(500).json({err: err, message: 'The resource could not be deleted'})
                                 }else{
                                     res.status(200).json({message: 'The movie was deleted'});
                                 }
-                                })
+                            })
                         })
                     })
                 }
@@ -168,5 +170,22 @@ exports.deleteMovie = function(req, res, next){
     }catch (exception) {
         console.log('Error: ' + exception);
     } 
+}
+
+
+exports.sortRecent = function(req, res, next){
+    try {
+        var value = Number.parseInt(req.query.value);
+        Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
+        .exec((err, movies) => {
+            if(err){
+                res.status(500).json({Error: err})
+            } else {
+                res.status(200).json({message: movies});
+            }
+        })
+    } catch (exception) {
+        console.log('Error: ' + exception)
+    }
 }
 

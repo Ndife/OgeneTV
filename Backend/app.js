@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path')
 const app = express();
@@ -23,6 +24,7 @@ const adminRoute = require('./routes/admin');
 const paymentRoute = require('./routes/payments');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
+const categoryRoute = require('./routes/category');
 
 //var indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
@@ -56,6 +58,7 @@ app.use('/admin',adminRoute);
 app.use('/payments',paymentRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
+app.use('/categories', categoryRoute);
 
 
 
