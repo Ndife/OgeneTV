@@ -169,3 +169,4 @@ exports.deleteMovie = function(req, res, next){
         console.log('Error: ' + exception);
     } 
 }
+
