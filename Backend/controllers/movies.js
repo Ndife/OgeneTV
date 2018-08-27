@@ -4,7 +4,7 @@ var cloud = require('../functions/cloudinaryUpload');
 
 exports.addMovie = function(req, res, next){
     try {
-    Movie.find({title: req.body.title}, function(err, movie){
+    Movie.find({title: req.body.title.toLowerCase()}, function(err, movie){
         if (movie.length){
             res.status(409).json({message: 'Movie has been uploaded before'})
         } else if (req.files.length != 2){
@@ -13,7 +13,7 @@ exports.addMovie = function(req, res, next){
          else {
             var movie = {
                 time: Date.now(),
-                title: req.body.title,
+                title: req.body.title.toLowerCase(),
                 description: req.body.description,
                 releaseYear: req.body.releaseYear,
                 producer: req.body.producer,
@@ -27,7 +27,6 @@ exports.addMovie = function(req, res, next){
             cloud.upload(movie.image).then((result) => {
                 movie.image = result.url;
                 movie.imageID = result.Id;
-                //console.log(movie.video);
                 cloud.upload(movie.video).then((result) => {
                     movie.video = result.url;
                     movie.videoID = result.Id;
@@ -36,7 +35,7 @@ exports.addMovie = function(req, res, next){
                                 res.status(500).json({err: err, message: 'Something went wrong'});
                         }else{
                             console.log(movie);
-                                res.status(201).json({message: 'Movie was added successfully'});
+                            res.status(201).json({message: 'Movie was added successfully'});
                         }
                      });
                 }).catch((error)=>{
