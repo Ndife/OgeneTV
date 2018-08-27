@@ -135,6 +135,25 @@ exports.deleteAdmin = function(req,res){
     })
 }
 
+exports.updateAdmin = function(req,res){
+    var id = {_id:req.params.id}
+    var update = req.body.password;
+    admin.findOne(id,(err,result) => {
+        if(err) res.json({Error:err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({Error: err})
+            let details = {
+                email: req.body.email,
+                username: req.body.username,
+                password: hash
+            }
+            admin.updateOne(id,details,(error) => {
+                if(error) res.json(error);
+                res.json({message: 'updated successfully'}); 
+            })
+        });
+    }); 
+}
 
 
 
