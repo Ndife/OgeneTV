@@ -54,7 +54,7 @@ class RecentMovies extends React.Component {
   
   componentDidMount(){
     
-    axios.get(`https://ogenetv.herokuapp.com/movies/recent`)
+    axios.get(`https://ogenetv.herokuapp.com/movies/`)
     .then(res => {
       console.log(res)
       this.setState({ movies: res.data.movies})

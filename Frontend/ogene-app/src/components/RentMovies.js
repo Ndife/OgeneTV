@@ -86,7 +86,7 @@ class RentMovies extends Component {
             
             // <Redirect to ={`/movies/${title}`}/>
                            
-            // this.state.props.history.push(`/movies/${title}`)
+            // this.props.history.push(`/movies/${title}`)
         },
         onClose: function () {
             alert('window closed');

@@ -60,3 +60,11 @@
 .star-rating{
     color: #FF0404;
 }
+
+.MovieLibrary-root-176 {
+    width: 85% !important;
+    margin: 0;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}

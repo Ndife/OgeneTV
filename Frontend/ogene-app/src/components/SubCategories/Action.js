@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 // import {Link} from 'react-router-dom';
 import '../Homepage.css';
 import '../Recent.css';
+import './Action.css';
 import {Link} from 'react-router-dom';
 import axios from 'axios'
 // import Homepage from './Homepage';
@@ -28,7 +29,7 @@ const styles = theme => ({
     flexBasis: 'auto!important',
   },
   paper: {
-    height: 230,
+    height: 255,
     width: 191,
     borderBottomRightRadius: "15PX",
     borderTopLeftRadius: "15px",
@@ -78,7 +79,7 @@ class ActionMovies extends React.Component {
                 <Grid key={movie._id} item>
                     <Paper className={classes.paper} >
                         <div className="image-api">
-                          <img className="recent-image" src={movie.image} alt=''/>
+                          <img className='image-style' src={movie.image} alt=''/>
                         </div>
                           <div className="items">
                             <div className="sub-items">

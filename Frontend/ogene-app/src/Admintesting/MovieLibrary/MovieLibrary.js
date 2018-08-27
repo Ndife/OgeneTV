@@ -94,7 +94,7 @@ class MovieLibrary extends React.Component {
                               </div>
                               <div className="sub-item1">
                                 
-                                <button className='view-btn'>More Details</button>
+                                <button className='view-btn'>Delete</button>
                             
                               </div>
                             </div>

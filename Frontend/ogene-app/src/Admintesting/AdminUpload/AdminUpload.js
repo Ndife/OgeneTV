@@ -5,69 +5,96 @@ import './AdminUpload.css'
 
 class AdminTester extends Component{
     state = {
-        title: '',
-        description: '',
-        releaseYear: '',
-        producer: '',
-        category: '',
-        price: '',
+        // title: '',
+        // description: '',
+        // releaseYear: '',
+        // producer: '',
+        // category: '',
+        // price: '',
         image: '',
         video: ''
     }
-    onChange=(event)=>{
+    handleFile = (event) => {
         switch (event.target.name) {
-           case 'selectedFile':
-           this.setState({selectedFile: event.target.files[0]})
-           break;
-           default:
-             this.setState({ [event.target.name]: event.target.value })
+            case 'image':
+                this.setState({
+                    image: event.target.files[0]
+                })
+            case 'video':
+                this.setState({
+                    video: event.target.files[0]
+                })
+            default:
+                null;
         }
-
+        // console.log(this.state)
     }
-    fileUpload = ()=>{
-        const {title, description, releaseYear, producer, price, image, video} = this.state
+
+
+    // onChange=(event)=>{
+    //     switch (event.target.name) {
+    //        case 'image':
+    //        this.setState({file: event.target.files[0]})
+    //        case 'video':
+    //        this.setState({file: event.target.files[1]})
+    //        break;
+    //        default:
+    //          this.setState({ [event.target.name]: event.target.value })
+    //     }
+
+    // }
+
+
+    fileUpload = e =>{
+        
+        let description = this.refs.description.value;
+        let title = this.refs.title.value;  
+        let price = this.refs.price.value;  
+        let category = this.refs.category.value;
+        let releaseYear = this.refs.releaseYear.value;  
+        let producer = this.refs.producer.value;       
+        e.preventDefault()
         const files = new FormData()
-        files.append('authur', title);
+        files.append('image', this.state.image);
+        files.append('video', this.state.video);
+        files.append('title', title);
         files.append('description', description);
         files.append('releaseYear', releaseYear);
         files.append('producer', producer);
+        files.append('category', category);
         files.append('price', price);
-        files.append('image', image);
-        files.append('video', video);
-        console.log(files)
+        console.log(title)
 
         axios({
             method: 'post',
             url: 'https://ogenetv.herokuapp.com/movies/',
             data: files,
-            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            headers: {
+                'Content-Type': 'mulTipart/form-data'
+            }
             
         })
          .then(res =>{
             console.log(res)
         })
 
-        // axios.post('https://affiammuta.herokuapp.com/books/addbook', files, {onDownloadProgress: ProgressEvent =>{
-        //     console.log("upload progress: " + Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%')
-        // }})
-        // method=post
-    }
+          }
     render(){
-        const {name, description, releaseYear, producer, price, category} = this.state
+        // const {name, description, releaseYear, producer, price, category} = this.state
             return(
                 <div className="upload-form">
                     {/* <Dashboard/> */}
-                    <form action='https://ogenetv.herokuapp.com/movies/' method="post" enctype='mulTipart/form-data' className='form-control' onSubmit = {this.fileUpload}>
+                    <form className='form-control'>
                         <input 
                         type="file" 
                         name='image'
-                        onChange={this.onChange}
+                        onChange={this.handleFile}
                         />
 
                         <input 
                         type="file" 
                         name='video'
-                        onChange={this.onChange}
+                        onChange={this.handleFile}
                         className="input-value"
                         />
 
@@ -75,57 +102,63 @@ class AdminTester extends Component{
                         type='text'
                         name='title'
                         placeholder="title"
-                        value={name}
+                        ref="title"
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
 
                         <input
                         type='text'
                         name='description'
                         placeholder="description"
-                        value={description}
+                        ref='description'
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
 
                         <input
                         type='text'
                         name='releaseYear'
                         placeholder="releaseYear"
-                        value={releaseYear}
+                        ref='releaseYear'
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
 
                         <input
                         type='text'
                         name='producer'
                         placeholder="producer"
-                        value={producer}
+                        ref='producer'
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
 
                         <input
                         type='text'
                         name='category'
                         placeholder="category"
-                        value={category}
+                        ref='category'
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
 
                         <input
                         type='text'
                         name='price'
                         placeholder="price"
-                        value={price}
+                        ref='price'
                         onChange={this.onChange}
                         className="input-value"
+                        
                         />
                         
-                        <button className='upload-btn'>Upload</button>
+                        <button onClick={this.fileUpload} type="button" className='upload-btn'>Upload</button>
                     </form>
                 </div>
             );

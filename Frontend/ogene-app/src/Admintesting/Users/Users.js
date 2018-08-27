@@ -27,6 +27,7 @@ class Users extends React.Component{
                         <th>User_Id</th>
                         <th>User Name</th>
                         <th>Email</th>
+                        <th>Block User</th>
                     </tr>
                         {this.state.userDetails.map(details =>{
                 return(
@@ -35,6 +36,7 @@ class Users extends React.Component{
                         <td >{details._id}</td>
                         <td >{details.username}</td>
                         <td >{details.email}</td>
+                        <td ><button><i fa fa-trash></i>Block</button></td>
                     </tr>)
                         })}
                         

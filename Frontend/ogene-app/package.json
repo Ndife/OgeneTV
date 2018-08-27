@@ -2,6 +2,10 @@
   "name": "ogene-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "5.6.0",
+    "node": "v8.11.3"
+  },
   "dependencies": {
     "@material-ui/icons": "^2.0.1",
     "axios": "^0.18.0",
