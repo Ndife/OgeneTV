@@ -5,9 +5,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const Mongoose = require('mongoose');
-const passport = require('passport');
 const keys = require('./config/key');
-const cookieSession = require('express-session');
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -41,36 +39,13 @@ app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
   
-// Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
+Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
 
-Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
+// Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
 app.get('/', function(req, res){
     res.json({message:"hello world"});
 });
-
-
-//require('./auth')(passport);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
- app.use(cookieSession({
-     secret:'compare me',
-     resave:false,
-     saveUninitialized:false
- }));
-// Cookie-Session
-app.use(cookieSession({
-    maxAge: 24 * 60 ^ 60 * 1000,
-    keys: [keys.session.cookiekey],
-    secret: keys.secret.word,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: true}
-}));
-
-app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -84,6 +59,7 @@ app.use('/order',orderRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
 app.use('/categories', categoryRoute);
+
 
 
 //app.use('/', indexRouter);

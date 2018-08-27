@@ -2,82 +2,199 @@ const model = require('../models/admin');
 const bcrypt = require('bcrypt');
 var user = require('../models/users');
 var admin = require('../models/admin');
-var mailer = require('../functions/mailer');
+const jwt = require('jsonwebtoken');
+const key = require('../functions/secret');
+const mailer = require('../functions/mailer')
 
 
-exports.adminSignUp = function (req, res) {
-    var mail = { email: req.body.email }
-    model.find(mail, function (err, data) {
-        if (data.length >= 1) {
-            return res.json({ message: 'user already Exists !!' })
-        } else {
-            bcrypt.hash(req.body.password, 10, (err, hash) => {
-                if (err)
-                    return res.json({ err: err, message: 'Error creating Password !!' });
-                var details = {
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: hash,
-                }
-                model.create(details, function (err) {
-                    if (err) res.json({ err: err, message: 'Error During Admin Signup !!' });
-                    mailer.adminAdded(details.email,(err,info)=>{
-                        if(err){
-                            res.json({error:err});
-                        }else {
-                            res.json({ message: 'Admin Was Created Successfully !!' });
+// ADMIN METHODS.
+exports.adminSignUp = function (req, res) {    
+    var query1 = {username:req.body.username}
+    var query2 = {email:req.body.email};
+    model.find(query1,(err,users)=>{
+        if(users.length >=1){
+            res.json('username already exist');
+        }else {
+            model.find(query2,(err,email)=>{ 
+                if(email.length >=1){
+                    res.json('email already exist');
+                }else {
+                    bcrypt.hash(req.body.password, 10, (err, hash) => {
+                        if (err)
+                            return res.json({message: 'Error creating Password !!' });
+                        var details = {
+                            email: req.body.email,
+                            username: req.body.username,
+                            password: hash,
                         }
-                    },details.username);
-                });
-            }) 
+                        model.create(details, function (err) {
+                            if (err) res.json({message: 'Error During Admin Signup !!' });
+                            mailer.adminAdded(details.email,(err,info)=>{
+                                if(err){
+                                    res.json({error:err});
+                                }else {
+                                    res.json({ message: 'Admin Was Created Successfully !!' });
+                                }
+                            },details.username);
+                        });
+                    }) 
+                }
+            })
         } 
+    })
+}
 
+exports.adminLogin = function(req , res){
+    var email = {email:req.body.email}
+    admin.find(email , function(err , result){
+        if(result.length>=1){
+            bcrypt.compare(req.body.password , result[0].password, function(err, rest){
+                if(rest){
+                          const token = jwt.sign({
+                             email: result[0].email,
+                             id: result[0]._id
+                         }, 
+                         `${key.secretkey}`,
+                     );
+                        activeUser = result.map(userr => userr.username)
+                        return res.status(200).json({
+                             message:'login successful',
+                             token,
+                             Username: activeUser.join()
+                         });
+                }else{
+                    res.json({message:'Admin username or password is Incorrect !!'})
+                }
+            } )
+        }else{
+            res.json({message:'Admin Email Or Password Does Not Exist !!'})
+        }
     })
 }
 
 
-exports.AdminGetUser = function (req, res) {
+exports.forgotPass = function(req,res){
+    var email = {email:req.body.email}
+    var update = Math.floor(9372+Math.random()*10000).toString();
+    admin.findOne(email,(err,result) => {
+        if(err) res.json({message: err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({message: err})
+            admin.findOneAndUpdate(email,{password: hash},(error) => {
+                if(error) res.json(error)
+                mailer.recoveryPassword(email.email,(err,info)=>{
+                    if(err){
+                        res.json({error:'dad'});
+                    }else {
+                res.json({message: 'request success'}); 
+                    }
+            },update);
+        });
+    });
+})
+
+}
+
+exports.getAdmin = function (req, res) {
+    var query = { email: req.body.email }
+    admin.findOne(query,(err,user)=>{
+        if(user!=null) {res.json({message:user})}
+        else {
+             res.json({Error:'email not found'});
+        } 
+    });
+}
+
+exports.getAllAdmin = function(req,res){
+    admin.find({},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json({message:data});
+    })
+}
+
+exports.searchAdmin = function(req,res){
+    var value = req.params.value;
+    admin.find({"username":{$regex: value, $options: "i"}},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json(data);
+    })
+}
+
+exports.deleteAdmin = function(req,res){
+    var query = {_id:req.params.id};
+    admin.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid Admin id'})
+    }else if(data.length<1){
+            res.json({message:'Admin not found'});
+    }else {
+        admin.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'Admin deleted successfully'}) };
+        })
+    }
+    })
+}
+
+exports.updateAdmin = function(req,res){
+    var id = {_id:req.params.id}
+    var update = req.body.password;
+    admin.findOne(id,(err,result) => {
+        if(err) res.json({Error:err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({Error: err})
+            let details = {
+                email: req.body.email,
+                username: req.body.username,
+                password: hash
+            }
+            admin.updateOne(id,details,(error) => {
+                if(error) res.json(error);
+                res.json({message: 'updated successfully'}); 
+            })
+        });
+    }); 
+}
+
+
+
+
+// USERS/CLIENT METHODS.
+exports.getUser = function (req, res) {
     var mails = { email: req.body.email }
     user.find(mails, function (err, dat) {
         if (dat.length >= 1) {
             res.json({ message: dat });
         } else {
-            res.json({ err: err, message: 'user was not found' });
+            res.json({message: 'user was not found' });
         }
     })
 }
 
-exports.AdminGetAllUsers = function (req, res) {
+exports.searchUser = function(req,res){
+    var value = req.params.value;
+    user.find({"username":{$regex: value, $options: 'i'}},(err,data)=>{
+        if(err) res.json({Error:err});
+        res.json(data);
+    })
+}
+
+exports.getAllUsers = function (req, res) {
     user.find({}, function (err, data) {
         if (data.length >= 1) {
-            res.json({ err: err, message: data })
+            res.json({message: data })
         } else {
-            res.json({ err: err, message: 'No Users Found !!' })
+            res.json({message: 'No Users Found !!' })
         }
     })
 }
 
-exports.getAdmin = function (email, callback) {
-    var query = { email: email }
-    admin.findOne(query, callback);
-}
-
-exports.getAdminByid = function (id, callback) {
-    admin.findById(id, callback);
-}
-
-exports.decrypt = function (candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-        if (err) throw err
-        callback(null, isMatch);
-    });
-}
 
 exports.BlockUser = function (req, res) {
     var userId = { _id: req.params.id }
+
     user.findByIdAndUpdate(userId, { status: false }, function (err, data) {
         if (data) res.json({message: 'User Has Been Blocked till Further Notice !!' })
-        res.json({ err: err, message: 'Error Blocking User' });
+        res.json({message: 'Error Blocking User' });
     })
 }
 
@@ -89,5 +206,19 @@ exports.unBlockUser = function (req, res) {
     })
 }
 
-
+exports.deleteUser = function(req,res){
+    var query = {_id:req.params.id};
+    user.find(query,(err,data)=>{
+        if(err) { res.json({Error: 'invalid user id'});
+    }else if(data.length<1){
+            res.json({message:'user not found'});
+    }else {
+        user.findByIdAndDelete(query,(err,data)=>{
+            if(err){ res.json({error:err}) }else 
+            { res.json({message:'User deleted successfully'}) };
+        })
+    }
+    })
+    
+} 
 

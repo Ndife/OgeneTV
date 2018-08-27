@@ -60,13 +60,14 @@ exports.getAllMovies = function(req, res, next){
             }else if(movies.length == 0){
                 res.status(200).json({message: 'List of movies is empty'})
             }else{
+                
                 res.status(200).json({
                     count: movies.length,
-                    movies: movies
+                    movies,
                 })
             }    
     })
-    .select('-__v')
+    .select('-__v').limit(20) 
     } catch (exception) {
         console.log('Error: ' + exception);
 }
@@ -112,6 +113,7 @@ exports.updateMovie = function(req, res){
     var id = req.params.id;
     var update = req.body;
     Movie.findByIdAndUpdate(id, update, function(err){
+
             if(err){
                 res.status(500).json({err: err, message: 'Update error'});
             } else {

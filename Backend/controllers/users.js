@@ -2,8 +2,11 @@ const User = require('../models/users');
 const mongoose = require('mongoose'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const movieModel = require('../models/movies');
+const ObjectID = require('mongoose').Types.ObjectId;
 const secret = require('../functions/secret')
 const mailer = require('../functions/mailer');
+
 
 
 exports.signUp = (req, res, next) => {
@@ -90,7 +93,7 @@ exports.verify = (req, res, next) => {
 
 exports.logIn = (req, res, next) => {
     if((req.body.password != '') && (req.body.email != '')){
-        User.findOne({email: req.body.email}).select('email password verified')
+        User.findOne({email: req.body.email})
         .exec(function(err, Currentuser){
                 if (Currentuser == null){
                 res.status(201).json({message : "email does not exist"});
@@ -105,8 +108,16 @@ exports.logIn = (req, res, next) => {
                         res.status(202).json({message : "email or password invalid"});
                     }
                     else{
-                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"}) 
-                        res.status(200).json({message : "Login Successful", token : token});
+                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"});
+                      let  profile = {
+                         username: Currentuser.username,
+                         email: Currentuser.email,
+                         movies: Currentuser.movies,
+                         verified: Currentuser.verified,
+                         status: Currentuser.status,
+
+                        }
+                        res.status(200).json({message : "Login Successful", token : token ,currentUser:profile});
                     }
                 }
             }
@@ -118,5 +129,44 @@ exports.logIn = (req, res, next) => {
     }   
 }
 
+exports.UserAddMovie = function(req, res){
+    var user = new ObjectID(req.body.user)
+    var movie = new ObjectID (req.body.movie)
+    User.findById({_id:user}, function(err, data){
+        if(data){
+            movieModel.findOne({_id:movie} , function(err, data2){
+                if(!data2){
+                    res.json({err:err, message:'Movies Not Found !!'})
 
- 
+                }else{
+             
+                    
+                    if(JSON.stringify(data.movies).includes(JSON.stringify(data2._id))  ){
+                        res.json({err:err, message:'Movie Already Exists In Library!!'})
+
+                    }else{
+                    data.movies.push(data2._id)
+                    data.save()
+                    res.json({message:'Movie Purchase Successful'})
+                    }
+
+                }
+
+             
+            })
+        }else{
+            res.json({err:err,message:'User Not Found'})
+        }
+    })
+
+}
+
+exports.UserWatchMovie = function(req, res){
+    var id= req.params.id
+    User.findById(id, function(err, data){
+        console.log(err)
+        if(err)res.json({message:"an error occures"})
+        res.json(data.movies)
+    }).populate('movies')
+
+}

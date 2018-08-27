@@ -8,10 +8,11 @@ const userScheme = mongoose.Schema({
         unique: true,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
-    verified: {type:Boolean, required:true},
-    status: {type:Boolean, required:true},
-    password: {type:String, required:true}
-   
+    movies:[{type: mongoose.Schema.Types.ObjectId, ref:'movie'}],
+    verified: {type:Boolean, require:true},
+    status: {type:Boolean, require:true},
+    password: {type:String, required:true},
+
 })
 
 module.exports = mongoose.model('User', userScheme);
