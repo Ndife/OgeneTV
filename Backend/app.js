@@ -20,7 +20,7 @@ next();
 });
 
 const adminRoute = require('./routes/admin');
-const orderRoute = require('./routes/order');
+const paymentRoute = require('./routes/payments');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
 
@@ -37,9 +37,9 @@ app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
   
-Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
+//Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
 
-// Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
+Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
 app.get('/', function(req, res){
     res.json({message:"hello world"});
@@ -53,7 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes which should handle the request
 
 app.use('/admin',adminRoute);
-app.use('/order',orderRoute);
+app.use('/payments',paymentRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
 
