@@ -1,0 +1,6 @@
+.payment-details{
+    width: 96%;
+    display: flex;
+    flex-wrap: inherit;
+    justify-content: center;
+}
