@@ -67,7 +67,7 @@ exports.getAllMovies = function(req, res, next){
                 })
             }    
     })
-    .select('-__v').limit(20) 
+    .select('-__v')
     } catch (exception) {
         console.log('Error: ' + exception);
 }
