@@ -84,7 +84,7 @@ exports.forgotPass = function(req,res){
                 if(error) res.json(error)
                 mailer.recoveryPassword(email.email,(err,info)=>{
                     if(err){
-                        res.json({error:'dad'});
+                        res.json({error:err});
                     }else {
                 res.json({message: 'request success'}); 
                     }
