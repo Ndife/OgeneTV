@@ -4,6 +4,7 @@ var ObjectID = require('mongoose').Types.ObjectId;
 
 exports.addComment = function(req, res){
     var comment = {
+        time: Date.now(),
         commentBody: req.body.commentBody,
         user: req.body.user
     }

@@ -24,15 +24,17 @@ exports.signUp = (req, res, next) => {
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
                         if (err) res.status(205).json({ err: err });
                         else {
-                            const user = new User({
+                            var user = ({
                                 _id: new mongoose.Types.ObjectId(),
-                                email: req.body.email,
                                 name: req.body.name,
+                                email: req.body.email,
                                 password: hash,
                                 verified: false,
                                 status: false
                             })
-                            user.save(function (err) {
+                            User.create(user, function(err, result){
+                                console.log("7")
+                                console.log(result);
                                 if (err) {
                                     res.status(203).json({ Message: 'email or username invalid' })
                                 } else {
@@ -46,7 +48,7 @@ exports.signUp = (req, res, next) => {
                                             console.log('Email sent: ' + info.response);
                                             res.status(200).json({
                                                 message: 'User created successfully',
-                                                username: user.username,
+                                                name: user.name,
                                                 email: user.email
                                             });
                                         }
@@ -60,7 +62,7 @@ exports.signUp = (req, res, next) => {
                     })
                 }
             })
-    }
+        }
 }
 
 

@@ -66,7 +66,9 @@ exports.getAllMovies = function(req, res, next){
                 })
             }    
     })
-    .populate({path: 'comments', select: '-_id -__v '})
+    .populate({path: 'comments', populate: {
+        path: 'user', select: 'name -_id'
+    }, select: '-__v'})
     .select('-__v')
     } catch (exception) {
         console.log('Error: ' + exception);
@@ -85,7 +87,9 @@ exports.getById = function(req, res, next){
                res.status(401).json({message: 'No valid entry for required Id'});
         }
     })
-    .populate({path: 'comments', select: '-_id -__v '})
+    .populate({path: 'comments', populate: {
+        path: 'user', select: 'name -_id'
+    }, select: '-__v'})
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -103,7 +107,9 @@ exports.getByParam = function(req, res, next){
                 res.status(401).json({message: 'No valid entry for required param'});
         }
     })
-    .populate({path: 'comments', select: '-_id -__v '})
+    .populate({path: 'comments', populate: {
+        path: 'user', select: 'name -_id'
+    }, select: '-__v'})
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -178,7 +184,9 @@ exports.sortRecent = function(req, res, next){
     try {
         var value = Number.parseInt(req.query.value);
         Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
-        .populate({path: 'comments', select: '-_id -__v '})
+        .populate({path: 'comments', populate: {
+            path: 'user', select: 'name -_id'
+        }, select: '-__v'})
         .exec((err, movies) => {
             if(err){
                 res.status(500).json({Error: err})
