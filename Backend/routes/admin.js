@@ -4,7 +4,7 @@ var adminControllers = require('../controllers/admin');
 
 
 router.post('/signUp', adminControllers.adminSignUp);
-router.post('/getUser', adminControllers.getUser);
+router.get('/getUser/:id', adminControllers.getUser);
 router.get('/getUsers', adminControllers.getAllUsers);
 router.post('/getAdmin', adminControllers.getAdmin);
 router.get('/blockUser/:id', adminControllers.BlockUser);
