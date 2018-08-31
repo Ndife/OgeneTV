@@ -119,6 +119,7 @@ exports.logIn = (req, res, next) => {
                     else{
                         var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"});
                       let  profile = {
+                          id: Currentuser._id,
                          username: Currentuser.username,
                          email: Currentuser.email,
                          movies: Currentuser.movies,
