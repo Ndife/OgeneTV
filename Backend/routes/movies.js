@@ -15,7 +15,7 @@ router.post('/find/:id', movieController.updateMovie);
 //GET a particular movie by any param eg name, producer
 router.get('/get', movieController.getByParam);
 
-router.get('/search/:value', movieController.searchMovie);
+router.post('/search', movieController.searchMovie);
 //GET a movie by its Id
 router.get('/find/:id', movieController.getById);
 

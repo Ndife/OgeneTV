@@ -60,16 +60,14 @@ exports.getAllMovies = function(req, res, next){
             }else if(movies.length == 0){
                 res.status(200).json({message: 'List of movies is empty'})
             }else{
+                
                 res.status(200).json({
                     count: movies.length,
-                    movies
+                    movies,
                 })
             }    
     })
-    .populate({path: 'comments', populate: {
-        path: 'user', select: 'name -_id'
-    }, select: '-__v'})
-    .select('-__v')
+    .select('-__v').limit(20) 
     } catch (exception) {
         console.log('Error: ' + exception);
 }
@@ -86,10 +84,7 @@ exports.getById = function(req, res, next){
         } else {
                res.status(401).json({message: 'No valid entry for required Id'});
         }
-    })
-    .populate({path: 'comments', populate: {
-        path: 'user', select: 'name -_id'
-    }, select: '-__v'})
+    });
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -107,9 +102,6 @@ exports.getByParam = function(req, res, next){
                 res.status(401).json({message: 'No valid entry for required param'});
         }
     })
-    .populate({path: 'comments', populate: {
-        path: 'user', select: 'name -_id'
-    }, select: '-__v'})
     } catch (exception) {
         console.log('Error: ' + exception);
     }
@@ -180,13 +172,11 @@ exports.deleteMovie = function(req, res, next){
     } 
 }
 
+
 exports.sortRecent = function(req, res, next){
     try {
         var value = Number.parseInt(req.query.value);
         Movie.find({}, '-__v', {limit: value, sort:{'_id': -1}})
-        .populate({path: 'comments', populate: {
-            path: 'user', select: 'name -_id'
-        }, select: '-__v'})
         .exec((err, movies) => {
             if(err){
                 res.status(500).json({Error: err})

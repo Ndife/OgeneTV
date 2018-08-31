@@ -25,7 +25,6 @@ const paymentRoute = require('./routes/payments');
 const usersRoute = require('./routes/users');
 const moviesRoute = require('./routes/movies');
 const categoryRoute = require('./routes/category');
-const commentRoute = require('./routes/comment');
 
 //var indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
@@ -60,7 +59,6 @@ app.use('/payments',paymentRoute);
 app.use('/users',usersRoute);
 app.use('/movies',moviesRoute);
 app.use('/categories', categoryRoute);
-app.use('/comments', commentRoute);
 
 
 
