@@ -18,7 +18,7 @@ exports.signUp = (req, res, next) => {
                 if (user.length >= 1) {
                     res.status(201).json({ message: 'email already exist' })
                 } else {
-                    User.find({ name: req.body.name })
+                    User.find({ name: req.body.username })
                         .then(name => {
                             if (name.length >= 1) {
                                 res.status(202).json({ message: 'Username already exist' })
@@ -30,7 +30,7 @@ exports.signUp = (req, res, next) => {
                         } else {
                             var user = ({
                                 _id: new mongoose.Types.ObjectId(),
-                                name: req.body.name,
+                                username: req.body.username,
                                 email: req.body.email,
                                 password: hash,
                                 verified: false,
@@ -41,7 +41,7 @@ exports.signUp = (req, res, next) => {
                                 if (err) {
                                     res.status(203).json({ Message: 'email or username invalid' })
                                 } else {
-                                    var subject = 'Hello ' + user.name + ',';
+                                    var subject = 'Hello ' + user.username + ',';
                                     var mailBody = `We're really excited for you to join our online community. 
                                     You're just one click away from activating your account`
                                     var buttonLink = "https:\/\/ogenetv.herokuapp.com/users/verify/" + user.email;
@@ -56,7 +56,7 @@ exports.signUp = (req, res, next) => {
                                             console.log('Email sent: ' + info.response);
                                             res.status(200).json({
                                                 message: 'User created successfully',
-                                                name: user.name,
+                                                username: user.username,
                                                 email: user.email
                                             });
                                         }
@@ -148,9 +148,9 @@ exports.UserAddMovie = function (req, res) {
 
 
 
-    User.findById({ _id: req.body.userId }, function (err, data) {
+    User.findById({ _id: req.body.user }, function (err, data) {
         if (data) {
-            movieModel.findOne({ _id: req.body.movieId }, function (err, data2) {
+            movieModel.findOne({ _id: req.body.movie }, function (err, data2) {
                 if (!data2) {
                     res.json({ err: err, message: 'Movies Not Found !!' })
 
@@ -162,8 +162,8 @@ exports.UserAddMovie = function (req, res) {
 
                     } else {
                         var details = {
-                            user: req.body.userId,
-                            movie: req.body.movieId,
+                            user: req.body.user,
+                            movie: req.body.movie,
                             time: times,
                             refNo: req.body.refNo,
                             Status: true
@@ -201,9 +201,11 @@ exports.UserAddMovie = function (req, res) {
 
 }
 exports.UserWatchMovie = function(req, res){
-    var id= req.params.id
-    User.findById(id,'_id', function(err, data){
-      
+    var _id= req.params.id
+    User.findById(_id, function(err, data){
+      if(data){
+          console.log(data)
+      }
         console.log(err)
         if(err)res.json({message:"an error occures"})
         res.json(data.movies)
