@@ -353,12 +353,6 @@ return `<!DOCTYPE html>
 
                           <tbody>
                             <tr>
-                              <td class="long-text links-color" width="100%" valign="top" align="center" style="font-weight: normal; color: #919191; font-size: 13px; font-family: Arial Black, Arial Black, Gadget, sans-serif; text-align: center;">
-                                <p style="margin: 1em 0px; margin-bottom: 0px; margin-top: 0px;">Email sent to <a href="mailto:[mail]"
-                                    style="color: #cccccc; color: #cccccc; text-decoration: underline;">${email}</a></p>
-                              </td>
-                            </tr>
-                            <tr>
                                 <td class="long-text links-color" width="100%" valign="top" align="center" style="font-weight: normal; color: #919191; font-size: 13px; font-family: Arial Black, Arial Black, Gadget, sans-serif; text-align: center;">
                                     <p style="margin: 1em 0px; margin-bottom: 0px; margin-top: 0px;">Email sent to <a href="mailto:"
                                         style="color: #cccccc; color: #cccccc; text-decoration: underline;">${email}</a> because you registered at ogenetv.com. You can ignore this mail if this is not you.</p>
