@@ -11,8 +11,9 @@ router.post('/signUp',users.signUp);
 router.get('/verify/:email',users.verify);
 router.post('/login', users.logIn);
 router.post('/buy', users.UserAddMovie);
+router.get('/view/:id',users.UserWatchMovie);
 router.post('/delete', users.UserDeleteMovie);
-router.get('/watch/:id/:movie',users.UserViewMovie);
+router.get('/watch',users.UserViewMovie);
 
 
 module.exports = router; 
