@@ -13,7 +13,7 @@ router.post('/login', users.logIn);
 router.post('/buy', users.UserAddMovie);
 router.get('/view/:id',users.UserWatchMovie);
 router.post('/delete', users.UserDeleteMovie);
-router.post('/watch',users.UserViewMovie);
+router.get('/watch/:id/:movie',users.UserViewMovie);
 
 
 module.exports = router; 

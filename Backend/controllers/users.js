@@ -200,19 +200,10 @@ exports.UserAddMovie = function (req, res) {
     })
 
 }
-exports.UserWatchMovie = function(req, res){
-    var id= req.params.id
-    User.findById(id,'_id', function(err, data){
-        console.log(err)
-        if(err)res.json({message:"an error occures"})
-        res.json(data.movies)
-    }).populate('movies','image')
-}
-
 
 exports.UserViewMovie = function (req, res) {
-    var id = req.body.id
-    var movieId = req.body.movie
+    var id = req.params.id
+    var movieId = req.params.movie
     pay.find({ $and: [{ user: id }, { movie: movieId }] }, function (err, data){
         if(data){
         let currentDate = new Date();
