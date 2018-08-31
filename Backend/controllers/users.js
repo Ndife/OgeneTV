@@ -201,11 +201,8 @@ exports.UserAddMovie = function (req, res) {
 
 }
 exports.UserWatchMovie = function(req, res){
-    var _id= req.params.id
-    User.findById(_id, function(err, data){
-      if(data){
-          console.log(data)
-      }
+    var id= req.params.id
+    User.findById(id,'_id', function(err, data){
         console.log(err)
         if(err)res.json({message:"an error occures"})
         res.json(data.movies)
