@@ -15,28 +15,38 @@ exports.signUp = (req, res, next) => {
     } else {
         User.find({ email: req.body.email })
             .then(user => {
-                if (user.length >= 1) res.status(201).json({ message: 'email already exist' })
-                else {
+                if (user.length >= 1) {
+                    res.status(201).json({ message: 'email already exist' })
+                } else {
                     User.find({ name: req.body.name })
                         .then(name => {
-                            if (name.length >= 1) res.status(202).json({ message: 'Username already exist' })
+                            if (name.length >= 1) {
+                                res.status(202).json({ message: 'Username already exist' })
+                            }
                         })
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
-                        if (err) res.status(205).json({ err: err });
-                        else {
-                            const user = new User({
+                        if (err) {
+                            res.status(205).json({ err: err });
+                        } else {
+                            var user = ({
                                 _id: new mongoose.Types.ObjectId(),
-                                email: req.body.email,
                                 name: req.body.name,
+                                email: req.body.email,
                                 password: hash,
                                 verified: false,
                                 status: false
                             })
-                            user.save(function (err) {
+                            User.create(user, function(err, result){
+                                console.log(result);
                                 if (err) {
                                     res.status(203).json({ Message: 'email or username invalid' })
                                 } else {
-                                    mailer.subscriberAdded(user.email, function (error, info) {
+                                    var subject = 'Hello ' + user.name + ',';
+                                    var mailBody = `We're really excited for you to join our online community. 
+                                    You're just one click away from activating your account`
+                                    var buttonLink = "https:\/\/ogenetv.herokuapp.com/users/verify/" + user.email;
+                                    var buttonText = 'ACTIVATE ACCOUNT';
+                                    mailer.subscriberAdded(user.email, subject, mailBody, buttonLink, buttonText, function (error, info) {
                                         if (error) {
                                             console.log(error);
                                             res.status(309).json({
@@ -46,7 +56,7 @@ exports.signUp = (req, res, next) => {
                                             console.log('Email sent: ' + info.response);
                                             res.status(200).json({
                                                 message: 'User created successfully',
-                                                username: user.username,
+                                                name: user.name,
                                                 email: user.email
                                             });
                                         }
@@ -60,7 +70,7 @@ exports.signUp = (req, res, next) => {
                     })
                 }
             })
-    }
+        }
 }
 
 

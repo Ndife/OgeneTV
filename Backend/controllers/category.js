@@ -43,3 +43,18 @@ exports.getCategories = function(req, res){
         console.log('Error: ' + exception);
     }
 }
+
+exports.deleteCategory = function(req, res){
+    try {
+       var id = {_id: req.params.id};
+       Category.remove(id, function(err){
+           if(err){
+               res.status(500).json({err: err, message:'Something went wrong'})
+           }else{
+               res.status(200).json({message: 'Category deleted successfully'});
+           }
+       })
+    } catch (exception) {
+        console.log('Error: ' + exception);
+    }
+}
