@@ -15,15 +15,19 @@ exports.signUp = (req, res, next) => {
     } else {
         User.find({ email: req.body.email })
             .then(user => {
-                if (user.length >= 1) res.status(201).json({ message: 'email already exist' })
-                else {
+                if (user.length >= 1) {
+                    res.status(201).json({ message: 'email already exist' })
+                } else {
                     User.find({ name: req.body.name })
                         .then(name => {
-                            if (name.length >= 1) res.status(202).json({ message: 'Username already exist' })
+                            if (name.length >= 1) {
+                                res.status(202).json({ message: 'Username already exist' })
+                            }
                         })
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
-                        if (err) res.status(205).json({ err: err });
-                        else {
+                        if (err) {
+                            res.status(205).json({ err: err });
+                        } else {
                             var user = ({
                                 _id: new mongoose.Types.ObjectId(),
                                 name: req.body.name,
@@ -33,12 +37,16 @@ exports.signUp = (req, res, next) => {
                                 status: false
                             })
                             User.create(user, function(err, result){
-                                console.log("7")
                                 console.log(result);
                                 if (err) {
                                     res.status(203).json({ Message: 'email or username invalid' })
                                 } else {
-                                    mailer.subscriberAdded(user.email, function (error, info) {
+                                    var subject = 'Hello ' + user.name + ',';
+                                    var mailBody = `We're really excited for you to join our online community. 
+                                    You're just one click away from activating your account`
+                                    var buttonLink = "https:\/\/ogenetv.herokuapp.com/users/verify/" + user.email;
+                                    var buttonText = 'ACTIVATE ACCOUNT';
+                                    mailer.subscriberAdded(user.email, subject, mailBody, buttonLink, buttonText, function (error, info) {
                                         if (error) {
                                             console.log(error);
                                             res.status(309).json({
