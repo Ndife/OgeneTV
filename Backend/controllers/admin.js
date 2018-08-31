@@ -28,21 +28,14 @@ exports.adminSignUp = function (req, res) {
                             password: hash,
                         }
                         model.create(details, function (err) {
-                            if (err) {
-                                res.json({message: 'Error During Admin Signup !!' });
-                            }else{
-                                var subject = 'Hello ' + details.username + ',';
-                                var mailBody = `You have successfully signed up as an Admin in OgeneTV`
-                                var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com/adminlogin";
-                                var buttonText = 'LOG IN AS ADMIN';
-                                mailer.adminAdded(details.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
-                                    if(err){
-                                        res.json({error:err});
-                                    }else {
-                                        res.json({ message: 'Admin Was Created Successfully !!' });
-                                    }
-                                });
-                            }
+                            if (err) res.json({message: 'Error During Admin Signup !!' });
+                            mailer.adminAdded(details.email,(err,info)=>{
+                                if(err){
+                                    res.json({error:err});
+                                }else {
+                                    res.json({ message: 'Admin Was Created Successfully !!' });
+                                }
+                            },details.username);
                         });
                     }) 
                 }
@@ -61,7 +54,7 @@ exports.adminLogin = function(req , res){
                              email: result[0].email,
                              id: result[0]._id
                          }, 
-                         `${key.adminKey}`,
+                         `${key.secretkey}`,
                      );
                         activeUser = result.map(userr => userr.username)
                         return res.status(200).json({
@@ -80,41 +73,26 @@ exports.adminLogin = function(req , res){
 }
 
 
-exports.forgotPass = function(req,res,next){
+exports.forgotPass = function(req,res){
     var email = {email:req.body.email}
     var update = Math.floor(9372+Math.random()*10000).toString();
     admin.findOne(email,(err,result) => {
-        if(err) {
-            res.json({message: err});
-        }else if(result!=null){
-            bcrypt.hash(update,10,(err,hash) =>{
-                if(err) {
-                    res.json({message: err})
-                }
+        if(err) res.json({message: err});
+        bcrypt.hash(update,10,(err,hash) =>{
+            if(err) res.json({message: err})
             admin.findOneAndUpdate(email,{password: hash},(error) => {
-                if(error) {
-                    res.json(error)
-                }else{
-                    var subject = 'Hello,' ;
-                    var mailBody = 'You have requested a password reset, please use this number, ' + update +
-                    ' ,to login and reset your password.'
-                    var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com/adminlogin";
-                    var buttonText = 'LOG IN AS ADMIN';
-                    mailer.recoveryPassword(email.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
-                        if(err){
-                            res.json({error:err});
-                        }else {
-                        next(); 
-                        }
-                    });
-                    res.json({message: 'request success'});
-                }
-            });
+                if(error) res.json(error)
+                mailer.recoveryPassword(email.email,(err,info)=>{
+                    if(err){
+                        res.json({error:'dad'});
+                    }else {
+                res.json({message: 'request success'}); 
+                    }
+            },update);
         });
-        }else{
-            res.json({message: 'The email does not exist'});
-        }
-    })
+    });
+})
+
 }
 
 exports.getAdmin = function (req, res) {
@@ -182,8 +160,8 @@ exports.updateAdmin = function(req,res){
 
 // USERS/CLIENT METHODS.
 exports.getUser = function (req, res) {
-    var id = {_id: req.params.id }
-    user.find(id, function (err, dat) {
+    var mails = { email: req.body.email }
+    user.find(mails, function (err, dat) {
         if (dat.length >= 1) {
             res.json({ message: dat });
         } else {

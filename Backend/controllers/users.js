@@ -15,38 +15,28 @@ exports.signUp = (req, res, next) => {
     } else {
         User.find({ email: req.body.email })
             .then(user => {
-                if (user.length >= 1) {
-                    res.status(201).json({ message: 'email already exist' })
-                } else {
-                    User.find({ name: req.body.username })
+                if (user.length >= 1) res.status(201).json({ message: 'email already exist' })
+                else {
+                    User.find({ name: req.body.name })
                         .then(name => {
-                            if (name.length >= 1) {
-                                res.status(202).json({ message: 'Username already exist' })
-                            }
+                            if (name.length >= 1) res.status(202).json({ message: 'Username already exist' })
                         })
                     bcrypt.hash(req.body.password, 10, (err, hash) => {
-                        if (err) {
-                            res.status(205).json({ err: err });
-                        } else {
-                            var user = ({
+                        if (err) res.status(205).json({ err: err });
+                        else {
+                            const user = new User({
                                 _id: new mongoose.Types.ObjectId(),
-                                username: req.body.username,
                                 email: req.body.email,
+                                name: req.body.name,
                                 password: hash,
                                 verified: false,
                                 status: false
                             })
-                            User.create(user, function(err, result){
-                                console.log(result);
+                            user.save(function (err) {
                                 if (err) {
                                     res.status(203).json({ Message: 'email or username invalid' })
                                 } else {
-                                    var subject = 'Hello ' + user.username + ',';
-                                    var mailBody = `We're really excited for you to join our online community. 
-                                    You're just one click away from activating your account`
-                                    var buttonLink = "https:\/\/ogenetv.herokuapp.com/users/verify/" + user.email;
-                                    var buttonText = 'ACTIVATE ACCOUNT';
-                                    mailer.subscriberAdded(user.email, subject, mailBody, buttonLink, buttonText, function (error, info) {
+                                    mailer.subscriberAdded(user.email, function (error, info) {
                                         if (error) {
                                             console.log(error);
                                             res.status(309).json({
@@ -70,7 +60,7 @@ exports.signUp = (req, res, next) => {
                     })
                 }
             })
-        }
+    }
 }
 
 
@@ -88,7 +78,7 @@ exports.verify = (req, res, next) => {
                 User.update({ email }, user)
                     .exec()
                     .then(docs => {
-                        res.redirect('https://ogenetv-e9a52.firebaseapp.com')
+                        res.status(200).json({ message: 'email verified successfully', });
                     })
                     .catch(err => {
                         res.status(500).json({ error: err });
@@ -117,9 +107,8 @@ exports.logIn = (req, res, next) => {
                         res.status(202).json({message : "email or password invalid"});
                     }
                     else{
-                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.userKey,{expiresIn: "12h"});
+                        var token = jwt.sign({email: Currentuser.email,id: Currentuser._id},secret.key,{expiresIn: "12h"});
                       let  profile = {
-                          id: Currentuser._id,
                          username: Currentuser.username,
                          email: Currentuser.email,
                          movies: Currentuser.movies,
@@ -149,6 +138,7 @@ exports.UserAddMovie = function (req, res) {
 
 
     User.findById({ _id: req.body.user }, function (err, data) {
+        email = data.email
         if (data) {
             movieModel.findOne({ _id: req.body.movie }, function (err, data2) {
                 if (!data2) {
@@ -161,9 +151,12 @@ exports.UserAddMovie = function (req, res) {
                         res.json({ err: err, message: 'Movie Already Exists In Library!!' })
 
                     } else {
+                        
                         var details = {
                             user: req.body.user,
                             movie: req.body.movie,
+                            mail: email,
+                            amount: req.body.amount,
                             time: times,
                             refNo: req.body.refNo,
                             Status: true
@@ -203,6 +196,7 @@ exports.UserAddMovie = function (req, res) {
 exports.UserWatchMovie = function(req, res){
     var id= req.params.id
     User.findById(id,'_id', function(err, data){
+      
         console.log(err)
         if(err)res.json({message:"an error occures"})
         res.json(data.movies)

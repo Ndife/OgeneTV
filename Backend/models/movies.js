@@ -14,7 +14,6 @@ var movieSchema = mongoose.Schema({
     imageID: String,
     video: {type: String, required: true},
     videoID: String,
-    comments : [{type: mongoose.Schema.Types.ObjectId, ref: 'comment'}]
 })
 
 module.exports = mongoose.model('movie', movieSchema);
