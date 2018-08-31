@@ -61,7 +61,7 @@ exports.adminLogin = function(req , res){
                              email: result[0].email,
                              id: result[0]._id
                          }, 
-                         `${key.secretkey}`,
+                         `${key.adminKey}`,
                      );
                         activeUser = result.map(userr => userr.username)
                         return res.status(200).json({
