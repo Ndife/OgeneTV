@@ -88,7 +88,7 @@ exports.verify = (req, res, next) => {
                 User.update({ email }, user)
                     .exec()
                     .then(docs => {
-                        res.status(200).json({ message: 'email verified successfully', });
+                        res.redirect('https://ogenetv-e9a52.firebaseapp.com')
                     })
                     .catch(err => {
                         res.status(500).json({ error: err });
