@@ -148,10 +148,9 @@ exports.UserAddMovie = function (req, res) {
 
 
 
-    User.findById({ _id: req.body.user }, function (err, data) {
-        email = data.email
+    User.findById({ _id: req.body.userId }, function (err, data) {
         if (data) {
-            movieModel.findOne({ _id: req.body.movie }, function (err, data2) {
+            movieModel.findOne({ _id: req.body.movieId }, function (err, data2) {
                 if (!data2) {
                     res.json({ err: err, message: 'Movies Not Found !!' })
 
@@ -163,10 +162,8 @@ exports.UserAddMovie = function (req, res) {
 
                     } else {
                         var details = {
-                            user: req.body.user,
-                            movie: req.body.movie,
-                            mail: email,
-                            amount: req.body.amount,
+                            user: req.body.userId,
+                            movie: req.body.movieId,
                             time: times,
                             refNo: req.body.refNo,
                             Status: true
