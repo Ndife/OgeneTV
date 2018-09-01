@@ -24,7 +24,7 @@ exports.getReview = function(req, res){
             if(err){
                 res.status(500).json({message: 'Error occured'})
             }else if(reviews.length == 0){
-                res.status(200).json({message: 'List of movies is empty'})
+                res.status(200).json({message: 'List of reviews is empty'})
             }else{
                 res.status(200).json(reviews)
             }
