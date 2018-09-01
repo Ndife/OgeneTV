@@ -19,8 +19,10 @@ exports.addComment = function(req, res){
                         res.status(500).json({Err: err, message: 'Error while finding movie'});
                     } else {
                         movie.comments.push(comment._id);
-                        Movie.create(movie);
-                        res.status(201).json({message: 'Comment created successfully'})
+                        Movie.create(movie)
+                        res.status(201).json({message: 'Comment created successfully', 
+                        comment: comment
+                    })
                     }
                 })
             }
