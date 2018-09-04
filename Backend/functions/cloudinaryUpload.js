@@ -3,7 +3,7 @@ var cloudinary = require('cloudinary');
 exports.upload = function(file){
     return new Promise(resolve => {
         cloudinary.uploader.upload(file, function(result){
-            resolve({url: result.url, Id: result.public_id});
+            resolve({url: result.secure_url, Id: result.public_id});
         }, {resource_type: "auto"})
    })
 }
