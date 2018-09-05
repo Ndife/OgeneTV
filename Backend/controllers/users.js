@@ -33,7 +33,6 @@ exports.signUp = (req, res, next) => {
                                 username: req.body.username,
                                 email: req.body.email,
                                 password: hash,
-                                verified: false,
                                 status: false
                             })
                             User.create(user, function(err, result){
@@ -43,9 +42,9 @@ exports.signUp = (req, res, next) => {
                                 } else {
                                     var subject = 'Hello ' + user.username + ',';
                                     var mailBody = `We're really excited for you to join our online community. 
-                                    You're just one click away from activating your account`
-                                    var buttonLink = "https:\/\/ogenetv.herokuapp.com/users/verify/" + user.email;
-                                    var buttonText = 'ACTIVATE ACCOUNT';
+                                    You successfully created an account`
+                                    var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com/login";
+                                    var buttonText = 'LOG IN';
                                     mailer.subscriberAdded(user.email, subject, mailBody, buttonLink, buttonText, function (error, info) {
                                         if (error) {
                                             console.log(error);
@@ -74,32 +73,6 @@ exports.signUp = (req, res, next) => {
 }
 
 
-exports.verify = (req, res, next) => {
-    var email = req.params.email
-    const user = new User({
-        verified: true,
-        status: true
-    })
-    User.find({ email })
-        .then(data => {
-            if (data.length < 1) {
-                res.status(401).json({ message: 'email does not exist' })
-            } else {
-                User.update({ email }, user)
-                    .exec()
-                    .then(docs => {
-                        res.redirect('https://ogenetv-e9a52.firebaseapp.com')
-                    })
-                    .catch(err => {
-                        res.status(500).json({ error: err });
-                    });
-            }
-        })
-        .catch(err => {
-            res.status(404).json({ message: 'Invalid email ID' })
-        });
-}
-
 exports.logIn = (req, res, next) => {
     if((req.body.password != '') && (req.body.email != '')){
         User.findOne({email: req.body.email})
@@ -107,11 +80,7 @@ exports.logIn = (req, res, next) => {
                 if (Currentuser == null){
                 res.status(201).json({message : "email does not exist"});
                 }
-                else{
-                    u = Currentuser
-                    if(u.verified == false){
-                        res.status(205).json({message : "please verify your email to login"});
-                    }else {
+                else {
                     var validPassword =  bcrypt.compareSync(req.body.password, Currentuser.password);
                     if(!validPassword){
                         res.status(202).json({message : "email or password invalid"});
@@ -130,7 +99,7 @@ exports.logIn = (req, res, next) => {
                         res.status(200).json({message : "Login Successful", token : token ,currentUser:profile});
                     }
                 }
-            }
+            
             
             })
     }else{
