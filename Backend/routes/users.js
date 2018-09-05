@@ -8,7 +8,6 @@ var user1 = require('../controllers/userControllers')
 
 
 router.post('/signUp',users.signUp);
-router.get('/verify/:email',users.verify);
 router.post('/login', users.logIn);
 router.post('/buy', users.UserAddMovie);
 router.get('/view/:id',users.UserWatchMovie);
