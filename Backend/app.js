@@ -27,6 +27,7 @@ const moviesRoute = require('./routes/movies');
 const categoryRoute = require('./routes/category');
 const commentRoute = require('./routes/comment');
 const reviewRoute = require('./routes/review');
+const sliderRoute = require('./routes/slider');
 
 //var indexRouter = require('./routes/index');
 const authRoutes = require('./routes/authRoutes');
@@ -41,9 +42,9 @@ app.use(bodyParser.json());
 
 Mongoose.Promise = global.Promise;
   
-Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
+//Mongoose.connect('mongodb://Admin:ndife123@ds215502.mlab.com:15502/ogenetv' ,{ useNewUrlParser: true });
 
-// Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
+ Mongoose.connect('mongodb://localhost:27017/OgeneTV', { useNewUrlParser: true });
 
 app.get('/', function(req, res){
     res.json({message:"hello world"});
@@ -63,7 +64,7 @@ app.use('/movies',moviesRoute);
 app.use('/categories', categoryRoute);
 app.use('/comments', commentRoute);
 app.use('/reviews', reviewRoute);
-
+app.use('/sliders', sliderRoute);
 
 
 //app.use('/', indexRouter);

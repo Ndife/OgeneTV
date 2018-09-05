@@ -72,7 +72,7 @@ exports.getAllMovies = function(req, res, next){
     .select('-__v')
     } catch (exception) {
         console.log('Error: ' + exception);
-}
+    }
 }
 
 exports.getById = function(req, res, next){
