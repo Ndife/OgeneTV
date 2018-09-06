@@ -17,7 +17,7 @@ exports.addReview = function(req, res){
                 var mailBody = `Thank you very much for your contribution`;
                 var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com";
                 var buttonText = 'OGENE TV';
-                mailer.subscriberAdded(details.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
+                mailer.subscriberAdded(data.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
                     if(err){
                         res.json({error:err});
                     }else {
