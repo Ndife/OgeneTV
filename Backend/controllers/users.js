@@ -265,3 +265,30 @@ exports.getEmail = (req,res) =>{
     })
 }
 
+exports.changePassword = (req,res) =>{
+    var email = {email:req.body.email};
+
+    User.findOne(email,(err,result)=>{
+        if(err) {
+            res.json(err);
+        }else if(!result){
+            res.json('Email does not exist');
+        }else {
+            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                if (err) {
+                    res.status(205).json({ err: err });
+                } else {
+                        User.update(email,{password:hash},(err,succ)=>{
+                    if(err){
+                         res.json(err)
+                        }else {
+                            res.json('Password changed successfully')
+                        }
+                     })
+                }
+            })
+        }
+    })
+
+    
+}
