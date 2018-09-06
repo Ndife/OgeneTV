@@ -4,13 +4,26 @@ exports.addReview = function(req, res){
     try {
         var data = {
             time: Date.now(),
-            review: req.body.review
+            review: req.body.review,
+            email: req.body.email,
+            name: req.body.name
         }
         Review.create(data, function(err){
             if(err){
                 res.status(500).json({message: 'Error occured'})
             }else{
-                res.status(201).json({message: 'Review created successfully'})
+                var subject = 'Hello ' + data.name + ',';
+                var mailBody = `Thank you very much for your contribution`;
+                var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com";
+                var buttonText = 'OGENE TV';
+                mailer.subscriberAdded(details.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
+                    if(err){
+                        res.json({error:err});
+                    }else {
+                        res.status(201).json({message: 'Review created successfully'});
+                    }
+                });
+
             }
         })
     } catch (exception) {
