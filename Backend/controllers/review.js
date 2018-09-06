@@ -1,4 +1,5 @@
 var Review = require('../models/review');
+var mailer = require('../functions/mailer');
 
 exports.addReview = function(req, res){
     try {
