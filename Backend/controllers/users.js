@@ -237,3 +237,31 @@ exports.UserDeleteMovie = function (req, res) {
     })
 
 }
+
+
+exports.getEmail = (req,res) =>{
+    var email = {email:req.body.email}
+    User.findOne(email,(err,result)=>{
+        if(err) {
+            res.json(err);
+        }else if(!result){
+            res.json('Email does not exist');
+        }else {
+            var subject = 'Hello ' + result.username + ',';
+            var mailBody = `We received a request for password change.<br>Please use the button below to set your new password`;
+            var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com/updatePassword";
+            var buttonText = 'UPDATE PASSWORD';
+            mailer.subscriberAdded(result.email, subject, mailBody, buttonLink, buttonText, (err,info)=>{
+                if(err){
+                    console.log(err)
+                    res.json({error:err});
+                }else {
+                    res.json('Please check your email to update your password');
+                }
+            });
+           
+        }  
+       
+    })
+}
+
