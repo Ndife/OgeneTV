@@ -43,8 +43,8 @@ exports.signUp = (req, res, next) => {
                                     var subject = 'Hello ' + user.username + ',';
                                     var mailBody = `We're really excited for you to join our online community. 
                                     You successfully created an account`
-                                    var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com/login";
-                                    var buttonText = 'LOG IN';
+                                    var buttonLink = "https:\/\/ogenetv-e9a52.firebaseapp.com";
+                                    var buttonText = 'OGENE TV';
                                     mailer.subscriberAdded(user.email, subject, mailBody, buttonLink, buttonText, function (error, info) {
                                         if (error) {
                                             console.log(error);
